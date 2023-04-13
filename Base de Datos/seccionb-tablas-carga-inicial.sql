@@ -498,6 +498,18 @@ CREATE TABLE `seccionb`.`vehiculos_eventos` (
 
 
 
+-- CREATE TABLE `seccionb`.`rol` (
+--   `idrol` INT NOT NULL AUTO_INCREMENT,
+--   `descripcion` VARCHAR(45) NOT NULL,
+--   PRIMARY KEY (`idrol`, `descripcion`));
+
+-- INSERT INTO `seccionb`.`rol` (`idrol`, `descripcion`) VALUES ('1', 'INTERNO');
+-- INSERT INTO `seccionb`.`rol` (`idrol`, `descripcion`) VALUES ('2', 'EGRESADO');
+-- INSERT INTO `seccionb`.`rol` (`idrol`, `descripcion`) VALUES ('3', 'PENSIONADO');
+
+
+
+
 CREATE TABLE `seccionb`.`cargos` (
   `cargo_id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NULL,
@@ -506,11 +518,56 @@ CREATE TABLE `seccionb`.`cargos` (
 
 
 
-INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('1', 'Director', 'DIRECTIVO');
-INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('2', 'Control de Estacionamiento', 'CONTROL_ESTACIONAMIENTO');
-INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('3', 'Control de Guardias', 'CONTROL_GUARDIAS');
-INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('4', 'Control Detall', 'CONTROL_DETALL');
-INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('5', 'Estudiante', 'ESTUDIANTE');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('1', 'Interno', 'INTERNO');
+
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('2', 'Director', 'DIRECTIVO');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('3', 'Subdirector', 'DIRECTIVO');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('4', 'Control Militar', 'DIRECTIVO');
+
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('5', 'Control Médico', 'CONTROL');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('6', 'Control de Estacionamiento y Comedor', 'CONTROL');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('7', 'Control de Salones y Mensualidades', 'CONTROL');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('8', 'Control de Gimnasio', 'CONTROL');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('9', 'Control Detall y Bibliotecario', 'CONTROL');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('10', 'Control De Mantenimiento', 'CONTROL');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('11', 'Control De Redes', 'CONTROL');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('12', 'Control De Guardias', 'CONTROL');
+
+
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('13', 'Jefe de la Prueba Ideológica', 'JEFE_PRUEBA');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('14', 'Jefe de la Prueba Deportica', 'JEFE_PRUEBA');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('15', 'Jefe de la Escolta', 'JEFE_PRUEBA');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('16', 'Jefe de la Banda de Guerra', 'JEFE_PRUEBA');
+
+
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('17', 'Jefe de la H. Cuadra 1', 'JEFE_CUADRA');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('18', 'Jefe de la H. Cuadra 2', 'JEFE_CUADRA');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('19', 'Jefe de la H. Cuadra 3', 'JEFE_CUADRA');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('20', 'Jefe de la H. Cuadra 4', 'JEFE_CUADRA');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('21', 'Jefe de la H. Cuadra 5', 'JEFE_CUADRA');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('22', 'Jefe de la H. Cuadra 6', 'JEFE_CUADRA');
+INSERT INTO `seccionb`.`cargos` (`cargo_id`, `nombre`, `descripcion`) VALUES ('23', 'Jefe de la H. Cuadra 7', 'JEFE_CUADRA');
+
+
+
+
+CREATE TABLE `seccionb`.`grados` (
+  `grado_id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NULL,
+  `descripcion` VARCHAR(45) NULL,
+  PRIMARY KEY (`grado_id`));
+
+
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('1', 'Recluta', 'RECLUTA');
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('2', 'Cadete de Infantería', 'CADETE');
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('3', 'Cabo de Infantería', 'CABO');
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('4', 'Sargento 2do. de Infantería', 'SARGENTO');
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('5', 'Sargento 1ro. de Infantería', 'SARGENTO');
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('6', 'Sub Oficial de Infantería', 'SUBOFICIAL');
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('7', '3er. Oficial de Infantería', 'OFICIAL');
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('8', '2do. Oficial de Infantería', 'OFICIAL');
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('9', '1er. Oficial de Infantería', 'OFICIAL');
+INSERT INTO `seccionb`.`grados` (`grado_id`, `nombre`, `descripcion`) VALUES ('10', '3er. Comandante de Infantería', 'COMANDANTE');
 
 
 
@@ -670,36 +727,36 @@ CREATE TABLE `seccionb`.`estudiantes_cargos` (
 
 
 INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('1', '1', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('2', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('3', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('4', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('5', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('6', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('7', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('8', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('9', '3', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('10', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('11', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('12', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('13', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('14', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('15', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('16', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('17', '2', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('18', '4', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('19', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('20', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('21', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('22', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('23', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('24', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('25', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('26', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('27', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('28', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('29', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('30', '5', '2022-01-01');
-INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('31', '5', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('2', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('3', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('4', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('5', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('6', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('7', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('8', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('9', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('10', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('11', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('12', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('13', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('14', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('15', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('16', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('17', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('18', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('19', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('20', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('21', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('22', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('23', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('24', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('25', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('26', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('27', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('28', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('29', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('30', '1', '2022-01-01');
+INSERT INTO `seccionb`.`estudiantes_cargos` (`estudiante_id`, `cargo_id`, `fecha_asignacion`) VALUES ('31', '1', '2022-01-01');
 
 
 
