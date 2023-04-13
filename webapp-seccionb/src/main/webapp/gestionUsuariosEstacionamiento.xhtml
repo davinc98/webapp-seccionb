@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+
+        <p:panel header="GESTIÓN USUARIOS DE ESTACIONAMIENTO" style="width: 100%;">
+
+            <p:toolbar>
+                <p:toolbarGroup>
+
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <h:form id="crearForm">
+                        <p:commandButton value="Registrar Nuevo Usuario"
+                                         action="#{usuarioEstacionamientoController.crear()}"
+                                         icon="pi pi-user-plus" style="margin-right: .5rem"/>
+                    </h:form>
+                    <h:form id="descargarForm">
+                        <p:commandButton value="Descargar Lista" styleClass="ui-button-help" ajax="false">
+                            <p:dataExporter type="pdf" target="tabla-usuarios"
+                                            fileName="UsuariosEstacionamientoSeccionB"/>
+                        </p:commandButton>
+                    </h:form>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+            <p:panelGrid columns="3"
+                         columnClasses="ui-grid-col-1,ui-grid-col-10,ui-grid-col-1"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         style="border:0px none; background-color:transparent; width=100%;">
+
+                <p:outputLabel value=""/>
+
+                <p:dataTable id="tabla-usuarios" value="#{usuarioEstacionamientoController.usuariosEstacionamiento}"
+                             var="uest"
+                             rendered="#{not empty usuarioEstacionamientoController.usuariosEstacionamiento}"
+                             style="max-width:100%;" rows="20"
+                             paginator="true" paginatorPosition="both"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords}"
+                             rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+                    <p:column headerText="Ver" style="width: 70px">
+                        <h:form id="verForm">
+                            <p:commandButton value="#{uest.id}"
+                                             action="#{usuarioEstacionamientoController.verInformacion(uest.id)}"
+                                             icon="pi pi-user"
+                                             styleClass="ui-button-info" onclick="PF('dialogForm').show()"
+                                             update="formVerUsuario"/>
+                        </h:form>
+                    </p:column>
+
+                    <p:column headerText="Nombre">
+                        <h:outputText
+                                value="#{uest.nombre}"/>
+                    </p:column>
+
+                    <p:column headerText="Apellido Paterno">
+                        <h:outputText
+                                value="#{uest.primerApellido}"/>
+                    </p:column>
+
+                    <p:column headerText="Apellido Materno">
+                        <h:outputText
+                                value="#{uest.segundoApellido}"/>
+                    </p:column>
+
+                    <p:column headerText="CURP">
+                        <h:outputText
+                                value="#{uest.curp}"/>
+                    </p:column>
+
+                    <p:column headerText="Contacto" style="width:60px">
+                        <h:link value="Contactos" outcome="gestionContactos">
+                            <f:param name="idPersona" value="#{uest.id}"/>
+                        </h:link>
+                    </p:column>
+
+                    <p:column headerText="Vehiculos" style="width:60px">
+                        <h:link value="Vehiculos" outcome="gestionVehiculosPersona">
+                            <f:param name="idPersona" value="#{uest.id}"/>
+                        </h:link>
+                    </p:column>
+
+                    <p:column headerText="Editar" style="width: 50px">
+                        <h:form id="editarForm">
+                            <p:commandButton action="#{usuarioEstacionamientoController.editar(uest.id)}"
+                                             icon="pi pi-user-edit" styleClass="ui-button-secondary"/>
+                        </h:form>
+                    </p:column>
+                </p:dataTable>
+
+                <p:outputLabel value=""/>
+
+            </p:panelGrid>
+
+            <p:dialog header="INFORMACIÓN DE USUARIO" widgetVar="dialogForm" minHeight="200" minWidht="500"
+                      showEffect="fade" modal="true">
+                <ui:include src="dialogoUsuarioEstacionamiento.xhtml"/>
+            </p:dialog>
+
+        </p:panel>
+
+
+    </ui:define>
+</ui:composition>

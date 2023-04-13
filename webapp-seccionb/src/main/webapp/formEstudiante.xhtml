@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+        <h:form id="formDatosGenerales" enctype="multipart/form-data">
+            <p:growl id="messages" showDetail="true"/>
+
+            <p:panel header="FORMULARIO DE USUARIO " style="width: 100%; text-align: center;">
+
+                <p:panelGrid columns="3"
+                             columnClasses="ui-grid-col-3, ui-grid-col-6,ui-grid-col-3"
+                             layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                             style="border:0px none; background-color:transparent; width=100%;">
+
+                    <p:outputLabel value=""/>
+
+                    <p:panel header="Datos Personales " width="100%">
+                        <h:panelGrid columns="3" width="100%"
+                                     layout="grid">
+                            <p:outputLabel value="Nombre" for="nombre" class="p-col-fixed" style="width:200px;"/>
+                            <p:inputText id="nombre" value="#{persona.nombre}"
+                                         label="Nombre" required="true"/>
+                            <p:message for="nombre" style="color:red;"/>
+
+                            <p:outputLabel value="Apellido Paterno" for="primerApellido" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:inputText id="primerApellido" value="#{persona.primerApellido}"
+                                         label="Apellido Paterno" required="true"/>
+                            <p:message for="primerApellido" style="color:red;"/>
+
+                            <p:outputLabel value="Apellido Materno" for="segundoApellido" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:inputText id="segundoApellido" value="#{persona.segundoApellido}"
+                                         label="Apellido Materno" required="true"/>
+                            <p:message for="segundoApellido" style="color:red;"/>
+
+                            <p:outputLabel value="CURP" for="curp" class="p-col-fixed" style="width:200px;"/>
+                            <p:inputText id="curp" value="#{persona.curp}" label="CURP" required="true"/>
+                            <p:message for="curp" style="color:red;"/>
+
+                            <p:outputLabel value="Sexo" for="sexo" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:selectOneMenu id="sexo" value="#{persona.sexo}">
+                                <!--                                <f:selectItem itemLabel="Seleccionar Sexo" itemValue="#{null}"/>-->
+                                <f:selectItem itemLabel="Hombre" itemValue="H"/>
+                                <f:selectItem itemLabel="Mujer" itemValue="M"/>
+                            </p:selectOneMenu>
+                            <p:message for="sexo" style="color:red;"/>
+
+                            <p:outputLabel value="Estado" for="estado" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:selectOneMenu id="estado" value="#{estudiante.estadoProcedencia}">
+                                <f:selectItem itemLabel="Seleccionar Estado" itemValue="#{null}"/>
+                                <f:selectItems value="#{estadosDeProcedencia}" var="estado"
+                                               itemLabel="#{estado.descripcion}"/>
+                                <f:converter binding="#{estadoProcedenciaConverter}"/>
+                            </p:selectOneMenu>
+                            <p:message for="estado" style="color:red;"/>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:outputLabel value=""/>
+
+                    <p:outputLabel value=""/>
+
+                    <p:panel header="Datos Académicos " width="100%">
+                        <h:panelGrid columns="3" width="100%"
+                                     layout="grid">
+
+                            <p:outputLabel value="Escuela" for="escuela" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:selectOneMenu id="escuela" value="#{estudiante.escuela}">
+                                <f:selectItem itemLabel="Seleccionar Escuela" itemValue="#{null}"/>
+                                <f:selectItems value="#{escuelas}" var="escuela"
+                                               itemLabel="#{escuela.nombre}"/>
+                                <f:converter binding="#{escuelaConverter}"/>
+                            </p:selectOneMenu>
+                            <p:message for="escuela" style="color:red;"/>
+
+                            <p:outputLabel value="Carrera" for="carrera" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:selectOneMenu id="carrera" value="#{estudiante.carrera}">
+                                <f:selectItem itemLabel="Seleccionar Carrera" itemValue="#{null}"/>
+                                <f:selectItems value="#{carreras}" var="carrera"
+                                               itemLabel="#{carrera.nombre}"/>
+                                <f:converter binding="#{carreraConverter}"/>
+                            </p:selectOneMenu>
+                            <p:message for="carrera" style="color:red;"/>
+
+                            <p:outputLabel value="Situación Escolar" for="situacionEscolar" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:selectOneMenu id="situacionEscolar"
+                                             value="#{estudiante.situacionEscolar}">
+                                <!--                                <f:selectItem itemLabel="Situación Escolar" itemValue="#{null}"/>-->
+                                <f:selectItems value="#{situacionesEscolares}" var="sit"
+                                               itemLabel="#{sit.descripcion}"/>
+                                <f:converter binding="#{situacionEscolarConverter}"/>
+                            </p:selectOneMenu>
+                            <p:message for="situacionEscolar" style="color:red;"/>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:outputLabel value=""/>
+
+                    <p:outputLabel value=""/>
+
+                    <p:panel header="Imagen de Perfil" id="panelFoto" widgetVar="panelFoto">
+                        <p:panel header="Foto" rendered="#{not empty persona.fotoBase64}"
+                                 closable="true" closeSpeed="500"
+                                 widgetVar="panelshowFotoBase64">
+                            <p:ajax event="close" listener="#{estudianteController.onClose}"
+                                    update="messages panelFoto"/>
+                            <h:graphicImage value="#{persona.fotoBase64}" style="width: 60%;"/>
+                        </p:panel>
+                        <p:panel header="Foto (Reciente)" rendered="#{not empty estudianteController.fotoBase64}"
+                                 closable="true" closeSpeed="500"
+                                 widgetVar="panelshowFotoTemporalBase64">
+                            <h:graphicImage value="#{estudianteController.fotoBase64}" style="width: 60%;"/>
+                        </p:panel>
+                        <p:panel header="Subir imagen"
+                                 widgetVar="panelSubirFoto">
+                            <p:fileUpload label="Seleccionar"
+                                          cancelLabel="Cancelar"
+                                          uploadLabel="Subir"
+                                          mode="advanced"
+                                          multiple="false"
+                                          sizeLimit="102400" allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                          invalidSizeMessage="Tamaño máximo permitido de 100 KB"
+                                          invalidFileMessage="Solo formatos gif | jpg | jpeg | png permitidos"
+                                          update="messages panelFoto"
+                                          listener="#{estudianteController.handleFileUpload}"/>
+                        </p:panel>
+                    </p:panel>
+
+                    <p:outputLabel value=""/>
+
+                    <p:outputLabel value=""/>
+
+                    <p:panel header="Datos Institucionales ">
+                        <h:panelGrid columns="3" width="100%"
+                                     layout="grid">
+
+                            <h:outputLabel value="Fecha de Ingreso" for="fechaIngreso" class="col-form-label"/>
+                            <p:inputText id="fechaIngreso" value="#{estudiante.fechaIngreso}"
+                                         label="Fecha de Ingreso"
+                                         convertMessage="Indique la fecha con yyyy-MM-dd"
+                                         class="form-control">
+                                <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"/>
+                                <f:passThroughAttribute name="type" value="date"/>
+                            </p:inputText>
+                            <h:message for="fechaIngreso" style="color:red;"/>
+
+                            <p:outputLabel value="Cargo" for="cargolbl" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:selectOneMenu id="cargolbl" value="#{cargo}" disabled="true">
+                                <!--                                <f:selectItem itemLabel="Selecciona el cargo" itemValue="#{null}"/>-->
+                                <f:selectItems value="#{cargos}" var="car"
+                                               itemLabel="#{car.nombre}"/>
+                                <f:converter binding="#{cargoConverter}"/>
+                            </p:selectOneMenu>
+                            <p:message for="cargolbl" style="color:red;"/>
+
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:outputLabel value=""/>
+
+                    <p:outputLabel value=""/>
+
+                    <p:panel header="Datos de Usuario ">
+                        <h:panelGrid columns="3" width="100%"
+                                     layout="grid">
+
+                            <p:outputLabel value="Nombre de Usuario" for="usuarioD" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:inputText id="usuarioD" value="#{estudiante.usuario}" label="Nombre de Usuario"
+                                         required="true" autocomplete="nope"/>
+                            <p:message for="usuarioD" style="color:red;"/>
+
+                            <p:outputLabel value="Estatus" for="estatus" class="p-col-fixed" style="width:200px;"/>
+                            <p:selectOneMenu id="estatus" value="#{estudiante.estatusEstudiante}">
+                                <!--                                <f:selectItem itemLabel="Selecciona estatus" itemValue="#{null}"/>-->
+                                <f:selectItems value="#{estatusEstudiantes}" var="estest"
+                                               itemLabel="#{estest.nombre}"/>
+                                <f:converter binding="#{estatusEstudianteConverter}"/>
+                            </p:selectOneMenu>
+                            <p:message for="estatus" style="color:red;"/>
+
+                        </h:panelGrid>
+                        <br/>
+                        <p:panel header="Contraseña" rendered="#{estudiante.id==null}">
+                            <h:panelGrid columns="3" width="100%"
+                                         layout="grid">
+                                <p:outputLabel value="Contraseña" for="pwd1" class="p-col-fixed"
+                                               style="width:200px;"/>
+                                <p:password id="pwd1" value="#{estudianteController.pwd1}" match="pwd2"
+                                            label="Password 1"
+                                            required="true" autocomplete="off"/>
+                                <p:message for="pwd1" style="color:red;"/>
+                                <p:outputLabel value="Confirma Contraseña" for="pwd2" class="p-col-fixed"
+                                               style="width:200px;"/>
+                                <p:password id="pwd2" value="#{estudianteController.pwd2}" label="Password 2"
+                                            required="true" autocomplete="off"/>
+                                <p:message for="pwd2" style="color:red;"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:panel>
+
+                    <p:outputLabel value=""/>
+
+                    <p:outputLabel value=""/>
+
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:linkButton outcome="gestionEstudiantes" styleClass="ui-button-secondary"
+                                          value="Regresar sin guardar"/>
+                        </p:toolbarGroup>
+                        <p:toolbarGroup align="right">
+                            <p:commandButton icon="pi pi-save" styleClass="ui-button-primary"
+                                             update="@form formDatosGenerales"
+                                             value="#{estudianteController.estudianteId>0?msg['producto.boton.editar']:msg['producto.boton.crear']} usuario"
+                                             action="#{estudianteController.guardar}"/>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:outputLabel value=""/>
+                </p:panelGrid>
+            </p:panel>
+            <h:inputHidden value="#{estudiante.id}"/>
+            <h:inputHidden value="#{estudiante.contrasenia}"/>
+            <h:inputHidden value="#{persona.id}"/>
+            <h:inputHidden value="#{cargo.id}"/>
+            <h:inputHidden value="#{persona.fotoBase64}"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

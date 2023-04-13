@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+
+        <p:panel header="GESTIÓN DE GUARDIAS" style="width: 100%; text-align: center;">
+
+
+            <p:panelGrid columns="2"
+                         columnClasses="ui-grid-col-3, ui-grid-col-9"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         style="border:0px none; background-color:transparent; width=100%;">
+
+
+                <p:panel header="#{rolGuardiasVigenteController.anioActual}">
+                    <h:outputText value="#{rolGuardiasVigenteController.mesActual.toUpperCase()}"
+                                  style="font-weight: bold;font-size: 25px;"/>
+                    <p:divider/>
+                        <p:pieChart model="#{rolGuardiasVigenteController.resumenRolVigente}"
+                                    style="width: 100%; height: 300px;"/>
+
+                </p:panel>
+
+
+                <p:panel header="Roles de Guardia" style="text-align:left;">
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <h:form id="crearForm">
+                                <p:commandButton value="Crear Nuevo Rol" class="p-my-2"
+                                                 onclick="PF('dialogRolForm').show()"
+                                                 icon="pi pi-plus" style="margin-right: .5rem">
+                                    <p:resetInput target="formRolGuardias"/>
+                                </p:commandButton>
+                            </h:form>
+                        </p:toolbarGroup>
+                        <p:toolbarGroup align="right">
+
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                    <p:dataTable id="tabla-roles-guardias" value="#{rolGuardiasController.rolesDeGuardia}"
+                                 var="rol"
+                                 rendered="#{not empty rolGuardiasController.rolesDeGuardia}"
+                                 style="max-width:100%;" rows="10"
+                                 paginator="true" paginatorPosition="both"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords}"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+                        <p:column headerText="Año">
+                            <h:outputText
+                                    value="#{rol.anio}"/>
+                        </p:column>
+
+                        <p:column headerText="Mes">
+                            <h:outputText
+                                    value="#{rol.mes}"/>
+                        </p:column>
+
+                        <p:column headerText="Estatus">
+                            <h:outputText
+                                    value="#{rol.estatus.descripcion}"/>
+                        </p:column>
+
+                        <!--                        <p:column headerText="Ver" style="width: 60px">-->
+                        <!--                            <h:form id="verForm">-->
+                        <!--                                <p:commandButton icon="pi pi-search"-->
+                        <!--                                                 styleClass="rounded-button ui-button-info"/>-->
+                        <!--                            </h:form>-->
+                        <!--                        </p:column>-->
+
+                        <p:column headerText="Ver/Editar" style="width:80px">
+                            <p:linkButton outcome="gestionRolGuardias" icon="pi pi-file"
+                                          styleClass="rounded-button ui-button-help">
+                                <f:param name="idRolGuardia" value="#{rol.id}"/>
+                            </p:linkButton>
+                        </p:column>
+
+                        <!--                        <p:column headerText="Editar" style="width: 50px">-->
+                        <!--                            <h:form id="editarForm">-->
+                        <!--                                <p:commandButton action="#{rolGuardiasController.editar(rol.id)}" icon="pi pi-pencil"-->
+                        <!--                                                 styleClass="rounded-button ui-button-success"-->
+                        <!--                                                 onclick="PF('dialogRolForm').show()"-->
+                        <!--                                                 update="formRolGuardias">-->
+                        <!--                                    <p:resetInput target="formRolGuardias"/>-->
+                        <!--                                </p:commandButton>-->
+                        <!--                            </h:form>-->
+                        <!--                        </p:column>-->
+
+                        <p:column headerText="Eliminar" style="width:50px">
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                             process="@this"
+                                             oncomplete="PF('deleteRolDialog').show()">
+                                <f:setPropertyActionListener value="#{rol}"
+                                                             target="#{rolGuardiasController.rolGuardia}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+
+                <h:outputText value=""/>
+
+            </p:panelGrid>
+
+
+            <p:dialog header="ROL DE GUARDIAS"
+                      widgetVar="dialogRolForm" minHeight="200" minWidth="500" showEffect="fade" modal="true">
+                <p:ajax event="close" listener="#{rolGuardiasController.cerrarDialogo}" update="formRolGuardias"/>
+                <ui:include src="formRolGuardias.xhtml"/>
+            </p:dialog>
+
+
+            <h:form id="dialogos">
+
+                <p:confirmDialog widgetVar="deleteRolDialog" showEffect="fade" width="300"
+                                 message="¿Esta seguro que desea borrar el rol?" header="Eliminar Rol de Guardias"
+                                 severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check" action="#{rolGuardiasController.eliminarRol}"
+                                     process="@this" update="tabla-roles-guardias"
+                                     oncomplete="PF('deleteRolDialog').hide()"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteRolDialog').hide()"/>
+                </p:confirmDialog>
+            </h:form>
+
+        </p:panel>
+
+
+    </ui:define>
+</ui:composition>

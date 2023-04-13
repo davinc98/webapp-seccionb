@@ -1,0 +1,150 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <p:growl id="msgs" showDetail="true"/>
+
+        <p:panelGrid columns="5"
+                     columnClasses="ui-grid-col-1,ui-grid-col-3,ui-grid-col-5,ui-grid-col-2,ui-grid-col-1"
+                     layout="grid" styleClass="ui-fluid"
+                     style="border:0px none; background-color:transparent; width=100%;">
+
+            <p:outputLabel value=""/>
+
+            <p:panel header="PORTÓN"
+                     style="width: 100%;text-align: center;margin-top: 1rem">
+                <h:outputLabel value="Estatus: "/>
+                <br/>
+                <h:outputLabel value="#{solicitudController.estatusPorton.descripcion}"
+                               style="color: #1D96EA !important; font-size: 30px; font-weight: bold"/>
+                <br/>
+                <p:divider/>
+                <br/>
+<!--                <p:panel header="CONTROLES"-->
+<!--                         style="width: 100%;text-align: center;">-->
+                    <h:form id="abrirForm">
+                        <p:commandButton value="Abrir" action="#{solicitudController.abrirPorton}"
+                                         style="width: 80%; height: 50px; margin-top: .1rem"
+                                         styleClass="ui-button-secondary"
+                                         update=":msgs"/>
+                    </h:form>
+                    <br/>
+                    <h:form id="cerrarForm">
+                        <p:commandButton value="Cerrar" action="#{solicitudController.cerrarPorton}"
+                                         style="width: 80%; height: 50px;"
+                                         styleClass="ui-button-secondary"
+                                         update=":msgs"/>
+                    </h:form>
+<!--                </p:panel>-->
+            </p:panel>
+
+
+            <p:panel header="SOLICITUD INGRESO" style="text-align: center;">
+                <p:card rendered="#{empty solicitudController.solicitudes}">
+                    <f:facet name="header">
+                        <h:graphicImage value="/resources/img/Ososgrises.png"
+                                        style="width:50%" alt="Osos Grises"/>
+                    </f:facet>
+                    <f:facet name="subtitle">
+                        Sin solicitudes de ingreso
+                    </f:facet>
+                </p:card>
+
+                <p:panel header="MATRÍCULA REGISTRADA" rendered="#{not empty solicitudController.solicitudesReconocido}"
+                         closable="true" closeSpeed="500" widgetVar="panelSolicitud">
+                    <p:ajax event="close" listener="#{solicitudController.onClose}" update="msgs"/>
+
+                    <p:dataTable id="tabla-solicitudes" value="#{solicitudController.solicitudesReconocido}"
+                                 var="soliciud"
+                                 style="width: 100%;text-align: center;" rows="1">
+                        <p:column headerText="VEHÍCULO" style="text-align: center;">
+                            <h:graphicImage value="/resources/img/car.PNG"
+                                            style="width:100%" alt="Icono car"/>
+                            <h:form id="frmVerVehiculo">
+                                <p:commandButton value="#{soliciud.vehiculo.matricula}" style="width:100%"
+                                                 styleClass="ui-button-outlined ui-button-help"/>
+                            </h:form>
+                        </p:column>
+                        <p:column headerText="" style="text-align: center;">
+                            <p:outputLabel value="#Cajón:"/>
+                            <br/>
+                            <h:outputLabel value="#{soliciud.vehiculo.cajonEstacionamiento.numero}"
+                                           styleClass="ui-bold-text"/>
+                            <br/><br/>
+                            <p:outputLabel value="Tipo:"/>
+                            <br/>
+                            <h:outputLabel value="#{soliciud.vehiculo.tipoTarjeton.nombre}" styleClass="ui-bold-text"/>
+                            <br/><br/>
+                            <p:outputLabel value="Estatus: "/>
+                            <br/>
+                            <h:outputLabel value="#{soliciud.vehiculo.estatusVehiculo.descripcion}"
+                                           styleClass="ui-bold-text"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+
+                <p:panel header="MATRÍCULA NO REGISTRADA"
+                         rendered="#{not empty solicitudController.solicitudesDesconocido}"
+                         closable="true" closeSpeed="500" widgetVar="panelSolicitudDesconocido">
+                    <p:ajax event="close" listener="#{solicitudController.onClose}" update="msgs"/>
+
+                    <p:dataTable id="tabla-solicitudes-desconocidas"
+                                 value="#{solicitudController.solicitudesDesconocido}"
+                                 var="soliciud"
+                                 style="width: 100%;text-align: center;" rows="1">
+                        <p:column headerText="VEHÍCULO" style="text-align: center;">
+                            <h:graphicImage value="/resources/img/carRed.PNG"
+                                            style="width:100%" alt="Icono car"/>
+                            <!--                        <h:outputLabel value="Matrícula: "/>-->
+                            <h:form id="frmVerVehiculo">
+                                <p:commandButton value="#{soliciud.vehiculo.matricula}" style="width:100%"
+                                                 styleClass="ui-button-outlined ui-button-help"/>
+                            </h:form>
+                        </p:column>
+                        <p:column headerText="" style="text-align: center;">
+                            <p:outputLabel value="Estatus: "/>
+                            <br/>
+                            <h:outputLabel value="#{soliciud.vehiculo.estatusVehiculo.descripcion}"
+                                           styleClass="ui-bold-text"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </p:panel>
+
+
+            <p:card rendered="#{not empty solicitudController.solicitudes}"
+                    style="text-align: center;margin-top: 2rem">
+                <p:dataTable id="tabla-solici" value="#{solicitudController.solicitudes}"
+                             var="soliciud"
+                             style="width: 100%;text-align: center;" rows="1">
+                    <p:column headerText="Es correcta la matrícula?" style="text-align: center;">
+                        <h:graphicImage value="#{soliciud.fotoPlaca}" style="width: 100%;"/>
+                        <p:outputLabel value="#{soliciud.vehiculo.matricula}"/>
+                    </p:column>
+                </p:dataTable>
+                <h:form id="formValidar">
+                    <p:commandButton value="Si"
+                                     style="width: 40%; margin-right: 1rem"
+                                     styleClass="ui-button-info"
+                                     update=":msgs"/>
+                    <p:commandButton value="No"
+                                     style="width: 40%;"
+                                     styleClass="ui-button-info"
+                                     update=":msgs"/>
+                </h:form>
+            </p:card>
+
+            <p:outputLabel value=""/>
+
+        </p:panelGrid>
+
+        <script>
+            setTimeout(function() { window.location=window.location;},5000);
+        </script>
+    </ui:define>
+</ui:composition>

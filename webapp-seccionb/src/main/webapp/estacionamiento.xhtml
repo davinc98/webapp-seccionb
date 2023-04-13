@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+        <p:panel header="ESTACIONAMIENTO" style="text-align: center">
+
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:toolbar>
+                <p:toolbarGroup>
+
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <h:form id="buscarForm">
+                        <p:inputText id="textoMatricula" value="#{busquedaController.textoBuscar}"
+                                     placeholder="Buscar matricula...">
+                            <p:ajax listener="#{busquedaController.buscarVehiculo}"
+                                    event="keyup"
+                                    update="panelBusqueda"/>
+                        </p:inputText>
+                        <p:commandButton icon="pi pi-search" styleClass="ui-button-warning"/>
+                    </h:form>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:panel id="panelBusqueda">
+                <p:panel header="Resultados de Busqueda" style="width: 100%;text-align: center;"
+                         rendered="#{not empty busquedaController.vehiculosBuscar}">
+
+                    <p:dataTable id="tabla-busqueda" value="#{busquedaController.vehiculosBuscar}"
+                                 var="veh"
+                                 style="width: 100%;text-align: center;" rows="5">
+
+                        <!--                        <p:column>-->
+                        <!--                            <i class="pi pi-truck" style="font-size: 2rem; font-color: gray;"></i>-->
+                        <!--                        </p:column>-->
+
+                        <p:column>
+                            <img src="resources/img/pi-car.PNG" style="width: 80%"/>
+                        </p:column>
+
+                        <p:column headerText="Marca">
+                            <h:outputText value="#{veh.marca}"/>
+                        </p:column>
+
+
+                        <p:column headerText="Modelo">
+                            <h:outputText value="#{veh.modelo}"/>
+                        </p:column>
+
+
+                        <p:column headerText="Color">
+                            <h:outputText value="#{veh.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Cajón Asignado" style="width: 120px">
+                            <h:outputText value="#{veh.cajonEstacionamiento.numero}"/>
+                        </p:column>
+
+
+                        <p:column headerText="Tipo" style="width: 120px">
+                            <h:outputText value="#{veh.tipoTarjeton.nombre}"/>
+                        </p:column>
+
+
+                        <p:column headerText="Estatus" style="width: 120px">
+                            <h:outputText value="#{veh.estatusVehiculo.descripcion}"/>
+                        </p:column>
+
+                        <p:column headerText="Matricula" style="width: 120px">
+                            <h:form id="verVehiculo">
+                                <p:commandButton value="#{veh.matricula}"
+                                                 styleClass="ui-button-outlined ui-button-help"/>
+                            </h:form>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </p:panel>
+
+            <p:panel header="Vehiculos" toggleable="true"
+                     closable="false" toggleSpeed="500"
+                     closeSpeed="500" widgetVar="panelHistorial" style="text-align: left;">
+                <p:panelGrid columns="3"
+                             columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+                             layout="grid" styleClass="ui-fluid"
+                             style="border:0px none; background-color:transparent; width=100%;">
+
+                    <p:outputLabel value=""/>
+
+                    <p:panel header="Historial de Entradas" style="width: 100%;text-align: center;">
+                        <h:form>
+                            <p:toolbar>
+                                <p:toolbarGroup>
+                                    <p:outputLabel for="event" value="Fecha: "/>
+
+                                    <p:datePicker id="event" value="#{vehiculoEventoController.dateSelected}">
+                                        <p:ajax event="dateSelect" listener="#{vehiculoEventoController.onDateSelect}"
+                                                update="msgs"/>
+                                    </p:datePicker>
+                                </p:toolbarGroup>
+
+                                <p:toolbarGroup align="right">
+                                    <div class="col-12">
+                                        <div class="ui-inputgroup">
+                                            <p:inputText id="textoBuscar"
+                                                         value="#{vehiculoEventoController.textoBuscar}"
+                                                         placeholder="Buscar matricula...">
+                                                <p:ajax listener="#{vehiculoEventoController.buscar}" event="keyup"
+                                                        update="tabla-entradas"/>
+                                            </p:inputText>
+                                            <p:commandButton icon="pi pi-search" styleClass="ui-button-warning"/>
+                                        </div>
+                                    </div>
+                                </p:toolbarGroup>
+                            </p:toolbar>
+                        </h:form>
+
+                        <p:dataTable id="tabla-entradas" value="#{vehiculoEventoController.entradas}"
+                                     var="evento"
+                                     rendered="#{not empty vehiculoEventoController.entradas}"
+                                     style="width: 100%;text-align: center;" rows="10"
+                                     paginator="true" paginatorPosition="both"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                                     rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+
+                            <p:column headerText="Hora">
+                                <h:outputText
+                                        value="#{evento.fecha.getHour()} : #{evento.fecha.getMinute()}"/>
+                            </p:column>
+
+                            <p:column headerText="Evento" style="width: 100px">
+                                <h:outputText
+                                        value="#{evento.tipoEvento.descripcion}"/>
+                            </p:column>
+
+                            <p:column headerText="Vehiculo" style="width: 120px">
+                                <h:form id="verVehiculo">
+                                    <p:commandButton value="#{evento.vehiculo.matricula}"
+                                                     styleClass="ui-button-outlined ui-button-help"/>
+                                </h:form>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+
+                    <p:outputLabel value=""/>
+
+                </p:panelGrid>
+            </p:panel>
+
+
+            <p:panel header="Croquis Estacionamiento" toggleable="true" closable="false" toggleSpeed="500"
+                     closeSpeed="500" collapsed="true" widgetVar="panelCroquis"
+                     style="text-align: left;">
+                <p:tab title="CROQUIS DEL ESTACIONAMIENTO">
+                    <img src="#{facesContext.externalContext.requestContextPath}/resources/img/croquisEstacionamiento.png"
+                         style="width:100%;"/>
+                </p:tab>
+            </p:panel>
+
+        </p:panel>
+
+    </ui:define>
+</ui:composition>

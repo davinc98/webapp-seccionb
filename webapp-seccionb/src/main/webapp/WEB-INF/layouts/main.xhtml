@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="#{lenguajeController.locale}">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        locale="#{lenguajeController.locale}">
+
+    <h:head>
+        <meta charset="UTF-8"/>
+        <title>#{titulo}</title>
+        <h:outputStylesheet library="webjars" name="primeflex/3.2.0/primeflex.min.css"/>
+        <ui:insert name="head"/>
+        <link href="#{facesContext.externalContext.requestContextPath}/resources/css/styles.css"
+              rel="stylesheet" type="text/css"/>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <p:menubar styleClass="ui-menubar-general">
+                <p:menuitem>
+                    <h:link outcome="#">
+                        <img src="#{facesContext.externalContext.requestContextPath}/resources/img/infanteria_dorado.svg"
+                             style="width:40px;"/>
+                    </h:link>
+                </p:menuitem>
+                <p:menuitem outcome="inicio">
+                    <b>
+                        <h:outputText value='Internado Sección "B"' styleClass="ui-white-text"/>
+                    </b>
+                    <br/>
+                    <h:outputText value='"Dr. Gustavo Baz Prada"' styleClass="ui-white-text"/>
+                </p:menuitem>
+                <p:divider layout="vertical"/>
+                <p:menuitem>
+                    <h:outputText value="SISTEMA DE CONTROL DE ACCESO VEHICULAR" styleClass="ui-golden-text"/>
+                </p:menuitem>
+
+                <f:facet name="options">
+                    <p:menuitem rendered="#{p:ifAnyGranted('ESTUDIANTE,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}">
+                        <p:commandButton action="#{estudianteController.verInformacionPerfil(p:userPrincipal())}" icon="pi pi-user"
+                                         styleClass="rounded-button ui-button-info ui-button-outlined"/>
+                    </p:menuitem>
+                </f:facet>
+
+                <f:facet name="options">
+                    <p:menuitem rendered="#{p:ifAnyGranted('ESTUDIANTE,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}">
+                        <p:commandButton action="#{estudianteController.verInformacionPerfil(p:userPrincipal())}" value="#{p:userPrincipal()}"
+                                         styleClass="rounded-button ui-button-info ui-button-flat"/>
+                    </p:menuitem>
+                </f:facet>
+
+            </p:menubar>
+        </h:form>
+
+        <h:form>
+            <p:menubar styleClass="ui-menubar-users" rendered="#{not empty p:userPrincipal()}">
+                <p:menuitem outcome="inicio">
+                    <h:outputText value="Inicio" styleClass="ui-gray-text"/>
+                </p:menuitem>
+
+                <p:menuitem outcome="gestionEstudiantes" rendered="#{p:ifAnyGranted('CONTROL_DETALL')}"
+                            styleClass="ui-white-text">
+                    <h:outputText value="Gestion de Usuarios" styleClass="ui-gray-text"/>
+                </p:menuitem>
+                <p:menuitem outcome="gestionGuardias" rendered="#{p:ifAnyGranted('CONTROL_GUARDIAS')}"
+                            styleClass="ui-white-text">
+                    <h:outputText value="Gestion de Guardias" styleClass="ui-gray-text"/>
+                </p:menuitem>
+                <p:menuitem outcome="gestionEstacionamiento" rendered="#{p:ifAnyGranted('CONTROL_ESTACIONAMIENTO')}"
+                            styleClass="ui-white-text">
+                    <h:outputText value="Gestion de Estacionamiento" styleClass="ui-gray-text"/>
+                </p:menuitem>
+                <p:menuitem outcome="gestionCargos" rendered="#{p:ifAnyGranted('DIRECTIVO')}"
+                            styleClass="ui-white-text">
+                    <h:outputText value="Gestion de Usuarios" styleClass="ui-gray-text"/>
+                </p:menuitem>
+
+                <p:menuitem outcome="rolDeGuardias"
+                            rendered="#{p:ifAnyGranted('ESTUDIANTE,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}"
+                            styleClass="ui-white-text">
+                    <h:outputText value="Rol de Guardias" styleClass="ui-gray-text"/>
+                </p:menuitem>
+
+                <p:menuitem outcome="guardia"
+                            rendered="#{p:ifAnyGranted('ESTUDIANTE,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}"
+                            styleClass="ui-white-text">
+                    <h:outputText value="Guardia" styleClass="ui-gray-text"/>
+                </p:menuitem>
+
+                <p:menuitem outcome="estacionamiento"
+                            rendered="#{p:ifAnyGranted('ESTUDIANTE,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}"
+                            styleClass="ui-white-text">
+                    <h:outputText value="Estacionamiento" styleClass="ui-gray-text"/>
+                </p:menuitem>
+
+                <f:facet name="options">
+                    <p:menuitem rendered="#{p:ifAnyGranted('ESTUDIANTE,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}">
+                        <p:commandButton action="#{logoutController.logout}" value="Salir"
+                                         icon="pi pi-fw pi-sign-out"
+                                         styleClass="rounded-button ui-button-secondary ui-button-flat"/>
+                    </p:menuitem>
+                </f:facet>
+                <f:facet name="options">
+                    <p:menuitem rendered="#{p:ifNoneGranted('ESTUDIANTE,DIRECTIVO,CONTROL_DETALL,CONTROL_ESTACIONAMIENTO,CONTROL_GUARDIAS')}">
+                        <p:commandButton action="login" value="Iniciar Sesión" icon="pi pi-fw pi-log-in"
+                                         styleClass="ui-button-outlined ui-button-secondary"/>
+                    </p:menuitem>
+                </f:facet>
+
+            </p:menubar>
+        </h:form>
+
+        <div class="p-mb-2">
+            <p:growl id="messages"/>
+            <!--            <p:messages globalOnly="true" closable="true">-->
+            <!--                <p:autoUpdate/>-->
+            <!--            </p:messages>-->
+
+
+            <ui:insert name="content"/>
+        </div>
+
+        <!--        <p:divider/>-->
+
+        <!--        <div class="p-mb-2">-->
+        <!--            <footer style="clear: both;">-->
+        <!--                <p style="text-align: center;">-->
+        <!--                    <h:outputText value="#{msg['footer.texto.autor']}"/>-->
+        <!--                </p>-->
+        <!--                &lt;!&ndash;                    <ui:insert name="js"/>&ndash;&gt;-->
+        <!--            </footer>-->
+        <!--        </div>-->
+    </h:body>
+
+</f:view>
+</html>

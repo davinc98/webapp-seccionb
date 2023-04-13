@@ -1,0 +1,474 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel header="GESTIÓN DE ESTACIONAMIENTO" style="width: 100%; text-align: center;">
+
+
+            <p:panelGrid columns="4"
+                         columnClasses="ui-grid-col-6, ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         style="border:0px none; background-color:transparent; width=100%;">
+
+
+                <p:panel header="RECONOCIMIENTO DE PLACAS">
+                    <p:barChart model="#{reconocimientoPlacasController.resumen}" style="width: 100%; height: 200px;">
+<!--                        <p:ajax event="itemSelect" listener="# {chartJsView.itemSelect}" update="growl"/>-->
+                    </p:barChart>
+                </p:panel>
+
+                <p:panel header="USUARIOS">
+                    <img src="resources/img/usersEst.PNG" style="width: 100%"/>
+                    <p:divider/>
+                    <h:outputText value="#{usuarioEstacionamientoController.usuariosEstacionamiento.size()}"
+                                  style="font-weight: bold;"/>
+                    Usuarios
+                </p:panel>
+
+                <p:panel header="VEHÍCULOS">
+                    <img src="resources/img/vehiculosEst.PNG" style="width: 100%"/>
+                    <p:divider/>
+                    <h:outputText value="#{vehiculosController.vehiculos.size()}" style="font-weight: bold;"/>
+                    Vehículos
+                </p:panel>
+
+                <p:panel header="CAJONES">
+                    <img src="resources/img/cajonesEst.PNG" style="width: 100%"/>
+                    <p:divider/>
+                    <h:outputText value="#{cajonEstacionamientoController.cajonesEstacionamiento.size()}"
+                                  style="font-weight: bold;"/>
+                    Cajones
+                </p:panel>
+
+            </p:panelGrid>
+
+
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <h:form id="crearUsuarioForm">
+                        <p:commandButton value="Registrar nuevo usuario"
+                                         action="#{usuarioEstacionamientoController.crear()}"
+                                         icon="pi pi-user-plus" style="margin-right: .5rem"/>
+                    </h:form>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:selectOneMenu id="opcionBusq" value="#{busquedaController.opcionBusqueda}">
+                        <f:selectItems value="#{busquedaController.opcionesBusquedaEstudiante}"/>
+                        <!--                        <p:ajax process="@this" listener="#{busquedaController.buscarEstudiante}" />-->
+                    </p:selectOneMenu>
+                    <h:form id="buscarForm">
+                        <p:inputText id="textoNombre" value="#{busquedaController.textoBuscar}"
+                                     placeholder="Buscar usuario...">
+                            <p:ajax listener="#{busquedaController.buscarPersona}"
+                                    event="keyup"
+                                    update="panelBusqueda"/>
+                        </p:inputText>
+                        <p:commandButton icon="pi pi-search" styleClass="ui-button-warning"/>
+                    </h:form>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panel id="panelBusqueda">
+                <p:panel header="Resultados de Busqueda"
+                         style="text-align: center;" rendered="#{not empty busquedaController.personasBuscar}">
+                    <p:dataTable id="tablaPersonasBuscar" value="#{busquedaController.personasBuscar}" var="uest"
+                                 style="max-width:100%;" rows="5">
+
+                        <p:column headerText="Ver" style="width: 70px">
+                            <h:form id="verForm">
+                                <p:commandButton value="#{uest.id}"
+                                                 action="#{usuarioEstacionamientoController.verInformacion(uest.id)}"
+                                                 icon="pi pi-user"
+                                                 styleClass="ui-button-info" onclick="PF('dialogForm').show()"
+                                                 update="formVerUsuario"/>
+                            </h:form>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText
+                                    value="#{uest.nombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Apellido Paterno">
+                            <h:outputText
+                                    value="#{uest.primerApellido}"/>
+                        </p:column>
+
+                        <p:column headerText="Apellido Materno">
+                            <h:outputText
+                                    value="#{uest.segundoApellido}"/>
+                        </p:column>
+
+                        <p:column headerText="CURP">
+                            <h:outputText
+                                    value="#{uest.curp}"/>
+                        </p:column>
+
+                        <p:column headerText="Contactos" style="width:60px">
+                            <p:linkButton outcome="gestionContactos"
+                                          class="btn btn-sm btn-success" icon="pi pi-book">
+                                <f:param name="idPersona" value="#{uest.id}"/>
+                            </p:linkButton>
+                        </p:column>
+
+                        <p:column headerText="Vehiculos" style="width:60px">
+                            <p:linkButton outcome="gestionVehiculosPersona"
+                                          class="btn btn-sm btn-success" icon="pi pi-shopping-cart">
+                                <f:param name="idPersona" value="#{uest.id}"/>
+                            </p:linkButton>
+                        </p:column>
+
+                        <p:column headerText="Editar" style="width: 50px">
+                            <h:form id="editarForm">
+                                <p:commandButton action="#{usuarioEstacionamientoController.editar(uest.id)}"
+                                                 icon="pi pi-user-edit" styleClass="ui-button-secondary"/>
+                            </h:form>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:panel>
+            </p:panel>
+
+
+            <p:panel header="Usuarios" toggleable="true" closable="false"
+                     toggleSpeed="500"
+                     closeSpeed="500" widgetVar="panelUsuarios"
+                     collapsed="false" style="text-align: left;">
+                <p:panelGrid columns="1"
+                             columnClasses="ui-grid-col-12"
+                             layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                             style="border:0px none; background-color:transparent; width=100%;">
+
+
+                    <p:panel header="Listado de Usuarios (Activos)">
+                        <p:dataTable id="tabla-usuarios"
+                                     value="#{usuarioEstacionamientoController.usuariosEstacionamiento}"
+                                     var="uest"
+                                     rendered="#{not empty usuarioEstacionamientoController.usuariosEstacionamiento}"
+                                     style="max-width:100%;" rows="20"
+                                     paginator="true" paginatorPosition="both"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords}"
+                                     rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+                            <p:column headerText="Ver" style="width: 70px">
+                                <h:form id="verForm">
+                                    <p:commandButton value="#{uest.id}"
+                                                     action="#{usuarioEstacionamientoController.verInformacion(uest.id)}"
+                                                     icon="pi pi-user"
+                                                     styleClass="ui-button-info" onclick="PF('dialogForm').show()"
+                                                     update="formVerUsuario"/>
+                                </h:form>
+                            </p:column>
+
+                            <p:column headerText="Nombre">
+                                <h:outputText
+                                        value="#{uest.nombre}"/>
+                            </p:column>
+
+                            <p:column headerText="Apellido Paterno">
+                                <h:outputText
+                                        value="#{uest.primerApellido}"/>
+                            </p:column>
+
+                            <p:column headerText="Apellido Materno">
+                                <h:outputText
+                                        value="#{uest.segundoApellido}"/>
+                            </p:column>
+
+                            <p:column headerText="CURP">
+                                <h:outputText
+                                        value="#{uest.curp}"/>
+                            </p:column>
+
+                            <p:column headerText="Contactos" style="width:60px">
+                                <p:linkButton outcome="gestionContactos"
+                                              class="btn btn-sm btn-success" icon="pi pi-book">
+                                    <f:param name="idPersona" value="#{uest.id}"/>
+                                </p:linkButton>
+                            </p:column>
+
+                            <p:column headerText="Vehiculos" style="width:60px">
+                                <p:linkButton outcome="gestionVehiculosPersona"
+                                              class="btn btn-sm btn-success" icon="pi pi-shopping-cart">
+                                    <f:param name="idPersona" value="#{uest.id}"/>
+                                </p:linkButton>
+                            </p:column>
+
+                            <p:column headerText="Editar" style="width: 50px">
+                                <h:form id="editarForm">
+                                    <p:commandButton action="#{usuarioEstacionamientoController.editar(uest.id)}"
+                                                     icon="pi pi-user-edit" styleClass="ui-button-secondary"/>
+                                </h:form>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </p:panelGrid>
+            </p:panel>
+
+
+            <p:panel header="Vehículos" toggleable="true" closable="false"
+                     toggleSpeed="500"
+                     closeSpeed="500" widgetVar="panelVehiculos"
+                     collapsed="true" style="text-align: left;">
+                <p:toolbar>
+                    <p:toolbarGroup>
+
+                    </p:toolbarGroup>
+                    <p:toolbarGroup align="right">
+                        <h:form id="buscarVehiculoForm">
+                            <p:inputText id="textoMatricula" value="#{busquedaController.textoBuscar}"
+                                         placeholder="Buscar matricula...">
+                                <p:ajax listener="#{busquedaController.buscarVehiculo}"
+                                        event="keyup"
+                                        update="panelBusquedaVehiculos"/>
+                            </p:inputText>
+                            <p:commandButton icon="pi pi-search" styleClass="ui-button-warning"/>
+                        </h:form>
+                    </p:toolbarGroup>
+                </p:toolbar>
+                <p:panel id="panelBusquedaVehiculos">
+                    <p:panel header="Resultados de Busqueda" style="width: 100%;text-align: center;"
+                             rendered="#{not empty busquedaController.vehiculosBuscar}">
+
+                        <p:dataTable id="tabla-busqueda" value="#{busquedaController.vehiculosBuscar}"
+                                     var="veh"
+                                     style="width: 100%;text-align: center;" rows="5">
+                            <p:column>
+                                <img src="resources/img/pi-car.PNG" style="width: 50%"/>
+                            </p:column>
+                            <p:column headerText="Marca">
+                                <h:outputText value="#{veh.marca}"/>
+                            </p:column>
+                            <p:column headerText="Modelo">
+                                <h:outputText value="#{veh.modelo}"/>
+                            </p:column>
+                            <p:column headerText="Color">
+                                <h:outputText value="#{veh.color}"/>
+                            </p:column>
+                            <p:column headerText="Cajón Asignado" style="width: 120px">
+                                <h:outputText value="#{veh.cajonEstacionamiento.numero}"/>
+                            </p:column>
+                            <p:column headerText="Tipo" style="width: 120px">
+                                <h:outputText value="#{veh.tipoTarjeton.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Estatus" style="width: 120px">
+                                <h:outputText value="#{veh.estatusVehiculo.descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Matricula" style="width: 120px">
+                                <h:form id="verVehiculo">
+                                    <p:commandButton value="#{veh.matricula}"
+                                                     styleClass="ui-button-outlined ui-button-help"/>
+                                </h:form>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel header="Listado de Vehículos (Activos)">
+                    <p:dataTable id="tabla-vehiculos" value="#{vehiculosController.vehiculos}"
+                                 var="veh"
+                                 rendered="#{not empty vehiculosController.vehiculos}"
+                                 style="max-width:100%;" rows="20"
+                                 paginator="true" paginatorPosition="both"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords}"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+
+                        <p:column headerText="Matricula">
+                            <h3>
+                                <p:outputLabel value="#{veh.matricula}"/>
+                            </h3>
+                        </p:column>
+
+                        <p:column headerText="Marca">
+                            <p:outputLabel value="#{veh.marca}"/>
+                        </p:column>
+
+                        <p:column headerText="Modelo">
+                            <p:outputLabel value="#{veh.modelo}"/>
+                        </p:column>
+
+                        <p:column headerText="Color">
+                            <p:outputLabel value="#{veh.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Año">
+                            <p:outputLabel value="#{veh.anio}"/>
+                        </p:column>
+
+                        <p:column headerText="Estado">
+                            <p:outputLabel value="#{veh.estadoProcedencia.descripcion}"/>
+                        </p:column>
+
+                        <p:column headerText="Tipo">
+                            <p:outputLabel value="#{veh.tipoTarjeton.nombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Cajón">
+                            <p:outputLabel value="#{veh.cajonEstacionamiento.numero}"/>
+                        </p:column>
+
+                        <p:column headerText="Estatus">
+                            <p:outputLabel value="#{veh.estatusVehiculo.descripcion}"/>
+                        </p:column>
+
+                        <p:column style="width:50px">
+                            <h:form id="editarForm">
+                                <p:commandButton action="#{vehiculosController.editar(veh.id)}" icon="pi pi-pencil"
+                                                 class="ui-button-info" onclick="PF('dialogVehiculoForm').show()"
+                                                 update="formVehiculo">
+                                    <p:resetInput target="formVehiculo"/>
+                                </p:commandButton>
+                            </h:form>
+                        </p:column>
+                        <p:column style="width:50px">
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                             process="@this"
+                                             oncomplete="PF('deleteVehiculoDialog').show()">
+                                <f:setPropertyActionListener value="#{veh}"
+                                                             target="#{vehiculosController.vehiculo}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </p:panel>
+
+            <p:panel header="Cajones de Estacionamiento" toggleable="true" closable="false"
+                     toggleSpeed="500"
+                     closeSpeed="500" widgetVar="panelCajonesEstacionamiento"
+                     collapsed="true" style="text-align: left;">
+                <p:panelGrid columns="3"
+                             columnClasses="ui-grid-col-1,ui-grid-col-10,ui-grid-col-1"
+                             layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                             style="border:0px none; background-color:transparent; width=100%;">
+
+                    <p:outputLabel value=""/>
+
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <h:form id="crearCajonForm">
+                                <p:commandButton value="Crear Nuevo Cajón" class="p-my-2"
+                                                 onclick="PF('dialogCajonForm').show()"
+                                                 icon="pi pi-plus" style="margin-right: .5rem">
+                                    <p:resetInput target="formCajonEstacionamiento"/>
+                                </p:commandButton>
+                            </h:form>
+                        </p:toolbarGroup>
+                        <p:toolbarGroup align="right">
+
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:outputLabel value=""/>
+
+                    <p:outputLabel value=""/>
+
+                    <p:panel header="Listado de Cajones de Estacionamiento">
+                        <p:dataTable id="tabla-cajones" value="#{cajonEstacionamientoController.cajonesEstacionamiento}"
+                                     var="cajon"
+                                     rendered="#{not empty cajonEstacionamientoController.cajonesEstacionamiento}"
+                                     style="max-width:100%;" rows="10"
+                                     paginator="true" paginatorPosition="both"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords}"
+                                     rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+
+                            <p:column headerText="ID">
+                                <h3>
+                                    <p:outputLabel value="#{cajon.id}"/>
+                                </h3>
+                            </p:column>
+
+                            <p:column headerText="Estatus">
+                                <p:outputLabel value="#{cajon.estatusCajon.descripcion}"/>
+                            </p:column>
+
+                            <p:column headerText="Area">
+                                <p:outputLabel value="#{cajon.areaEstacionamiento.descripcion}"/>
+                            </p:column>
+
+                            <p:column headerText="Número">
+                                <p:outputLabel value="#{cajon.numero}"/>
+                            </p:column>
+
+                            <p:column style="width:50px">
+                                <h:form id="editarForm">
+                                    <p:commandButton action="#{cajonEstacionamientoController.editar(cajon.id)}"
+                                                     icon="pi pi-pencil"
+                                                     class="ui-button-info" onclick="PF('dialogCajonForm').show()"
+                                                     update="formCajonEstacionamiento">
+                                        <p:resetInput target="formCajonEstacionamiento"/>
+                                    </p:commandButton>
+                                </h:form>
+                            </p:column>
+
+                            <p:column style="width:50px">
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                                 process="@this"
+                                                 oncomplete="PF('deleteCajonDialog').show()">
+                                    <f:setPropertyActionListener value="#{cajon}"
+                                                                 target="#{cajonEstacionamientoController.cajonEstacionamiento}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:panel>
+
+                    <p:outputLabel value=""/>
+
+                </p:panelGrid>
+            </p:panel>
+        </p:panel>
+
+
+        <p:dialog header="INFORMACIÓN DE USUARIO" widgetVar="dialogForm" minHeight="200" minWidht="500"
+                  showEffect="fade" modal="true">
+            <ui:include src="dialogoUsuarioEstacionamiento.xhtml"/>
+        </p:dialog>
+
+        <p:dialog header="VEHICULO"
+                  widgetVar="dialogVehiculoForm" minHeight="200" minWidth="500" showEffect="fade" modal="true">
+            <p:ajax event="close" listener="#{contactoController.cerrarDialogo}" update="formVehiculo"/>
+            <ui:include src="formVehiculo.xhtml"/>
+        </p:dialog>
+
+        <p:dialog header="CAJÓN DE ESTACIONAMIENTO"
+                  widgetVar="dialogCajonForm" minHeight="200" minWidth="500" showEffect="fade" modal="true">
+            <p:ajax event="close" listener="#{cajonEstacionamientoController.cerrarDialogo}"
+                    update="formCajonEstacionamiento"/>
+            <ui:include src="formCajonEstacionamiento.xhtml"/>
+        </p:dialog>
+
+
+        <h:form id="dialogos">
+
+            <p:confirmDialog widgetVar="deleteVehiculoDialog" showEffect="fade" width="300"
+                             message="¿Esta seguro que desea borrar el vehiculo?" header="Eliminar vehiculo"
+                             severity="warn">
+                <p:commandButton value="Si" icon="pi pi-check" action="#{vehiculosController.eliminarVehiculo}"
+                                 process="@this" update="tabla-vehiculos"
+                                 oncomplete="PF('deleteVehiculoDialog').hide()"/>
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                 onclick="PF('deleteVehiculoDialog').hide()"/>
+            </p:confirmDialog>
+
+            <p:confirmDialog widgetVar="deleteCajonDialog" showEffect="fade" width="300"
+                             message="¿Esta seguro que desea borrar el cajón?" header="Eliminar cajón" severity="warn">
+                <p:commandButton value="Si" icon="pi pi-check" action="#{cajonEstacionamientoController.eliminarCajon}"
+                                 process="@this" update="tabla-cajones"
+                                 oncomplete="PF('deleteCajonDialog').hide()"/>
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                 onclick="PF('deleteCajonDialog').hide()"/>
+            </p:confirmDialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

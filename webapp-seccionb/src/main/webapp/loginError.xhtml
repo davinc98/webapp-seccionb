@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <p:panelGrid columns="3"
+                     columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                     layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                     style="border:0px none; background-color:transparent; width=100%;">
+
+            <p:outputLabel value=""/>
+
+            <p:panel header="Error Login" style="text-align:center;">
+                <center>
+                <p:staticMessage severity="error" summary="ERROR"
+                                 detail="Error al iniciar sesión, intente nuevamente."/>
+                <br/>
+                <br/>
+                <p:linkButton outcome="login" value="Regresar a Inicio de Sesión" styleClass="p-my-2"/>
+                </center>
+            </p:panel>
+
+            <p:outputLabel value=""/>
+        </p:panelGrid>
+
+    </ui:define>
+</ui:composition>

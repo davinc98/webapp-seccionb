@@ -1,0 +1,100 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="http://xmlns.jcp.org/jsf/html"
+              xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+              xmlns:f="http://xmlns.jcp.org/jsf/core"
+              xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="formVehiculo">
+
+
+        <p:panel header="Datos del Vehiculo " width="100%">
+
+            <h:panelGrid columns="3" width="100%"
+                         layout="grid">
+
+
+                <p:outputLabel value="Matricula" for="matricula" class="p-col-fixed" style="width:200px;"/>
+                <p:inputText id="matricula" value="#{vehiculosController.vehiculo.matricula}"
+                             label="Matricula" required="true"/>
+                <p:message for="matricula" style="color:red;"/>
+
+                <p:outputLabel value="Marca" for="marca" class="p-col-fixed" style="width:200px;"/>
+                <p:inputText id="marca" value="#{vehiculosController.vehiculo.marca}"
+                             label="Marca" required="true"/>
+                <p:message for="marca" style="color:red;"/>
+
+                <p:outputLabel value="Modelo" for="modelo" class="p-col-fixed" style="width:200px;"/>
+                <p:inputText id="modelo" value="#{vehiculosController.vehiculo.modelo}"
+                             label="Modelo" required="true"/>
+                <p:message for="modelo" style="color:red;"/>
+
+                <p:outputLabel value="Año" for="anio" class="p-col-fixed" style="width:200px;"/>
+                <p:selectOneMenu id="anio" value="#{vehiculosController.vehiculo.anio}" effect="fold"
+                                 editable="true">
+                    <!--                    <f:selectItem itemLabel="#{vehiculosController.anioActual}" itemValue="#{null}"/>-->
+                    <f:selectItems value="#{vehiculosController.anios}"/>
+                </p:selectOneMenu>
+                <p:message for="anio" style="color:red;"/>
+
+                <p:outputLabel value="Color" for="color" class="p-col-fixed" style="width:200px;"/>
+                <p:inputText id="color" value="#{vehiculosController.vehiculo.color}"
+                             label="Color" required="true"/>
+                <p:message for="color" style="color:red;"/>
+
+                <p:outputLabel value="Estado" for="estado" class="p-col-fixed"
+                               style="width:200px;"/>
+                <p:selectOneMenu id="estado" value="#{vehiculosController.vehiculo.estadoProcedencia}">
+                    <f:selectItem itemLabel="Seleccionar Estado" itemValue="#{null}"/>
+                    <f:selectItems value="#{vehiculosController.estadosProcedencia}" var="estado"
+                                   itemLabel="#{estado.descripcion}"/>
+                    <f:converter binding="#{estadoProcedenciaConverter}"/>
+                </p:selectOneMenu>
+                <p:message for="estado" style="color:red;"/>
+
+                <p:outputLabel value="Descripción" for="descripcion" class="p-col-fixed" style="width:200px;"/>
+                <p:inputText id="descripcion" value="#{vehiculosController.vehiculo.descripcion}"
+                             label="Descripción" required="true"/>
+                <p:message for="descripcion" style="color:red;"/>
+
+                <p:outputLabel value="Número de Cajón" for="nocajon" class="p-col-fixed" style="width:200px;"/>
+                <p:selectOneMenu id="nocajon" value="#{vehiculosController.vehiculo.cajonEstacionamiento}">
+                    <f:selectItem itemLabel="Seleccionar cajón" itemValue="#{null}"/>
+                    <f:selectItems value="#{vehiculosController.cajonesEstacionamiento}" var="cajon"
+                                   itemLabel="#{cajon.numero}"/>
+                    <f:converter binding="#{cajonEstacionamientoConverter}"/>
+                </p:selectOneMenu>
+                <p:message for="nocajon" style="color:red;"/>
+
+                <p:outputLabel value="Tarjetón" for="tarjeton" class="p-col-fixed" style="width:200px;"/>
+                <p:selectOneMenu id="tarjeton" value="#{vehiculosController.vehiculo.tipoTarjeton}">
+                    <f:selectItem itemLabel="Seleccionar tipo" itemValue="#{null}"/>
+                    <f:selectItems value="#{vehiculosController.tiposTarjeton}" var="tar"
+                                   itemLabel="#{tar.nombre}"/>
+                    <f:converter binding="#{tipoTarjetonConverter}"/>
+                </p:selectOneMenu>
+                <p:message for="tarjeton" style="color:red;"/>
+
+                <p:outputLabel value="Estatus" for="estatus" class="p-col-fixed" style="width:200px;"/>
+                <p:selectOneMenu id="estatus" value="#{vehiculosController.vehiculo.estatusVehiculo}">
+                    <f:selectItem itemLabel="Seleccionar estatus" itemValue="#{null}"/>
+                    <f:selectItems value="#{vehiculosController.estatusVehiculo}" var="estat"
+                                   itemLabel="#{estat.descripcion}"/>
+                    <f:converter binding="#{estatusVehiculoConverter}"/>
+                </p:selectOneMenu>
+                <p:message for="estatus" style="color:red;"/>
+
+
+                <p:commandButton
+                        value="Guardar Vehiculo"
+                        action="#{vehiculosController.guardar}"
+                        class="ui-button-outlined ui-button-success" update="@form tabla-vehiculos"
+                        style="width:100%"/>
+
+                <h:inputHidden value="#{vehiculosController.personaId}"/>
+                <h:inputHidden value="#{vehiculosController.vehiculo.id}"/>
+
+
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+</ui:component>

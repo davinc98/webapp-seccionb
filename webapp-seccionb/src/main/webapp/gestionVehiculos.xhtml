@@ -1,0 +1,129 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel header="GESTIÓN DE VEHICULOS" style="width: 100%;">
+
+
+            <p:toolbar>
+                <p:toolbarGroup>
+
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+
+                    <h:form id="descargarForm">
+                        <p:commandButton value="Descargar Lista" styleClass="ui-button-help" ajax="false">
+                            <p:dataExporter type="pdf" target="tabla-vehiculos"
+                                            fileName="VehiculosEstacionamientoSeccionB"/>
+                        </p:commandButton>
+                    </h:form>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+            <p:panelGrid columns="3"
+                         columnClasses="ui-grid-col-1,ui-grid-col-10,ui-grid-col-1"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         style="border:0px none; background-color:transparent; width=100%;">
+
+                <p:outputLabel value=""/>
+
+                <p:dataTable id="tabla-vehiculos" value="#{vehiculosController.vehiculos}"
+                             var="veh"
+                             rendered="#{not empty vehiculosController.vehiculos}"
+                             style="max-width:100%;" rows="20"
+                             paginator="true" paginatorPosition="both"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords}"
+                             rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+
+                    <p:column headerText="Matricula">
+                        <h3>
+                            <p:outputLabel value="#{veh.matricula}"/>
+                        </h3>
+                    </p:column>
+
+                    <p:column headerText="Marca">
+                        <p:outputLabel value="#{veh.marca}"/>
+                    </p:column>
+
+                    <p:column headerText="Modelo">
+                        <p:outputLabel value="#{veh.modelo}"/>
+                    </p:column>
+
+                    <p:column headerText="Color">
+                        <p:outputLabel value="#{veh.color}"/>
+                    </p:column>
+
+                    <p:column headerText="Año">
+                        <p:outputLabel value="#{veh.anio}"/>
+                    </p:column>
+
+                    <p:column headerText="Estado">
+                        <p:outputLabel value="#{veh.estadoProcedencia.descripcion}"/>
+                    </p:column>
+
+                    <p:column headerText="Tipo">
+                        <p:outputLabel value="#{veh.tipoTarjeton.nombre}"/>
+                    </p:column>
+
+                    <p:column headerText="Cajón">
+                        <p:outputLabel value="#{veh.cajonEstacionamiento.numero}"/>
+                    </p:column>
+
+                    <p:column headerText="Estatus">
+                        <p:outputLabel value="#{veh.estatusVehiculo.descripcion}"/>
+                    </p:column>
+
+                    <p:column style="width:50px">
+                        <h:form id="editarForm">
+                            <p:commandButton action="#{vehiculosController.editar(veh.id)}" icon="pi pi-pencil"
+                                             class="ui-button-info" onclick="PF('dialogVehiculoForm').show()"
+                                             update="formVehiculo">
+                                <p:resetInput target="formVehiculo"/>
+                            </p:commandButton>
+                        </h:form>
+                    </p:column>
+
+                    <p:column style="width:50px">
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('deleteVehiculoDialog').show()">
+                            <f:setPropertyActionListener value="#{veh}" target="#{vehiculosController.vehiculo}"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:outputLabel value=""/>
+
+            </p:panelGrid>
+        </p:panel>
+
+        <p:dialog header="VEHICULO"
+                  widgetVar="dialogVehiculoForm" minHeight="200" minWidth="500" showEffect="fade" modal="true">
+            <p:ajax event="close" listener="#{contactoController.cerrarDialogo}" update="formVehiculo"/>
+            <ui:include src="formVehiculo.xhtml"/>
+        </p:dialog>
+
+
+        <h:form id="dialogos">
+
+            <p:confirmDialog widgetVar="deleteVehiculoDialog" showEffect="fade" width="300"
+                             message="¿Esta seguro que desea borrar el vehiculo?" header="Eliminar vehiculo" severity="warn">
+                <p:commandButton value="Si" icon="pi pi-check" action="#{vehiculosController.eliminarVehiculo}"
+                                 process="@this" update="tabla-vehiculos"
+                                 oncomplete="PF('deleteVehiculoDialog').hide()" />
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                 onclick="PF('deleteVehiculoDialog').hide()" />
+            </p:confirmDialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

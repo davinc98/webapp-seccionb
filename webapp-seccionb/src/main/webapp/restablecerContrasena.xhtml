@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <p:panelGrid columns="4"
+                     columnClasses="ui-grid-col-1,ui-grid-col-4,ui-grid-col-6,ui-grid-col-1"
+                     layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                     style="border:0px none; background-color:transparent; width=100%;">
+
+            <p:outputLabel value=""/>
+
+            <p:panel header="Instrucciones:">
+                <ol>
+                    <li>Escriba su correo electrónico y de clic en el botón "Enviar Código".</li>
+                    <p:divider/>
+                    <li>Revise su correo para obtener un código de verificación</li>
+                    <p:divider/>
+                    <li>Escriba el código recibido en el campo de texto correspondiente.</li>
+                    <p:divider/>
+                    <li>De clic en el botón "Verificar".</li>
+                    <p:divider/>
+                    <li>Escriba su nueva contraseña.</li>
+                    <p:divider/>
+                    <li>De clic en el botón "Restablecer contraseña".</li>
+                    <p:divider/>
+                    <li>Una vez restablecida la nueva contraseña, de clic en el botón "Regresar a inicio de
+                        sesión."
+                    </li>
+                </ol>
+            </p:panel>
+
+            <p:panel header="Restablecimiento de Contraseña" style="margin-top: 1em; width: 100%;">
+                <h:form>
+                    <p:wizard flowListener="#{restablecerContraseniaController.onFlowProcess}"
+                              nextLabel="Siguiente" backLabel="Anterior">
+
+
+                        <p:tab id="enviaCodigo" title="Enviar Código">
+                            <p:panel id="codver" header="Código de Verificación"
+                                     style="margin-top: 1em; width: 100%;">
+                                <br/>
+                                    <div class="field grid">
+                                        <div class="col">
+                            <span class="ui-float-label">
+                            <p:inputText id="correo" value="#{restablecerContraseniaController.email}" required="true"
+                                         style="width:100%"/>
+                            <p:outputLabel for="correo" value="Correo electrónico"/>
+                            </span>
+                                        </div>
+                                    </div>
+
+                                    <p:commandButton value="Enviar Código" style="width:100%"
+                                                     action="#{restablecerContraseniaController.enviarCodigo()}"
+                                                     styleClass="ui-button-secondary"/>
+                                    <p:messages id="messages" showDetail="true">
+                                        <p:autoUpdate/>
+                                    </p:messages>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="verificaCodigo" title="Verificar Código">
+                            <p:panel header="Verificar Código"
+                                     style="margin-top: 1em; width: 100%;">
+                                <br/>
+                                    <div class="field grid">
+                                        <div class="col">
+                            <span class="ui-float-label">
+                            <p:inputText id="codigo" value="#{restablecerContraseniaController.codigoVerificacion}"
+                                         required="true" style="width:100%"/>
+                            <p:outputLabel for="codigo" value="Código de Verificación"/>
+                            </span>
+                                        </div>
+                                    </div>
+
+                                    <p:commandButton value="Verificar Código" style="width:100%"
+                                                     action="#{restablecerContraseniaController.verificarCodigo()}"
+                                                     styleClass="ui-button-success"/>
+                                    <p:messages id="messages2" showDetail="true">
+                                        <p:autoUpdate/>
+                                    </p:messages>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="restablecer" title="Restablecer Contraseña">
+                            <p:panel id="restab" header="Restablecer Contraseña"
+                                     style="margin-top: 1em; width: 100%;">
+                                <br/>
+                                    <div class="field grid">
+                                        <div class="col">
+                            <span class="ui-float-label">
+                                <p:password id="password" match="password2"
+                                            value="#{restablecerContraseniaController.pwd1}"
+                                            required="true" style="width:100%"/>
+                                <p:outputLabel for="password" value="Nueva Contraseña"/>
+                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field grid">
+                                        <div class="col">
+                            <span class="ui-float-label">
+                                <p:password id="password2" required="true"
+                                            value="#{restablecerContraseniaController.pwd2}"
+                                            style="width:100%"/>
+                                <p:outputLabel for="password2" value="Confirmar Contraseña"/>
+                            </span>
+                                        </div>
+                                    </div>
+
+                                    <p:commandButton value="Restablecer Contraseña" style="width:100%"
+                                                     action="#{restablecerContraseniaController.restablecerPassword()}"
+                                                     styleClass="ui-button-info"/>
+                                    <p:messages id="messages3" showDetail="true">
+                                        <p:autoUpdate/>
+                                    </p:messages>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </h:form>
+                <p:divider/>
+                <h:form>
+                    <p:linkButton outcome="login" value="Login" styleClass="p-my-2" style="width:100%"/>
+                </h:form>
+
+            </p:panel>
+
+            <p:outputLabel value=""/>
+
+        </p:panelGrid>
+        >
+    </ui:define>
+</ui:composition>

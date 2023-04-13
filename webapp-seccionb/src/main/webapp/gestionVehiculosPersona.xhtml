@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="idPersona" value="#{vehiculoController.personaId}"/>
+            <f:viewAction action="#{vehiculoController.init}"/>
+        </f:metadata>
+
+
+        <p:panel header="VEHICULOS DE USUARIO" style="width: 100%;text-align:center;">
+
+
+            <p:panelGrid columns="2"
+                         columnClasses="ui-grid-col-3,ui-grid-col-9"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         style="border:0px none; background-color:transparent; width=100%;">
+
+
+                <p:panel header="Usuario " width="100%">
+                    <p:outputLabel value=""><i class="pi pi-user" style="font-size: 7em; color: #94aebd;"></i>
+                    </p:outputLabel>
+                    <p:divider/>
+
+                    <p:outputLabel id="nombre" value="#{vehiculoController.personaVehiculo.nombre}"/>
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel id="primerApellido"
+                                   value="#{vehiculoController.personaVehiculo.primerApellido}"/>
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel id="segundoApellido"
+                                   value="#{vehiculoController.personaVehiculo.segundoApellido}"/>
+                    <p:divider/>
+                    <h:form id="crearForm">
+                        <p:commandButton value="Agregar Vehiculo" class="p-my-2"
+                                         onclick="PF('dialogVehiculoForm').show()" icon="pi pi-plus">
+                            <p:resetInput target="formVehiculoPersona"/>
+                        </p:commandButton>
+                    </h:form>
+
+                </p:panel>
+
+                <p:panel header="Gestión de Vehículos">
+                    <p:dataTable id="vehiculosPersona" value="#{vehiculoController.vehiculos}" var="veh"
+                                 rendered="#{not empty vehiculoController.vehiculos}"
+                                 style="max-width:100%;" rows="30">
+
+
+                        <p:column headerText="Matricula">
+                            <h3>
+                                <p:outputLabel value="#{veh.matricula}"/>
+                            </h3>
+                        </p:column>
+
+                        <p:column headerText="Marca">
+                            <p:outputLabel value="#{veh.marca}"/>
+                        </p:column>
+
+                        <p:column headerText="Modelo">
+                            <p:outputLabel value="#{veh.modelo}"/>
+                        </p:column>
+
+                        <p:column headerText="Color">
+                            <p:outputLabel value="#{veh.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Estado">
+                            <p:outputLabel value="#{veh.estadoProcedencia.descripcion}"/>
+                        </p:column>
+
+                        <p:column headerText="Tipo">
+                            <p:outputLabel value="#{veh.tipoTarjeton.nombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Cajón">
+                            <p:outputLabel value="#{veh.cajonEstacionamiento.numero}"/>
+                        </p:column>
+
+                        <p:column style="width:50px">
+                            <h:form id="editarForm">
+                                <p:commandButton action="#{vehiculoController.editar(veh.id)}" icon="pi pi-pencil"
+                                                 class="ui-button-info" onclick="PF('dialogVehiculoForm').show()"
+                                                 update="formVehiculoPersona">
+                                    <p:resetInput target="formVehiculoPersona"/>
+                                </p:commandButton>
+                            </h:form>
+                        </p:column>
+
+                        <p:column style="width:50px">
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                             process="@this"
+                                             oncomplete="PF('deleteVehiculoDialog').show()">
+                                <f:setPropertyActionListener value="#{veh}" target="#{vehiculoController.vehiculo}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+
+                <p:outputLabel value=""/>
+
+            </p:panelGrid>
+
+        </p:panel>
+
+
+        <p:dialog header="VEHICULO"
+                  widgetVar="dialogVehiculoForm" minHeight="200" minWidth="500" showEffect="fade" modal="true">
+            <p:ajax event="close" listener="#{vehiculoController.cerrarDialogo}" update="formVehiculoPersona"/>
+            <ui:include src="formVehiculoPersona.xhtml"/>
+        </p:dialog>
+
+
+        <h:form id="dialogos">
+
+            <p:confirmDialog widgetVar="deleteVehiculoDialog" showEffect="fade" width="300"
+                             message="¿Esta seguro que desea borrar el vehiculo?" header="Eliminar vehiculo"
+                             severity="warn">
+                <p:commandButton value="Si" icon="pi pi-check" action="#{vehiculoController.eliminarVehiculo}"
+                                 process="@this" update="vehiculosPersona"
+                                 oncomplete="PF('deleteVehiculoDialog').hide()"/>
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                 onclick="PF('deleteVehiculoDialog').hide()"/>
+            </p:confirmDialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

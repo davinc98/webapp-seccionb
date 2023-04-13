@@ -1,0 +1,52 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="http://xmlns.jcp.org/jsf/html"
+              xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+              xmlns:f="http://xmlns.jcp.org/jsf/core"
+              xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="formCajonEstacionamiento">
+
+
+        <p:panel header="Datos del Cajón " width="100%">
+
+            <h:panelGrid columns="3" width="100%"
+                         layout="grid">
+
+
+                <p:outputLabel value="Estatus" for="estatus" class="p-col-fixed" style="width:200px;"/>
+                <p:selectOneMenu id="estatus" value="#{cajonEstacionamientoController.cajonEstacionamiento.estatusCajon}">
+                    <f:selectItem itemLabel="Seleccionar estatus" itemValue="#{null}"/>
+                    <f:selectItems value="#{cajonEstacionamientoController.estatusCajon}" var="estat"
+                                   itemLabel="#{estat.descripcion}"/>
+                    <f:converter binding="#{estatusCajonConverter}"/>
+                </p:selectOneMenu>
+                <p:message for="estatus" style="color:red;"/>
+
+                <p:outputLabel value="Area del Estacionamiento" for="area" class="p-col-fixed"
+                               style="width:200px;"/>
+                <p:selectOneMenu id="area" value="#{cajonEstacionamientoController.cajonEstacionamiento.areaEstacionamiento}">
+                    <f:selectItem itemLabel="Seleccionar Area" itemValue="#{null}"/>
+                    <f:selectItems value="#{cajonEstacionamientoController.areasEstacionamiento}" var="are"
+                                   itemLabel="#{are.descripcion}"/>
+                    <f:converter binding="#{areaEstacionamientoConverter}"/>
+                </p:selectOneMenu>
+                <p:message for="area" style="color:red;"/>
+
+                <p:outputLabel value="Número" for="numero" class="p-col-fixed" style="width:200px;"/>
+                <p:inputText id="numero" value="#{cajonEstacionamientoController.cajonEstacionamiento.numero}"
+                             label="Número" required="true"/>
+                <p:message for="numero" style="color:red;"/>
+
+
+                <p:commandButton
+                        value="Guardar Cajón"
+                        action="#{cajonEstacionamientoController.guardar}"
+                        class="ui-button-outlined ui-button-success" update="@form tabla-cajones"
+                        style="width:100%"/>
+                <h:inputHidden value="#{cajonEstacionamientoController.cajonEstacionamiento.id}"/>
+
+
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+</ui:component>

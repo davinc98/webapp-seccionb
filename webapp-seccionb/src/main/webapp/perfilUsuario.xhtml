@@ -1,0 +1,155 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel header="PERFIL DE USUARIO">
+            <p:panelGrid columns="3"
+                         columnClasses="ui-grid-col-1,ui-grid-col-10,ui-grid-col-1"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         style="border:0px none; background-color:transparent; width=100%;">
+
+                <p:outputLabel value=""/>
+
+                <p:tabView>
+                    <p:tab title="Información Personal">
+
+                        <p:panelGrid columns="3"
+                                     columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+                                     layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                                     style="border:0px none; background-color:transparent; width=100%;">
+
+                            <p:panel header="Fotografía" toggleable="true" closable="false" toggleSpeed="500"
+                                     closeSpeed="500" collapsed="false" widgetVar="panelFoto"
+                                     style="text-align: left;">
+                                <h:graphicImage value="#{persona.fotoBase64}" style="width: 100%;"/>
+                            </p:panel>
+
+
+                            <p:panel header="Información Personal"
+                                     style="width: 100%;">
+                                <h:panelGrid columns="2" cellpadding="7">
+                                    <h:outputLabel value="Nombre: "/>
+                                    <h:outputLabel value="#{persona.nombre}" styleClass="ui-bold-text"/>
+
+                                    <p:outputLabel value="Apellido Paterno: "/>
+                                    <h:outputLabel value="#{persona.primerApellido}" styleClass="ui-bold-text"/>
+
+                                    <p:outputLabel value="Apellido Materno: "/>
+                                    <h:outputLabel value="#{persona.segundoApellido}" styleClass="ui-bold-text"/>
+
+                                    <p:outputLabel value="CURP: "/>
+                                    <h:outputLabel value="#{persona.curp}" styleClass="ui-bold-text"/>
+
+                                    <p:outputLabel value="Procedencia: "/>
+                                    <h:outputLabel value="#{estudiante.estadoProcedencia.descripcion}"
+                                                   styleClass="ui-bold-text"/>
+                                </h:panelGrid>
+                                <p:panel rendered="#{empty estudianteController.contactos}" style="text-align: center;">
+                                    <p:outputLabel value="Sin información de contacto"/>
+                                </p:panel>
+                            </p:panel>
+
+                            <p:panel header="Información de Contacto"
+                                     style="width: 100%;">
+                                <p:dataTable value="#{estudianteController.contactos}" var="cont"
+                                             rendered="#{not empty estudianteController.contactos}"
+                                             style="max-width:100%;" rows="30" editable="true">
+                                    <p:column>
+                                        <p:outputLabel value="#{cont.tipoContacto.descripcion}:" class="p-col-fixed"/>
+                                    </p:column>
+                                    <p:column style="text-align: left;">
+                                        <b>
+                                            <h:outputText value="#{cont.contacto}"/>
+                                        </b>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:linkButton outcome="gestionContactos"
+                                              value="Actualizar información de contacto" style="width:100%"
+                                              styleClass="ui-button-success">
+                                    <f:param name="idPersona" value="#{persona.id}"/>
+                                </p:linkButton>
+                            </p:panel>
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab title="Información Académica">
+
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-9,ui-grid-col-3"
+                                     layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                                     style="border:0px none; background-color:transparent; width=100%;">
+
+
+                            <p:panel header="Información Académica"
+                                     style="width: 100%;">
+                                <h:panelGrid columns="2" cellpadding="7">
+                                    <h:outputLabel value="Escuela: "/>
+                                    <h:outputLabel value="#{estudiante.escuela.nombre}" styleClass="ui-bold-text"/>
+
+                                    <p:outputLabel value="Carrera: "/>
+                                    <h:outputLabel value="#{estudiante.carrera.nombre}"
+                                                   styleClass="ui-bold-text"/>
+
+                                    <p:outputLabel value="Situación Escolar: "/>
+                                    <h:outputLabel value="#{estudiante.situacionEscolar.descripcion}"
+                                                   styleClass="ui-bold-text"/>
+                                </h:panelGrid>
+                            </p:panel>
+
+                            <p:card style="text-align: center; width: 100%;">
+                                <h:graphicImage value="resources/img/unam.png" style="width: 100%;"
+                                                rendered="#{estudiante.escuela.id==1}"/>
+
+                                <h:graphicImage value="resources/img/LOGOTIPO_IPN.png" style="width: 100%;"
+                                                rendered="#{estudiante.escuela.id==2}"/>
+
+                                <h:graphicImage value="resources/img/logo_UAM.png" style="width: 100%;"
+                                                rendered="#{estudiante.escuela.id==3}"/>
+
+                                <h:graphicImage value="resources/img/otro.PNG" style="width: 100%;"
+                                                rendered="#{estudiante.escuela.id>3}"/>
+
+                            </p:card>
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab title="Datos Institucionales">
+
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-3,ui-grid-col-9"
+                                     layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                                     style="border:0px none; background-color:transparent; width=100%;">
+
+                            <img src="resources/img/logoISB.PNG" style="width: 70%"/>
+
+                            <p:panel header="Usuario"
+                                     style="width: 100%;">
+                                <h:panelGrid columns="2" cellpadding="7">
+                                    <h:outputLabel value="Nombre de Usuario: "/>
+                                    <h:outputLabel value="#{estudiante.usuario}" styleClass="ui-bold-text"/>
+
+                                    <p:outputLabel value="Fecha de Ingreso: "/>
+                                    <h:outputLabel value="#{estudiante.fechaIngreso}"
+                                                   styleClass="ui-bold-text"/>
+                                </h:panelGrid>
+                                <p:divider/>
+                                <p:commandButton value="Restablecer contraseña"
+                                                 action="cambiarContrasena.xhtml" style="width:100%"
+                                                 styleClass="ui-button-success"/>
+                            </p:panel>
+
+                        </p:panelGrid>
+                    </p:tab>
+                </p:tabView>
+
+                <p:outputLabel value=""/>
+
+            </p:panelGrid>
+        </p:panel>
+
+
+    </ui:define>
+</ui:composition>

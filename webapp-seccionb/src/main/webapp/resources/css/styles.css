@@ -1,0 +1,43 @@
+.ui-menubar-general{
+    background-color: #263238 !important;
+}
+
+.ui-menubar-users{
+    background-color: #37474f !important;
+}
+
+.ui-white-text{
+color: white !important;
+}
+
+.ui-golden-text{
+color: #FFD700 !important;
+}
+
+.ui-gray-text{
+color: #CACBCB !important;
+}
+
+.ui-bold-text{
+font-weight: bold !important;
+}
+
+.showcase-text-align-center {
+        text-align: center !important;
+    }
+
+        .customPanelGrid .ui-panelgrid-content {
+            align-items: center;
+        }
+
+ .ui-text-big{
+    font-size: 24;
+ }
+
+ .p-menu-list:hover {
+     background-color: #34434B !important;
+ }
+
+ .ui-bar-porton{
+    background-color: #B0B8B4 !important;
+ }

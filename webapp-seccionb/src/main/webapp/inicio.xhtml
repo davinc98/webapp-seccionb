@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <style>
+    .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+        text-align: center;
+    }
+
+    .customPanelGrid .ui-panelgrid-content {
+        align-items: center;
+    }
+
+
+
+        </style>
+
+        <p:panelGrid columns="5"
+                     columnClasses="ui-grid-col-1,ui-grid-col-6,ui-grid-col-1,ui-grid-col-4,ui-grid-col-1"
+                     layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                     style="border:0px none; background-color:transparent; width=100%;">
+
+            <p:outputLabel value=""/>
+
+
+            <p:panel header="Bienvenido #{p:userPrincipal()}!" style="width: 100%; text-align:center;">
+                <p class="m-0">
+                    <p:imageSwitch effect="fade" id="fadeEffect">
+                        <ui:repeat value="#{carruselController.imagenesInicio}" var="image" id="fadeEffectImages">
+                            <img src="resources/img/carrusel/#{image}" style="width: 100%" class="product-image"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p>
+            </p:panel>
+
+
+            <p:outputLabel value=""/>
+
+            <p:panel header="Mis Guardias" style="width: 100%; text-align:center;">
+
+                <!--                <p:commandButton class="ui-button-info rounded-button" icon="pi pi-load"-->
+                <!--                                 process="@this"-->
+                <!--                                 action="#{rolGuardiasVigenteController.misGuardias(p:userPrincipal())}">-->
+                <!--                </p:commandButton>-->
+
+                <p:panel header="#{rolGuardiasVigenteController.mesActual.toUpperCase()} #{rolGuardiasVigenteController.anioActual}" style="text-align: center;">
+                    <p:dataTable id="guardias" var="guardia"
+                                 value="#{rolGuardiasVigenteController.misGuardias(p:userPrincipal())}"
+                                 style="border : 2px;text-align: center;">
+
+
+                        <p:column headerText="Día" style="width: 50px;">
+                            <p:commandButton type="button" value="#{guardia.dia}" styleClass="rounded-button ui-button-info ui-button-outlined"/>
+                        </p:column>
+
+                        <p:column headerText="Horario" style="width:100px;">
+                            <h:outputText value="#{guardia.horario}"/>
+                        </p:column>
+
+                        <p:column headerText="Tipo" style="width: 50px;">
+                            <p:commandButton type="button" value="#{guardia.tipoGuardia.nombre}"
+                                             styleClass="rounded-button ui-button-warning ui-button-outlined"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </p:panel>
+
+            <p:outputLabel value=""/>
+
+        </p:panelGrid>
+
+    </ui:define>
+</ui:composition>

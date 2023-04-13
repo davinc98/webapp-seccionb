@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel width="100%">
+            <h:form id="formDatosGenerales">
+                <p:panelGrid columns="3"
+                             columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
+                             layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                             style="border:0px none; background-color:transparent; width=100%;">
+
+                    <p:outputLabel value=""/>
+
+                    <p:panel header="FORMULARIO DE USUARIO" style="text-align: center;">
+
+                        <p:panel header="Datos Personales " width="100%">
+                            <h:panelGrid columns="3" width="100%"
+                                         layout="grid">
+                                <p:outputLabel value="Nombre" for="nombre" class="p-col-fixed" style="width:200px;"/>
+                                <p:inputText id="nombre" value="#{usuarioEstacionamiento.nombre}"
+                                             label="Nombre" required="true"/>
+                                <p:message for="nombre" style="color:red;"/>
+
+                                <p:outputLabel value="Apellido Paterno" for="primerApellido" class="p-col-fixed"
+                                               style="width:200px;"/>
+                                <p:inputText id="primerApellido" value="#{usuarioEstacionamiento.primerApellido}"
+                                             label="Apellido Paterno" required="true"/>
+                                <p:message for="primerApellido" style="color:red;"/>
+
+                                <p:outputLabel value="Apellido Materno" for="segundoApellido" class="p-col-fixed"
+                                               style="width:200px;"/>
+                                <p:inputText id="segundoApellido" value="#{usuarioEstacionamiento.segundoApellido}"
+                                             label="Apellido Materno" required="true"/>
+                                <p:message for="segundoApellido" style="color:red;"/>
+
+                                <p:outputLabel value="CURP" for="curp" class="p-col-fixed" style="width:200px;"/>
+                                <p:inputText id="curp" value="#{usuarioEstacionamiento.curp}" label="CURP"
+                                             required="true"/>
+                                <p:message for="curp" style="color:red;"/>
+
+                                <p:outputLabel value="Sexo" for="sexo" class="p-col-fixed"
+                                               style="width:200px;"/>
+                                <p:selectOneMenu id="sexo" value="#{usuarioEstacionamiento.sexo}">
+<!--                                    <f:selectItem itemLabel="Seleccionar Sexo" itemValue="#{null}"/>-->
+                                    <f:selectItem itemLabel="Hombre" itemValue="H"/>
+                                    <f:selectItem itemLabel="Mujer" itemValue="M"/>
+                                </p:selectOneMenu>
+                                <p:message for="sexo" style="color:red;"/>
+
+                            </h:panelGrid>
+                        </p:panel>
+
+<!--                        <p:panel header="Foto ">-->
+<!--                            <h:panelGrid columns="3" width="100%"-->
+<!--                                         layout="grid">-->
+
+<!--                                <p:outputLabel value="Foto"/>-->
+<!--                                <p:inputText id="foto" value="#{usuarioEstacionamiento.fotoBase64}" label="Foto"/>-->
+<!--                                <p:message for="foto" style="color:red;"/>-->
+
+<!--                                <p:outputLabel value="Foto"/>-->
+<!--                                <p:commandButton value="Subir Foto" class="btn btn-secondary"/>-->
+<!--                                <p:message for="foto" style="color:red;"/>-->
+
+<!--                            </h:panelGrid>-->
+<!--                        </p:panel>-->
+
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:linkButton outcome="gestionEstacionamiento" styleClass="ui-button-secondary" value="Regresar sin guardar"/>
+                            </p:toolbarGroup>
+                            <p:toolbarGroup align="right">
+                                <p:commandButton icon="pi pi-save" styleClass="ui-button-primary"
+                                                 update="@form formDatosGenerales"
+                                        value="#{usuarioEstacionamientoController.usuarioEstacionamientoId>0?msg['producto.boton.editar']:msg['producto.boton.crear']} usuario"
+                                                 action="#{usuarioEstacionamientoController.guardar}"/>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                        <h:inputHidden value="#{usuarioEstacionamiento.id}"/>
+                    </p:panel>
+
+                    <p:outputLabel value=""/>
+                </p:panelGrid>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,85 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="http://xmlns.jcp.org/jsf/html"
+              xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+              xmlns:f="http://xmlns.jcp.org/jsf/core"
+              xmlns:p="http://primefaces.org/ui">
+        <h:form id="formVerUsuario">
+
+
+            <p:panelGrid>
+                <p:row>
+
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: center" class="ui-widget-header">Datos Personales</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column colspan="3" class="sinborde"></p:column>
+                            </p:row>
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="3"
+                                     columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                                     layout="grid"
+                                     styleClass="ui-panelgrid-blank ui-fluid"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:column>
+                                <p:outputLabel for="nombre" value="Nombre: " />
+                                <p:outputLabel id="nombre" value="#{usuarioEstacionamiento.nombre}" class="texto"/>
+                            </p:column>
+
+                            <p:column>
+                                <p:outputLabel for="primerApellido" value="Apellido Paterno: " />
+                                <p:outputLabel id="primerApellido" value="#{usuarioEstacionamiento.primerApellido}" class="texto"/>
+                            </p:column>
+
+                            <p:column>
+                                <p:outputLabel for="segundoApellido" value="Apellido Materno" />
+                                <p:outputLabel id="segundoApellido" value="#{usuarioEstacionamiento.segundoApellido}" class="texto"/>
+                            </p:column>
+
+                            <p:column>
+                                <p:outputLabel for="curp" value="Curp: " />
+                                <p:outputLabel id="curp" value="#{usuarioEstacionamiento.curp}" class="texto"/>
+                            </p:column>
+
+                            <p:column>
+                                <p:outputLabel for="sexo" value="Sexo: "/>
+                                <p:outputLabel id="sexo" value="#{usuarioEstacionamiento.sexo}" class="texto"/>
+                            </p:column>
+
+                        </p:panelGrid>
+
+
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: center" class="ui-widget-header">Datos de Contacto</p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: center" class="ui-widget-header">Estado en el Sistema</p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column style="text-align: center" class="ui-widget-header">Vehiculos</p:column>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
+        <h:form>
+            <p:panelGrid>
+                <p:row>
+                    <p:column style="text-align: right">
+
+                        <p:commandButton value="Cerrar" action="# {usuarioEstacionamientoController.cerrarDialogo()}"
+                                         icon="pi pi-times"
+                                         onclick="PF('dialogForm').close()"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+</ui:component>

@@ -1,0 +1,92 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="http://xmlns.jcp.org/jsf/html"
+              xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+              xmlns:f="http://xmlns.jcp.org/jsf/core"
+              xmlns:p="http://primefaces.org/ui">
+        <h:form id="formVerVehiculo">
+
+            <style type="text/css">
+                .ui-widget {
+                    font-size: 90%;
+                }
+                .ui-widget-header{
+                    background-color: #e7e8e9 !important;
+                    border-color: #cacaca !important;
+                    font-weight: bold !important;
+                    color: black !important;
+                    text-align: left !important;
+                }
+                .sinborde{
+                    border-color: white !important;
+                }
+                .texto{
+                    font-weight: bold !important;
+                }
+            </style>
+            <p:panelGrid>
+                <p:row>
+
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: center" class="ui-widget-header">Datos del Vehiculo</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column colspan="3" class="sinborde"></p:column>
+                            </p:row>
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="3"
+                                     columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                                     layout="grid"
+                                     styleClass="ui-panelgrid-blank ui-fluid"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Matricula" for="matricula" class="p-col-fixed" style="width:200px;"/>
+                            <p:outputLabel id="matricula" value="#{vehiculo.matricula}"/>
+
+                            <p:outputLabel value="Marca" for="marca" class="p-col-fixed" style="width:200px;"/>
+                            <p:outputLabel id="marca" value="#{vehiculo.marca}"/>
+
+                            <p:outputLabel value="Modelo" for="modelo" class="p-col-fixed" style="width:200px;"/>
+                            <p:outputLabel id="modelo" value="#{vehiculo.modelo}"/>
+
+
+                            <p:outputLabel value="Año" for="anio" class="p-col-fixed" style="width:200px;"/>
+                            <p:outputLabel id="anio" value="#{vehiculo.anio}"/>
+
+
+                            <p:outputLabel value="Color" for="color" class="p-col-fixed" style="width:200px;"/>
+                            <p:outputLabel id="color" value="#{vehiculo.color}"/>
+
+                            <p:outputLabel value="Estado" for="estado" class="p-col-fixed"
+                                           style="width:200px;"/>
+                            <p:outputLabel id="estado" value="#{vehiculo.estadoProcedencia.descripcion}"/>
+
+
+                            <p:outputLabel value="Descripción" for="descripcion" class="p-col-fixed" style="width:200px;"/>
+                            <p:outputLabel id="descripcion" value="#{vehiculo.descripcion}"/>
+
+                        </p:panelGrid>
+
+
+                    </p:column>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
+        <h:form>
+            <p:panelGrid>
+                <p:row>
+                    <p:column style="text-align: right">
+
+                        <p:commandButton value="Cerrar" action="# {vehiculoController.cerrarDialogo()}"
+                                         icon="pi pi-times"
+                                         onclick="PF('dialogForm').close()"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+</ui:component>

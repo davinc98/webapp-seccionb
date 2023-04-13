@@ -1,0 +1,58 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="http://xmlns.jcp.org/jsf/html"
+              xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+              xmlns:f="http://xmlns.jcp.org/jsf/core"
+              xmlns:p="http://primefaces.org/ui">
+
+
+    <h:panelGrid columns="2" cellpadding="7">
+
+        <p:panel columns="1" style="width=100%;">
+            <img src="#{facesContext.externalContext.requestContextPath}/resources/img/profile/estacionamiento/profile.png"
+                 style="width:95%;"/>
+        </p:panel>
+
+        <h:panelGrid columns="2" cellpadding="7" style="width=100%;">
+            <h:outputLabel value="Nombre: "/>
+            <h:outputLabel value="Alejandra Perez Ruiz" styleClass="ui-bold-text"/>
+
+            <p:outputLabel value="Teléfono: "/>
+            <h:outputLabel value="667 245 6768" styleClass="ui-bold-text"/>
+
+            <p:outputLabel value="Correo: "/>
+            <h:outputLabel value="alejandra@mail.com" styleClass="ui-bold-text"/>
+
+            <p:outputLabel value="Estado en el sistema: "/>
+            <h:outputLabel value="Activo" styleClass="ui-bold-text"/>
+        </h:panelGrid>
+
+    </h:panelGrid>
+
+    <p:dataTable id="guardias" var="product" value="" rowKey=""
+                 selection="">
+        <f:facet name="header">
+            Vehiculo(s)
+        </f:facet>
+
+        <p:column headerText="Matrícula">
+            <h:outputText value="HJJ-6TG"/>
+        </p:column>
+        <p:column headerText="Tipo Tarjetón">
+            <h:outputText value="Canchas"/>
+        </p:column>
+        <p:column headerText="Ver">
+            <h:outputText value="Ver Vehículo"/>
+        </p:column>
+    </p:dataTable>
+
+
+    <div class="p-field p-grid">
+        <div class="p-col">
+            <p:commandButton
+                    value="Cerrar"
+                    class="ui-button-outlined ui-button-success"/>
+            <h:inputHidden value=""/>
+        </div>
+    </div>
+
+</ui:component>

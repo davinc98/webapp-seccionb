@@ -1,0 +1,47 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="http://xmlns.jcp.org/jsf/html"
+              xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+              xmlns:f="http://xmlns.jcp.org/jsf/core"
+              xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="formRolGuardias">
+
+        <h:panelGrid columns="3" width="100%"
+                     layout="grid">
+
+
+            <p:outputLabel value="Año:" for="anio" class="p-col-fixed" style="width:200px;"/>
+            <p:selectOneMenu id="anio" value="#{rolGuardiasController.rolGuardia.anio}" effect="fold"
+                             editable="false" required="true">
+                <f:selectItem itemLabel="Seleccionar Año" itemValue="#{null}"/>
+                <f:selectItems value="#{rolGuardiasController.anios}"/>
+            </p:selectOneMenu>
+            <p:message for="anio" style="color:red;"/>
+
+            <p:outputLabel value="Mes:" for="mes" class="p-col-fixed" style="width:200px;"/>
+            <p:selectOneMenu id="mes" value="#{rolGuardiasController.rolGuardia.mes}" effect="fold"
+                             editable="false" required="true">
+                <f:selectItem itemLabel="Seleccionar Mes" itemValue="#{null}"/>
+                <f:selectItems value="#{rolGuardiasController.meses}"/>
+            </p:selectOneMenu>
+            <p:message for="mes" style="color:red;"/>
+
+            <p:outputLabel value="Estatus:" for="estatus" class="p-col-fixed" style="width:200px;"/>
+            <p:selectOneMenu id="estatus" value="#{rolGuardiasController.rolGuardia.estatus}" required="true">
+                <!--                    <f:selectItem itemLabel="Seleccionar Estatus" itemValue="#{null}"/>-->
+                <f:selectItems value="#{rolGuardiasController.estatusRolGuardias}" var="estat"
+                               itemLabel="#{estat.descripcion}"/>
+                <f:converter binding="#{estatusRolGuardiaConverter}"/>
+            </p:selectOneMenu>
+            <p:message for="estatus" style="color:red;"/>
+
+        </h:panelGrid>
+        <p:commandButton
+                value="Guardar Rol de Guardias"
+                action="#{rolGuardiasController.guardar}"
+                update="formRolGuardias"
+                class="ui-button-outlined ui-button-success"
+                style="width:100%"/>
+        <h:inputHidden value="#{rolGuardiasController.rolGuardia.id}"/>
+    </h:form>
+</ui:component>

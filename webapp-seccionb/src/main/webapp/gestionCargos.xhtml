@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel header="GESTIÓN DE USUARIOS" style="width: 100%; text-align:center;">
+
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true"/>
+                <p:panel header="Activo" style="text-align: center;">
+
+                    <p:panelGrid columns="3"
+                                 columnClasses="ui-grid-col-1, ui-grid-col-10,ui-grid-col-1"
+                                 layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                                 style="border:0px none; background-color:transparent; width=100%;">
+
+                        <p:outputLabel value=""/>
+
+                        <p:panel header="Listado de Internos" id="panelEstudiantes">
+                            <p:dataTable id="tabla-estudiantes" value="#{cargosController.estudiantesCargos}"
+                                         var="estudCarg" rendered="#{not empty cargosController.estudiantesCargos}"
+                                         style="max-width:100%; text-align: left;" editable="true"
+                                         paginator="true" paginatorPosition="both" rows="10"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                                         rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+                                <p:ajax event="rowEdit" listener="#{cargosController.onRowEdit}" update=":form:msgs"/>
+                                <p:ajax event="rowEditCancel" listener="#{cargosController.onRowCancel}"
+                                        update=":form:msgs"/>
+
+                                <p:column headerText="ID" style="width: 20px;">
+                                    <h3>
+                                        <p:outputLabel value="#{estudCarg.id}"/>
+                                    </h3>
+                                </p:column>
+
+                                <p:column headerText="Nombre">
+                                    <h:outputText
+                                            value="#{cargosController.getPersonaEstudiante(estudCarg.estudianteId).primerApellido} #{cargosController.getPersonaEstudiante(estudCarg.estudianteId).segundoApellido} #{cargosController.getPersonaEstudiante(estudCarg.estudianteId).nombre}"/>
+                                </p:column>
+
+                                <p:column headerText="CURP">
+                                    <h:outputText
+                                            value="#{cargosController.getPersonaEstudiante(estudCarg.estudianteId).curp}"/>
+                                </p:column>
+
+                                <p:column headerText="Cargo" style="width:120px;">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{cargosController.getCargo(estudCarg.cargoId)}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:selectOneMenu id="cargo" value="#{cargosController.cargo}">
+                                                <!--                                                <f:selectItem itemLabel="Seleccionar" itemValue="#{null}"/>-->
+                                                <f:selectItems value="#{cargosController.cargos}" var="carg"
+                                                               itemLabel="#{carg.nombre}"/>
+                                                <f:converter binding="#{cargoConverter}"/>
+                                            </p:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column style="width:45px;">
+                                    <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+
+                        <p:outputLabel value=""/>
+                    </p:panelGrid>
+
+
+                </p:panel>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

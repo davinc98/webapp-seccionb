@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <style>
+    .ui-panelgrid .showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+        text-align: center !important;
+    }
+    .ui-panelgrid {
+        text-align: center !important;
+    }
+
+    .ui-grid-responsive .ui-panelgrid-cell {
+        text-align: center !important;
+    }
+
+    .customPanelGrid .ui-panelgrid-content {
+        align-items: center !important;
+    }
+
+
+
+
+        </style>
+
+        <p:panelGrid columns="5"
+                     columnClasses="ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-6,ui-grid-col-1"
+                     layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                     style="border:0px none; background-color:transparent; width=100%;">
+
+            <p:outputLabel value=""/>
+
+            <p:panelGrid style="margin-top: 5em;border: black solid 0px !important;" columns="1"
+                         columnClasses="ui-grid-col-12"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                <p:panel header="Iniciar Sesión" rendered="#{p:ifNoneGranted('ESTUDIANTE,DIRECTIVO,CONTROL_DETALL,CONTROL_ESTACIONAMIENTO,CONTROL_GUARDIAS')}">
+                    <form action="j_security_check" method="post" id="formLogin">
+                        <div class="field grid">
+                            <div class="col">
+                            <span class="ui-float-label">
+                            <p:inputText id="j_username" required="true" style="width:100%"/>
+                            <p:outputLabel for="j_username" value="Usuario"/>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="field grid">
+                            <div class="col">
+                            <span class="ui-float-label">
+                            <p:password id="j_password" required="true" style="width:100%"
+                                        onkeypress="if (event.keyCode == 13) { submit(); return false; }"/>
+                                <p:outputLabel for="j_password" value="Contraseña"/>
+                            </span>
+                            </div>
+                        </div>
+                        <p:button onclick="submit()"
+                                  value="Login"
+                                  class="ui-button-outlined ui-button-success"/>
+                    </form>
+                    <p:divider/>
+                    <center>
+                        <p:link outcome="restablecerContrasena.xhtml" value="¿Olvidaste tu contraseña?"/>
+                    </center>
+                </p:panel>
+                <p:panel header="Sesión Iniciada" rendered="#{p:ifAnyGranted('ESTUDIANTE,DIRECTIVO,CONTROL_DETALL,CONTROL_ESTACIONAMIENTO,CONTROL_GUARDIAS')}">
+                    <p:outputLabel value="Ya haz iniciado sesión."/>
+                    <p:divider/>
+                    <p:linkButton outcome="inicio" value="Ir al Inicio" styleClass="p-my-2"/>
+                </p:panel>
+            </p:panelGrid>
+
+            <p:outputLabel value=""/>
+
+            <p:panel header="IDEARIO"
+                    footer="XIII.- Si no puedes resolver una situación con dignidad y eficacia, pide ayuda a los que saben y pueden más que tú, pero no la compliques con tu orgullo o ineptitud."
+                    style="width: 100%;text-align:center;">
+                <p class="m-0">
+                    <h:graphicImage value="/resources/img/aguilaMural.PNG"
+                                    style="width:100%" alt="Vista Estacionamiento"/>
+                </p>
+            </p:panel>
+
+            <p:outputLabel value=""/>
+
+
+        </p:panelGrid>
+
+    </ui:define>
+</ui:composition>

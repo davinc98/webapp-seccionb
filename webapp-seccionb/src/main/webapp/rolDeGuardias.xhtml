@@ -1,0 +1,128 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+        <style>
+    .showcase-text-align-center {
+        text-align: center !important;
+    }
+
+    .customPanelGrid .ui-panelgrid-content {
+        align-items: center;
+    }
+
+
+
+
+        </style>
+
+        <div class="card">
+            <p:panelGrid columns="3"
+                         columnClasses="ui-grid-col-1,ui-grid-col-10,ui-grid-col-1"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         style="width=100%;">
+
+                <p:outputLabel value=""/>
+
+                <p:panel header="ROL DE GUARDIAS" style="text-align:center;">
+                    <h:panelGrid columns="3" styleClass="showcase-text-align-center" style="width: 100%;">
+                        <h:panelGrid columns="1" style="width: 100%;">
+                            <center>
+                                <img src="#{facesContext.externalContext.requestContextPath}/resources/img/logoisb.jfif"
+                                     style="width:100px;"/>
+                            </center>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" style="width: 100%;">
+                            <center>
+                                <p:outputLabel value="PENTATHLON DEPORTIVO MILITARIZADO UNIVERSITARIO "/>
+                                <p:outputLabel value="INTERNADO SECCIÓN B"/>
+                                <p:outputLabel value='"DR. GUSTAVO BAZ PRADA"'/>
+                                <p:outputLabel
+                                        value="ROL DE GUARDIAS CORRESPONDIENTE AL MES DE #{rolGuardiasVigenteController.mesActual.toUpperCase()} DEL #{rolGuardiasVigenteController.anioActual.toUpperCase()}"
+                                        styleClass="ui-bold-text"/>
+                            </center>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" style="width: 100%;">
+                            <center>
+                                <img src="#{facesContext.externalContext.requestContextPath}/resources/img/PDMU.png"
+                                     style="width:130px;"/>
+                            </center>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" style="width: 100%;">
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" style="width: 100%;">
+                            <p:dataTable id="guardias" var="guardia"
+                                         value="#{rolGuardiasVigenteController.guardiasDelRol}"
+                                         style="border : 2px;text-align: center;">
+
+                                <f:facet name="header">
+                                    <div class="flex justify-content-between align-items-center">
+
+                                        <p:commandButton value="Descargar en PDF" styleClass="ui-button-outlined ui-button-info">
+                                            <p:dataExporter type="pdf" target="guardias" fileName="rolGuardias"
+                                                            visibleOnly="true"/>
+                                        </p:commandButton>
+
+                                        <div>
+                                            <p:commandButton id="toggler" type="button" value="Columnas"
+                                                             styleClass="ui-button-outlined ui-button-secondary"
+                                                             icon="pi pi-align-justify"/>
+                                            <p:columnToggler datasource="guardias" trigger="toggler">
+                                                <p:ajax/>
+                                            </p:columnToggler>
+                                        </div>
+                                    </div>
+                                </f:facet>
+
+                                <p:column headerText="Día" style="width: 30px;">
+                                    <h:outputText value="#{guardia.dia}"/>
+                                </p:column>
+
+                                <p:column headerText="Nombre">
+                                    <h:outputText
+                                            value="#{guardia.persona.primerApellido} #{guardia.persona.segundoApellido} #{guardia.persona.nombre}"/>
+                                </p:column>
+
+                                <p:column headerText="Horario" style="width:120px;">
+                                    <h:outputText value="#{guardia.horario}"/>
+                                </p:column>
+
+                                <p:column headerText="Tipo" style="width: 30px;">
+                                    <h:outputText value="#{guardia.tipoGuardia.nombre}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" style="width: 100%;">
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" style="width: 100%;">
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" style="width: 100%; text-align: center;">
+                            <p:outputLabel value="ATENTAMENTE"/>
+
+                            <p:outputLabel value='"PATRIA, HONOR Y FUERZA"' styleClass="ui-bold-text"/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" style="width: 100%;">
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                </p:panel>
+
+                <p:outputLabel value=""/>
+
+            </p:panelGrid>
+        </div>
+    </ui:define>
+</ui:composition>

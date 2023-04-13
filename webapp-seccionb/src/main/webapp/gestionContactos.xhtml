@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="idPersona" value="#{contactoController.personaId}"/>
+            <f:viewAction action="#{contactoController.init}"/>
+        </f:metadata>
+
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:panel header="INFORMACIÓN DE CONTACTO" style="width: 100%; text-align: center;">
+                <p:panelGrid columns="4"
+                             columnClasses="ui-grid-col-1,ui-grid-col-3,ui-grid-col-7, ui-grid-col-1"
+                             layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                             style="border:0px none; background-color:transparent; width=100%;">
+
+                    <p:outputLabel value=""/>
+
+
+                    <p:panel header="Usuario" width="100%">
+                        <i class="pi pi-user" style="font-size: 6em; color: #94aebd;"></i>
+                        <br/>
+                        <p:divider/>
+                        <p:outputLabel
+                                value="#{contactoController.personaContacto.nombre.toUpperCase()} #{contactoController.personaContacto.primerApellido.toUpperCase()} #{contactoController.personaContacto.segundoApellido.toUpperCase()}"/>
+                        <p:divider/>
+                        <p:commandButton value="Agregar Contacto" class="p-my-2"
+                                         onclick="PF('dialogContactoForm').show()" icon="pi pi-plus">
+                            <p:resetInput target="formContacto"/>
+                        </p:commandButton>
+                    </p:panel>
+
+                    <p:panel header="Gestión de Contactos" width="100%">
+
+                        <p:panel rendered="#{empty contactoController.contactos}" style="text-align: center;">
+                            <p:outputLabel value="Sin información de contacto"/>
+                        </p:panel>
+
+                        <p:dataTable id="contactosPersona" value="#{contactoController.contactos}" var="cont"
+                                     rendered="#{not empty contactoController.contactos}"
+                                     style="max-width:100%;" rows="30" editable="true">
+
+                            <p:ajax event="rowEdit" listener="#{contactoController.onRowEdit}" update=":form:msgs"/>
+                            <p:ajax event="rowEditCancel" listener="#{contactoController.onRowCancel}"
+                                    update=":form:msgs"/>
+
+                            <p:column>
+                                <b>
+                                    <p:outputLabel value="#{cont.tipoContacto.descripcion}:" class="p-col-fixed"/>
+                                </b>
+                            </p:column>
+                            <p:column style="text-align: left;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{cont.contacto}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{cont.contacto}" style="width:100%" required="true"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:50px">
+                                <p:rowEditor editTitle="Editar" cancelTitle="Cancelar" saveTitle="Guardar"/>
+                            </p:column>
+
+                            <p:column style="width:50px">
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                                 process="@this"
+                                                 oncomplete="PF('deleteContactoDialog').show()">
+                                    <f:setPropertyActionListener value="#{cont}"
+                                                                 target="#{contactoController.contacto}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+
+                    <p:outputLabel value=""/>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <p:dialog header="CONTACTO"
+                  widgetVar="dialogContactoForm" minHeight="200" minWidth="500" showEffect="fade" modal="true">
+            <p:ajax event="close" listener="#{contactoController.cerrarDialogo}" update=":form:contactosPersona"/>
+            <ui:include src="formContacto.xhtml"/>
+        </p:dialog>
+
+        <h:form id="dialogos">
+
+            <p:confirmDialog widgetVar="deleteContactoDialog" showEffect="fade" width="300"
+                             message="¿Esta seguro que desea borrar el contacto?" header="Eliminar Contacto"
+                             severity="warn">
+                <p:commandButton value="Si" icon="pi pi-check" action="#{contactoController.eliminarContacto}"
+                                 process="@this" update=":form:contactosPersona"
+                                 oncomplete="PF('deleteContactoDialog').hide()"/>
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                 onclick="PF('deleteContactoDialog').hide()"/>
+            </p:confirmDialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

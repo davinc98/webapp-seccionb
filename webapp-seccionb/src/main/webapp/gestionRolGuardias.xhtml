@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="idRolGuardia" value="#{rolGuardiaController.rolGuardiaId}"/>
+            <f:viewAction action="#{rolGuardiaController.init}"/>
+        </f:metadata>
+
+
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:panel header="EDICIÓN: ROL DE GUARDIAS" style="width: 100%; text-align: center;">
+
+                <p:panelGrid columns="3"
+                             columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+                             layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                             style="border:0px none; background-color:transparent; width=100%;">
+
+<!--                    <p:panel header="Rol de Guardias" width="100%" style="text-align:center;">-->
+<!--                        <h:panelGrid columns="1" width="100%"-->
+<!--                                     layout="grid">-->
+
+<!--                            <p:outputLabel value="#{rolGuardiaController.rolGuardia.anio}"-->
+<!--                                           style="font-size: 1.5em; color: #94aebd;"/>-->
+
+<!--                            <p:outputLabel value="">-->
+<!--                                <i class="pi pi-calendar" style="font-size: 7em; color: #94aebd;"></i>-->
+<!--                            </p:outputLabel>-->
+
+<!--                            <p:outputLabel value="#{rolGuardiaController.rolGuardia.mes.toUpperCase()}"-->
+<!--                                           style="font-size: 1.5em; color: #259CC2;font-weight: bold;"/>-->
+<!--                            <p:divider/>-->
+
+<!--                            <p:outputLabel value="#{rolGuardiaController.rolGuardia.estatus.descripcion}"/>-->
+
+<!--                        </h:panelGrid>-->
+<!--                    </p:panel>-->
+
+
+                    <p:panel header="#{rolGuardiaController.rolGuardia.mes.toUpperCase()} #{rolGuardiaController.rolGuardia.anio}" style="text-align: center;">
+
+                        <!--                <p:toolbar>-->
+                        <!--                    <p:toolbarGroup>-->
+                        <!--                    </p:toolbarGroup>-->
+
+                        <!--                    <p:toolbarGroup align="right">-->
+                        <!--                    </p:toolbarGroup>-->
+                        <!--                </p:toolbar>-->
+
+                        <p:dataTable id="tabla-guardias" value="#{rolGuardiaController.guardiasDelRol}"
+                                     var="guardia" rendered="#{not empty rolGuardiaController.guardiasDelRol}"
+                                     style="max-width:100%;" editable="true">
+
+                            <p:ajax event="rowEdit" listener="#{rolGuardiaController.onRowEdit}" update=":form:msgs"/>
+                            <p:ajax event="rowEditCancel" listener="#{rolGuardiaController.onRowCancel}"
+                                    update=":form:msgs"/>
+
+                            <p:column headerText="Día" style="width: 20px;">
+                                <h3>
+                                    <p:outputLabel value="#{guardia.dia}"/>
+                                </h3>
+                            </p:column>
+
+                            <p:column headerText="Nombre">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{guardia.persona.primerApellido} #{guardia.persona.segundoApellido} #{guardia.persona.nombre}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu id="persona" value="#{guardia.persona}">
+                                            <f:selectItem itemLabel="Sin asignar" itemValue="#{null}"/>
+                                            <f:selectItems value="#{rolGuardiaController.personasEstudiantes}" var="pers"
+                                                           itemLabel="#{pers.primerApellido} #{pers.segundoApellido} #{pers.nombre}"/>
+                                            <f:converter binding="#{personaConverter}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Horario" style="width:120px;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{guardia.horario}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu id="horario" value="#{guardia.horario}">
+<!--                                            <f:selectItem itemLabel="Seleccionar" itemValue="#{null}"/>-->
+                                            <f:selectItems value="#{rolGuardiaController.horarios}" var="horario"
+                                                           itemLabel="#{horario}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Tipo" style="width:120px;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{guardia.tipoGuardia.descripcion}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu id="tipo" value="#{guardia.tipoGuardia}">
+<!--                                            <f:selectItem itemLabel="Seleccionar" itemValue="#{null}"/>-->
+                                            <f:selectItems value="#{rolGuardiaController.tiposGuardia}" var="tip"
+                                                           itemLabel="#{tip.descripcion}"/>
+                                            <f:converter binding="#{tipoGuardiaConverter}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:45px;">
+                                <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+
+<!--                    <p:panel header="Acciones " width="100%" style="text-align:center;">-->
+<!--                        <h:panelGrid columns="1" width="100%"-->
+<!--                                     layout="grid">-->
+<!--                            <p:outputLabel value="Solicitar revision"-->
+<!--                                           style="font-size: 1.5em; color: #94aebd;"/>-->
+<!--                        </h:panelGrid>-->
+<!--                    </p:panel>-->
+
+                </p:panelGrid>
+
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

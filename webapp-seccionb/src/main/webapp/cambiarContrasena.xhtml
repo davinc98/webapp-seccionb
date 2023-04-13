@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+
+
+        <div class="card">
+            <p:panelGrid columns="3"
+                         columnClasses="ui-grid-col-4, ui-grid-col-4,ui-grid-col-5,ui-grid-col-4"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         style="border:0px none; background-color:transparent; width=100%;">
+
+                <p:outputLabel value=""/>
+
+                <p:panel header="Cambiar Contraseña" style="margin-top: 1em; width: 100%;text-align:center;">
+                    <br/>
+
+                    <h:form id="frmCambiarContra">
+                        <p:outputLabel value="Introduzca la contraseña actual"/>
+                        <br/><br/>
+                        <div class="field grid">
+                            <div class="col">
+                            <span class="ui-float-label">
+                                <p:password id="passwordActual" value="#{restablecerContraseniaController.pwdActual}"
+                                            required="true" style="width:100%"/>
+                            <p:outputLabel for="passwordActual" value="Contraseña Actual"/>
+                            </span>
+                            </div>
+                        </div>
+
+                        <p:divider/>
+                        <p:outputLabel value="Introduzca la nueva contraseña"/>
+                        <br/><br/>
+                        <div class="field grid">
+                            <div class="col">
+                            <span class="ui-float-label">
+                                <p:password id="password" value="#{restablecerContraseniaController.pwd1}"
+                                            match="password2" required="true" style="width:100%"/>
+                            <p:outputLabel for="password" value="Nueva Contraseña"/>
+                            </span>
+                            </div>
+                        </div>
+
+                        <div class="field grid">
+                            <div class="col">
+                            <span class="ui-float-label">
+                                <p:password id="password2" value="#{restablecerContraseniaController.pwd2}"
+                                            required="true" style="width:100%"/>
+                            <p:outputLabel for="password2" value="Confirmar Contraseña"/>
+                            </span>
+                            </div>
+                        </div>
+
+                        <p:messages id="messages" showDetail="true">
+                            <p:autoUpdate/>
+                        </p:messages>
+
+                        <p:commandButton value="Restablecer Contraseña" style="width:100%"
+                                         action="#{restablecerContraseniaController.cambiarContrasenia(p:userPrincipal())}"
+                                         styleClass="ui-button-info"/>
+
+                    </h:form>
+                    <p:divider/>
+                    <h:form>
+                        <p:commandButton action="#{estudianteController.verInformacionPerfil(p:userPrincipal())}"
+                                         value="Regresar"
+                                         styleClass="ui-button-success"/>
+                    </h:form>
+                </p:panel>
+
+                <p:outputLabel value=""/>
+
+            </p:panelGrid>
+        </div>
+    </ui:define>
+</ui:composition>

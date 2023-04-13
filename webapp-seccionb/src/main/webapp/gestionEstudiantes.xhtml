@@ -1,0 +1,331 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layouts/main.xhtml">
+
+    <ui:define name="content">
+        <p:growl id="msgs" showDetail="true"/>
+
+        <p:panel header="GESTIÓN DE USUARIOS" style="width: 100%;text-align:center;">
+
+            <p:panelGrid columns="6"
+                         columnClasses="ui-grid-col-3, ui-grid-col-1,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+                         layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         style="border:0px none; background-color:transparent; width=100%;">
+
+
+                <p:panel header="ACTIVO">
+                    <img src="resources/img/logoISB.PNG" style="width: 60%"/>
+                    <p:divider/>
+                    Total:
+                    <h:outputText value=" #{estudianteController.estudiantesActivos.size()} "
+                                  style="font-weight: bold;font-size: 25px;"/>
+                    Estudiantes
+                </p:panel>
+
+                <h:outputText value=""/>
+
+                <p:panel header="UNAM">
+                    <img src="resources/img/unam.png" style="width: 100%"/>
+                    <p:divider/>
+                    <h:outputText value=" #{estudianteController.totalUnam} " style="font-weight: bold;"/>
+                    Estudiantes
+                </p:panel>
+
+                <p:panel header="IPN">
+                    <img src="resources/img/LOGOTIPO_IPN.png" style="width: 100%"/>
+                    <p:divider/>
+                    <h:outputText value=" #{estudianteController.totalIpn} " style="font-weight: bold;"/>
+                    Estudiantes
+                </p:panel>
+
+                <p:panel header="UAM">
+                    <img src="resources/img/logo_UAM.png" style="width: 100%"/>
+                    <p:divider/>
+                    <h:outputText value=" #{estudianteController.totalUam} " style="font-weight: bold;"/>
+                    Estudiantes
+                </p:panel>
+
+                <p:panel header="OTROS">
+                    <img src="resources/img/otro.PNG" style="width: 50%"/>
+                    <p:divider/>
+                    <h:outputText value=" #{estudianteController.totalOtros} " style="font-weight: bold;"/>
+                    Estudiantes
+                </p:panel>
+
+
+            </p:panelGrid>
+
+
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <h:form id="crearForm">
+                        <p:commandButton icon="pi pi-plus" value="Registrar Nuevo Estudiante"
+                                         action="#{estudianteController.crear()}"
+                                         class="btn btn-sm btn-success" style="margin-right: .5rem"/>
+                    </h:form>
+<!--                    <h:form id="enviarCorreosForm">-->
+<!--                        <p:commandButton id="send-mail-button" value="Enviar correo"-->
+<!--                                         icon="pi pi-trash" action="#{envioCorreoController.enviarCorreo('leojjosepf@gmail.com', 'Prueba ISB', 'Prueba')}"-->
+<!--                                         styleClass="ui-button-info"-->
+<!--                                         update="@this"/>-->
+<!--                    </h:form>-->
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right">
+                    <p:selectOneMenu id="opcionBusq" value="#{busquedaController.opcionBusqueda}">
+                        <f:selectItems value="#{busquedaController.opcionesBusquedaEstudiante}"/>
+                        <!--                        <p:ajax process="@this" listener="#{busquedaController.buscarEstudiante}" />-->
+                    </p:selectOneMenu>
+                    <h:form id="buscarForm">
+                        <p:inputText id="textoNombre" value="#{busquedaController.textoBuscar}"
+                                     placeholder="Buscar usuario...">
+                            <p:ajax listener="#{busquedaController.buscarEstudiante}"
+                                    event="keyup"
+                                    update="panelBusqueda"/>
+                        </p:inputText>
+                        <p:commandButton icon="pi pi-search" styleClass="ui-button-warning"/>
+                    </h:form>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+            <p:panel id="panelBusqueda">
+                <style type="text/css">
+                .ui-widget {
+                    font-size: 90%;
+                }
+                .ui-widget-header{
+                    background-color: #e7e8e9 !important;
+                    border-color: #cacaca !important;
+                    font-weight: bold !important;
+                    color: black !important;
+                }
+                .sinborde{
+                    border-color: white !important;
+                }
+                .texto{
+                    font-weight: bold !important;
+                }
+
+                </style>
+                <p:panel header="Resultados de Busqueda"
+                         style="text-align: center;" rendered="#{not empty busquedaController.estudiantesBuscar}">
+                    <p:dataTable id="tablaEstudiantesBuscar" value="#{busquedaController.estudiantesBuscar}" var="est"
+                                 style="max-width:100%;" rows="5">
+
+                        <p:column headerText="Nombre">
+                            <h:outputText
+                                    value="#{est.persona.nombre} #{est.persona.primerApellido} #{est.persona.segundoApellido}"/>
+                        </p:column>
+                        <p:column headerText="Procedencia">
+                            <h:outputText value="#{est.estadoProcedencia.descripcion}"/>
+                        </p:column>
+                        <p:column headerText="Escuela">
+                            <h:outputText value="#{est.escuela.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Fecha de Ingreso">
+                            <h:outputText value="#{est.fechaIngreso}"/>
+                        </p:column>
+                        <p:column headerText="Contactos" style="width:60px">
+                            <p:linkButton outcome="gestionContactos" class="btn btn-sm btn-success" icon="pi pi-book">
+                                <f:param name="idPersona" value="#{est.persona.id}"/>
+                            </p:linkButton>
+                        </p:column>
+                        <p:column headerText="Editar" style="width:60px">
+                            <h:form>
+                                <p:commandButton action="#{estudianteController.editar(est.id, est.persona.id)}"
+                                                 class="btn btn-sm btn-success" icon="pi pi-user-edit"/>
+                            </h:form>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </p:panel>
+
+
+            <p:panel header="Activo" toggleable="true" closable="false" toggleSpeed="500"
+                     closeSpeed="500" widgetVar="panelActivo" style="text-align: left;">
+
+                <p:dataTable id="tablaEstudiantes" value="#{estudianteController.estudiantesActivos}" var="est"
+                             rendered="#{not empty estudianteController.estudiantesActivos}"
+                             style="max-width:100%;" rows="10"
+                             rowKey="#{est.id}"
+                             paginator="true" paginatorPosition="both"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                             rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+                    <p:column selectionMode="multiple" exportable="false" style="width: 30px;"></p:column>
+
+                    <p:column headerText="Nombre">
+                        <h:outputText
+                                value="#{est.persona.nombre} #{est.persona.primerApellido} #{est.persona.segundoApellido}"/>
+                    </p:column>
+
+                    <p:column headerText="Procedencia">
+                        <h:outputText value="#{est.estadoProcedencia.descripcion}"/>
+                    </p:column>
+
+                    <p:column headerText="Escuela">
+                        <h:outputText value="#{est.escuela.nombre}"/>
+                    </p:column>
+
+                    <p:column headerText="Fecha de Ingreso">
+                        <h:outputText value="#{est.fechaIngreso}"/>
+                    </p:column>
+
+                    <p:column headerText="Contactos" style="width:60px">
+                        <p:linkButton outcome="gestionContactos" class="btn btn-sm btn-success" icon="pi pi-book">
+                            <f:param name="idPersona" value="#{est.persona.id}"/>
+                        </p:linkButton>
+                    </p:column>
+
+                    <p:column headerText="Editar" style="width:60px">
+                        <h:form>
+                            <p:commandButton action="#{estudianteController.editar(est.id, est.persona.id)}"
+                                             class="btn btn-sm btn-success" icon="pi pi-user-edit"/>
+                        </h:form>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel header="Egresado" toggleable="true" closable="false" toggleSpeed="500"
+                     closeSpeed="500" collapsed="true" widgetVar="panelEgresados"
+                     rendered="#{not empty estudianteController.estudiantesEsgresados}"
+                     style="text-align: left;">
+
+                <p:dataTable id="tablaEstudiantesEgresados" value="#{estudianteController.estudiantesEsgresados}"
+                             var="est"
+                             style="max-width:100%;" rows="10"
+                             paginator="true" paginatorPosition="both"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                             rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+                    <p:column headerText="Nombre">
+                        <h:outputText
+                                value="#{est.persona.nombre} #{est.persona.primerApellido} #{est.persona.segundoApellido}"/>
+                    </p:column>
+
+                    <p:column headerText="Procedencia">
+                        <h:outputText value="#{est.estadoProcedencia.descripcion}"/>
+                    </p:column>
+
+                    <p:column headerText="Escuela">
+                        <h:outputText value="#{est.escuela.nombre}"/>
+                    </p:column>
+
+                    <p:column headerText="Fecha de Ingreso">
+                        <h:outputText value="#{est.fechaIngreso}"/>
+                    </p:column>
+
+                    <p:column headerText="Contactos" style="width:60px">
+                        <p:linkButton outcome="gestionContactos" class="btn btn-sm btn-success" icon="pi pi-book">
+                            <f:param name="idPersona" value="#{est.persona.id}"/>
+                        </p:linkButton>
+                    </p:column>
+
+                    <p:column headerText="Editar" style="width:60px">
+                        <h:form id="editarForm">
+                            <p:commandButton action="#{estudianteController.editar(est.id, est.persona.id)}"
+                                             class="btn btn-sm btn-success" icon="pi pi-user-edit"/>
+                        </h:form>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel header="Baja Temporal" toggleable="true" closable="false" toggleSpeed="500"
+                     closeSpeed="500" collapsed="true" widgetVar="panelBajaTemporal"
+                     rendered="#{not empty estudianteController.estudiantesBajaTemporal}" style="text-align: left;">
+
+                <p:dataTable id="tablaEstudiantesBajaTemporal" value="#{estudianteController.estudiantesBajaTemporal}"
+                             var="est"
+                             style="max-width:100%;" rows="10"
+                             paginator="true" paginatorPosition="both"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                             rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+                    <p:column headerText="Nombre">
+                        <h:outputText
+                                value="#{est.persona.nombre} #{est.persona.primerApellido} #{est.persona.segundoApellido}"/>
+                    </p:column>
+
+                    <p:column headerText="Procedencia">
+                        <h:outputText value="#{est.estadoProcedencia.descripcion}"/>
+                    </p:column>
+
+                    <p:column headerText="Escuela">
+                        <h:outputText value="#{est.escuela.nombre}"/>
+                    </p:column>
+
+                    <p:column headerText="Fecha de Ingreso">
+                        <h:outputText value="#{est.fechaIngreso}"/>
+                    </p:column>
+
+                    <p:column headerText="Contactos" style="width:60px">
+                        <p:linkButton outcome="gestionContactos" class="btn btn-sm btn-success" icon="pi pi-book">
+                            <f:param name="idPersona" value="#{est.persona.id}"/>
+                        </p:linkButton>
+                    </p:column>
+
+                    <p:column headerText="Editar" style="width:60px">
+                        <h:form id="editarForm">
+                            <p:commandButton action="#{estudianteController.editar(est.id, est.persona.id)}"
+                                             class="btn btn-sm btn-success" icon="pi pi-user-edit"/>
+                        </h:form>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+
+            <p:panel header="Baja Definitiva" toggleable="true" closable="false" toggleSpeed="500"
+                     closeSpeed="500" collapsed="true" widgetVar="panelBajaDefinitiva"
+                     rendered="#{not empty estudianteController.estudiantesBajaDefinitiva}" style="text-align: left;">
+
+                <p:dataTable id="tablaEstudiantesBajaDefinitiva"
+                             value="#{estudianteController.estudiantesBajaDefinitiva}" var="est"
+                             style="max-width:100%;" rows="10"
+                             paginator="true" paginatorPosition="both"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                             rowsPerPageTemplate="5,10,{ShowAll|'Todo'}">
+
+                    <p:column headerText="Nombre">
+                        <h:outputText
+                                value="#{est.persona.nombre} #{est.persona.primerApellido} #{est.persona.segundoApellido}"/>
+                    </p:column>
+
+                    <p:column headerText="Procedencia">
+                        <h:outputText value="#{est.estadoProcedencia.descripcion}"/>
+                    </p:column>
+
+                    <p:column headerText="Escuela">
+                        <h:outputText value="#{est.escuela.nombre}"/>
+                    </p:column>
+
+                    <p:column headerText="Fecha de Ingreso">
+                        <h:outputText value="#{est.fechaIngreso}"/>
+                    </p:column>
+
+                    <p:column headerText="Contactos" style="width:60px">
+                        <p:linkButton outcome="gestionContactos" class="btn btn-sm btn-success" icon="pi pi-book">
+                            <f:param name="idPersona" value="#{est.persona.id}"/>
+                        </p:linkButton>
+                    </p:column>
+
+                    <p:column headerText="Editar" style="width:60px">
+                        <h:form id="editarForm">
+                            <p:commandButton action="#{estudianteController.editar(est.id, est.persona.id)}"
+                                             class="btn btn-sm btn-success" icon="pi pi-user-edit"/>
+                        </h:form>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+        </p:panel>
+
+    </ui:define>
+</ui:composition>
