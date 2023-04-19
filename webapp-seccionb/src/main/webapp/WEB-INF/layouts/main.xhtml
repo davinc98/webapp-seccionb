@@ -43,28 +43,28 @@
                 </p:menuitem>
 
                 <f:facet name="options">
-                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}">
+                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO')}">
                         <p:commandButton action="#{estudianteController.verInformacionPerfil(p:userPrincipal())}" icon="pi pi-user"
                                          styleClass="rounded-button ui-button-info ui-button-outlined"/>
                     </p:menuitem>
                 </f:facet>
 
                 <f:facet name="options">
-                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}">
+                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO')}">
                         <p:commandButton action="#{estudianteController.verInformacionPerfil(p:userPrincipal())}" value="#{p:userPrincipal()}"
                                          styleClass="rounded-button ui-button-info ui-button-flat"/>
                     </p:menuitem>
                 </f:facet>
                 
                  <f:facet name="options">
-                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}">
+                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO')}">
                         <p:commandButton action="#{logoutController.logout}" value="Salir"
                                          icon="pi pi-fw pi-sign-out"
                                          styleClass="rounded-button ui-button-secondary ui-button-flat"/>
                     </p:menuitem>
                 </f:facet>
                 <f:facet name="options">
-                    <p:menuitem rendered="#{p:ifNoneGranted('INTERNO,DIRECTIVO,CONTROL')}">
+                    <p:menuitem rendered="#{p:ifNoneGranted('INTERNO')}">
                         <p:commandButton action="login" value="Iniciar Sesión" icon="pi pi-fw pi-log-in"
                                          styleClass="ui-button-outlined ui-button-secondary"/>
                     </p:menuitem>
@@ -96,37 +96,37 @@
                     <h:outputText value="Inicio" styleClass="ui-gray-text"/>
                 </p:menuitem>
 
-                <p:menuitem outcome="gestionINTERNOs" rendered="#{p:ifAnyGranted('CONTROL_DETALL')}"
+                <p:menuitem outcome="gestionINTERNOs" rendered="#{p:ifAnyGranted('INTERNO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Gestion de Usuarios" styleClass="ui-gray-text"/>
                 </p:menuitem>
-                <p:menuitem outcome="gestionGuardias" rendered="#{p:ifAnyGranted('CONTROL_GUARDIAS')}"
+                <p:menuitem outcome="gestionGuardias" rendered="#{p:ifAnyGranted('INTERNO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Gestion de Guardias" styleClass="ui-gray-text"/>
                 </p:menuitem>
-                <p:menuitem outcome="gestionEstacionamiento" rendered="#{p:ifAnyGranted('CONTROL_ESTACIONAMIENTO')}"
+                <p:menuitem outcome="gestionEstacionamiento" rendered="#{p:ifAnyGranted('INTERNO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Gestion de Estacionamiento" styleClass="ui-gray-text"/>
                 </p:menuitem>
-                <p:menuitem outcome="gestionCargos" rendered="#{p:ifAnyGranted('DIRECTIVO')}"
+                <p:menuitem outcome="gestionCargos" rendered="#{p:ifAnyGranted('INTERNO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Gestion de Usuarios" styleClass="ui-gray-text"/>
                 </p:menuitem>
 
                 <p:menuitem outcome="rolDeGuardias"
-                            rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}"
+                            rendered="#{p:ifAnyGranted('INTERNO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Rol de Guardias" styleClass="ui-gray-text"/>
                 </p:menuitem>
 
                 <p:menuitem outcome="guardia"
-                            rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}"
+                            rendered="#{p:ifAnyGranted('INTERNO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Guardia" styleClass="ui-gray-text"/>
                 </p:menuitem>
 
                 <p:menuitem outcome="estacionamiento"
-                            rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}"
+                            rendered="#{p:ifAnyGranted('INTERNO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Estacionamiento" styleClass="ui-gray-text"/>
                 </p:menuitem>
@@ -138,24 +138,10 @@
 
         <div class="p-mb-2">
             <p:growl id="messages"/>
-            <!--            <p:messages globalOnly="true" closable="true">-->
-            <!--                <p:autoUpdate/>-->
-            <!--            </p:messages>-->
-
 
             <ui:insert name="content"/>
         </div>
 
-        <!--        <p:divider/>-->
-
-        <!--        <div class="p-mb-2">-->
-        <!--            <footer style="clear: both;">-->
-        <!--                <p style="text-align: center;">-->
-        <!--                    <h:outputText value="#{msg['footer.texto.autor']}"/>-->
-        <!--                </p>-->
-        <!--                &lt;!&ndash;                    <ui:insert name="js"/>&ndash;&gt;-->
-        <!--            </footer>-->
-        <!--        </div>-->
     </h:body>
 
 </f:view>

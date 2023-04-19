@@ -14,11 +14,11 @@ public class CajonEstacionamiento {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "cat_estatus_cajon_id")
+    @JoinColumn(name = "estatus_cajon_id")
     private EstatusCajon estatusCajon;
 
     @OneToOne
-    @JoinColumn(name = "cat_area_id")
+    @JoinColumn(name = "area_id")
     private AreaEstacionamiento areaEstacionamiento;
 
     @Column(name = "numero")

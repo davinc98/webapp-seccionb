@@ -6,12 +6,12 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cat_area")
+@Table(name = "cat_areas")
 public class AreaEstacionamiento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_area_id")
+    @Column(name = "area_id")
     private Long id;
 
     @Column(name = "descripcion")

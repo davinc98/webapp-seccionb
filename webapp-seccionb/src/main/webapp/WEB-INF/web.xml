@@ -41,10 +41,7 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>INTERNO</role-name>
-            <role-name>DIRECTIVO</role-name>
-            <role-name>CONTROL</role-name>
-            <role-name>JEFE_PRUEBA</role-name>
-            <role-name>JEFE_CUADRA</role-name>
+            <role-name>EGRESADO</role-name>
         </auth-constraint>
     </security-constraint>
 
