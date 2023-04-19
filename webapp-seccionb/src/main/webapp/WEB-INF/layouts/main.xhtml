@@ -28,34 +28,64 @@
                 <p:menuitem>
                     <h:link outcome="#">
                         <img src="#{facesContext.externalContext.requestContextPath}/resources/img/infanteria_dorado.svg"
-                             style="width:40px;"/>
+                             style="width:1em;"/>
                     </h:link>
                 </p:menuitem>
                 <p:menuitem outcome="inicio">
                     <b>
                         <h:outputText value='Internado Sección "B"' styleClass="ui-white-text"/>
                     </b>
-                    <br/>
-                    <h:outputText value='"Dr. Gustavo Baz Prada"' styleClass="ui-white-text"/>
                 </p:menuitem>
                 <p:divider layout="vertical"/>
                 <p:menuitem>
-                    <h:outputText value="SISTEMA DE CONTROL DE ACCESO VEHICULAR" styleClass="ui-golden-text"/>
+                    <h:outputText value='"Dr. Gustavo Baz Prada"' styleClass="ui-white-text"/>
+                    <!--<h:outputText value="SISTEMA DE CONTROL DE ACCESO VEHICULAR" styleClass="ui-golden-text"/>-->
                 </p:menuitem>
 
                 <f:facet name="options">
-                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}">
-                        <p:commandButton action="#{INTERNOController.verInformacionPerfil(p:userPrincipal())}" icon="pi pi-user"
+                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}">
+                        <p:commandButton action="#{estudianteController.verInformacionPerfil(p:userPrincipal())}" icon="pi pi-user"
                                          styleClass="rounded-button ui-button-info ui-button-outlined"/>
                     </p:menuitem>
                 </f:facet>
 
                 <f:facet name="options">
-                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}">
-                        <p:commandButton action="#{INTERNOController.verInformacionPerfil(p:userPrincipal())}" value="#{p:userPrincipal()}"
+                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}">
+                        <p:commandButton action="#{estudianteController.verInformacionPerfil(p:userPrincipal())}" value="#{p:userPrincipal()}"
                                          styleClass="rounded-button ui-button-info ui-button-flat"/>
                     </p:menuitem>
                 </f:facet>
+                
+                 <f:facet name="options">
+                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}">
+                        <p:commandButton action="#{logoutController.logout}" value="Salir"
+                                         icon="pi pi-fw pi-sign-out"
+                                         styleClass="rounded-button ui-button-secondary ui-button-flat"/>
+                    </p:menuitem>
+                </f:facet>
+                <f:facet name="options">
+                    <p:menuitem rendered="#{p:ifNoneGranted('INTERNO,DIRECTIVO,CONTROL')}">
+                        <p:commandButton action="login" value="Iniciar Sesión" icon="pi pi-fw pi-log-in"
+                                         styleClass="ui-button-outlined ui-button-secondary"/>
+                    </p:menuitem>
+                </f:facet>
+
+            </p:menubar>
+        </h:form>
+        
+        <h:form>
+            <p:menubar styleClass="ui-menubar-comun" rendered="#{empty p:userPrincipal()}">
+                <p:menuitem outcome="inicio">
+                    <h:outputText value="Inicio" styleClass="ui-gray-text"/>
+                </p:menuitem>
+
+               <p:menuitem outcome="inicio">
+                    <h:outputText value="Nosotros" styleClass="ui-gray-text"/>
+                </p:menuitem>
+           
+                <p:menuitem outcome="inicio">
+                    <h:outputText value="Ingreso" styleClass="ui-gray-text"/>
+                </p:menuitem>
 
             </p:menubar>
         </h:form>
@@ -84,36 +114,24 @@
                 </p:menuitem>
 
                 <p:menuitem outcome="rolDeGuardias"
-                            rendered="#{p:ifAnyGranted('INTERNO,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}"
+                            rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Rol de Guardias" styleClass="ui-gray-text"/>
                 </p:menuitem>
 
                 <p:menuitem outcome="guardia"
-                            rendered="#{p:ifAnyGranted('INTERNO,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}"
+                            rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Guardia" styleClass="ui-gray-text"/>
                 </p:menuitem>
 
                 <p:menuitem outcome="estacionamiento"
-                            rendered="#{p:ifAnyGranted('INTERNO,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}"
+                            rendered="#{p:ifAnyGranted('INTERNO,CONTROL,DIRECTIVO')}"
                             styleClass="ui-white-text">
                     <h:outputText value="Estacionamiento" styleClass="ui-gray-text"/>
                 </p:menuitem>
 
-                <f:facet name="options">
-                    <p:menuitem rendered="#{p:ifAnyGranted('INTERNO,CONTROL_DETALL,CONTROL_GUARDIAS,CONTROL_ESTACIONAMIENTO,DIRECTIVO')}">
-                        <p:commandButton action="#{logoutController.logout}" value="Salir"
-                                         icon="pi pi-fw pi-sign-out"
-                                         styleClass="rounded-button ui-button-secondary ui-button-flat"/>
-                    </p:menuitem>
-                </f:facet>
-                <f:facet name="options">
-                    <p:menuitem rendered="#{p:ifNoneGranted('INTERNO,DIRECTIVO,CONTROL_DETALL,CONTROL_ESTACIONAMIENTO,CONTROL_GUARDIAS')}">
-                        <p:commandButton action="login" value="Iniciar Sesión" icon="pi pi-fw pi-log-in"
-                                         styleClass="ui-button-outlined ui-button-secondary"/>
-                    </p:menuitem>
-                </f:facet>
+               
 
             </p:menubar>
         </h:form>
