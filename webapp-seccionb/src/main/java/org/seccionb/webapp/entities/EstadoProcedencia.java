@@ -11,7 +11,7 @@ public class EstadoProcedencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_estado_procedencia_id")
+    @Column(name = "estado_procedencia_id")
     private Long id;
 
     @Column(name = "descripcion")
@@ -55,6 +55,13 @@ public class EstadoProcedencia {
         if (o == null || getClass() != o.getClass()) return false;
         EstadoProcedencia that = (EstadoProcedencia) o;
         return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
     }
 
 }

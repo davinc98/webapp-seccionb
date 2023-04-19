@@ -2,8 +2,6 @@ package org.seccionb.webapp.controllers;
 
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.inject.Model;
-import jakarta.enterprise.inject.Produces;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -17,7 +15,6 @@ import org.seccionb.webapp.services.EstudianteService;
 import org.seccionb.webapp.services.PersonaService;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 
 @ViewScoped
@@ -28,7 +25,7 @@ public class CargosController implements Serializable {
     private FacesContext facesContext;
 
     private Long estudianteId;
-    private Estudiante estudiante;
+    private Interno interno;
 
     private Long personaId;
     private Persona persona;
@@ -38,9 +35,9 @@ public class CargosController implements Serializable {
     private Cargo cargo;
 
 
-    private List<Estudiante> estudiantes;
+    private List<Interno> internos;
 
-    private List<EstudianteCargo> estudiantesCargos;
+    private List<InternoCargo> estudiantesCargos;
 
     private List<Cargo> cargos;
 
@@ -66,7 +63,7 @@ public class CargosController implements Serializable {
 
         this.cargos = cargoService.listar();
         persona = new Persona();
-        estudiante = new Estudiante();
+        interno = new Interno();
         cargo = new Cargo();
     }
 
@@ -89,8 +86,8 @@ public class CargosController implements Serializable {
 
 
 
-    public void onRowEdit(RowEditEvent<EstudianteCargo> event) {
-        EstudianteCargo temp = event.getObject();
+    public void onRowEdit(RowEditEvent<InternoCargo> event) {
+        InternoCargo temp = event.getObject();
         System.out.println("EstudianteCargo a editar: "+temp);
         temp.setCargoId(cargo.getId());
         estudianteCargoService.guardar(temp);
@@ -98,7 +95,7 @@ public class CargosController implements Serializable {
                 new FacesMessage("Estudiante actalizado",String.format("["+event.getObject().getId()+"]")));
     }
 
-    public void onRowCancel(RowEditEvent<EstudianteCargo> event) {
+    public void onRowCancel(RowEditEvent<InternoCargo> event) {
         facesContext.addMessage(null,
                 new FacesMessage("Sin cambios",String.format("["+event.getObject().getId()+"]")));
     }
@@ -129,12 +126,12 @@ public class CargosController implements Serializable {
         this.cargoId = cargoId;
     }
 
-    public List<Estudiante> getEstudiantes() {
-        return estudiantes;
+    public List<Interno> getEstudiantes() {
+        return internos;
     }
 
-    public void setEstudiantes(List<Estudiante> estudiantes) {
-        this.estudiantes = estudiantes;
+    public void setEstudiantes(List<Interno> internos) {
+        this.internos = internos;
     }
 
     public List<Cargo> getCargos() {
@@ -145,12 +142,12 @@ public class CargosController implements Serializable {
         this.cargos = cargos;
     }
 
-    public Estudiante getEstudiante() {
-        return estudiante;
+    public Interno getEstudiante() {
+        return interno;
     }
 
-    public void setEstudiante(Estudiante estudiante) {
-        this.estudiante = estudiante;
+    public void setEstudiante(Interno interno) {
+        this.interno = interno;
     }
 
     public Persona getPersona() {
@@ -169,11 +166,11 @@ public class CargosController implements Serializable {
         this.cargo = cargo;
     }
 
-    public List<EstudianteCargo> getEstudiantesCargos() {
+    public List<InternoCargo> getEstudiantesCargos() {
         return estudiantesCargos;
     }
 
-    public void setEstudiantesCargos(List<EstudianteCargo> estudiantesCargos) {
+    public void setEstudiantesCargos(List<InternoCargo> estudiantesCargos) {
         this.estudiantesCargos = estudiantesCargos;
     }
 }

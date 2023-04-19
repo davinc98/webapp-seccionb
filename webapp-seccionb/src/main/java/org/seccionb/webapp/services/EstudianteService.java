@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Local
 public interface EstudianteService {
-    List<Estudiante> listar();
-    Optional<Estudiante> porId(Long id);
-    void guardar(Estudiante estudiante);
+    List<Interno> listar();
+    Optional<Interno> porId(Long id);
+    void guardar(Interno interno);
     void eliminar(Long id);
 
     List<Escuela> listarEscuelas();
@@ -34,21 +34,21 @@ public interface EstudianteService {
 
     Persona getPersonaPorIdEstudiante(Long id);
 
-    Estudiante getEstudiantePorNombreUsuario(String username);
+    Interno getEstudiantePorNombreUsuario(String username);
 
-    List<EstatusEstudiante> listarEstatusEstudiantes();
+    List<EstatusInterno> listarEstatusEstudiantes();
 
-    Optional<EstatusEstudiante> porIdEstatusEstudiante(Long id);
+    Optional<EstatusInterno> porIdEstatusEstudiante(Long id);
 
-    List<Estudiante> listarEstudiantesActivos();
+    List<Interno> listarEstudiantesActivos();
 
-    List<Estudiante> listarEstudiantesEgresados();
+    List<Interno> listarEstudiantesEgresados();
 
-    List<Estudiante> listarEstudiantesBajaTemporal();
+    List<Interno> listarEstudiantesBajaTemporal();
 
-    List<Estudiante> listarEstudiantesBajaDefinitiva();
+    List<Interno> listarEstudiantesBajaDefinitiva();
 
-    List<Estudiante> getEstudiantesPorCurp(String curp);
+    List<Interno> getEstudiantesPorCurp(String curp);
 
-    Estudiante getEstudiantePorIdPersona(Long personaId);
+    Interno getEstudiantePorIdPersona(Long personaId);
 }

@@ -19,7 +19,7 @@ public class Contacto implements Serializable {
     private Long personaId;
 
     @OneToOne
-    @JoinColumn(name = "cat_tipo_contacto_id")
+    @JoinColumn(name = "tipo_contacto_id")
     private TipoContacto tipoContacto;
 
     @Column(name = "contacto")

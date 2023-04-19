@@ -16,42 +16,42 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
 
 
     @Override
-    public List<Estudiante> listar() {
+    public List<Interno> listar() {
         return em.createQuery("SELECT e FROM Estudiante e " +
                 "LEFT OUTER JOIN FETCH e.persona " +
                 "LEFT OUTER JOIN FETCH e.escuela " +
                 "LEFT OUTER JOIN FETCH e.carrera " +
                 "LEFT OUTER JOIN FETCH e.estatusEstudiante " +
                 "LEFT OUTER JOIN FETCH e.estadoProcedencia " +
-                "LEFT OUTER JOIN FETCH e.situacionEscolar ORDER BY e.id DESC", Estudiante.class).getResultList();
+                "LEFT OUTER JOIN FETCH e.situacionEscolar ORDER BY e.id DESC", Interno.class).getResultList();
     }
 
     @Override
-    public Estudiante porId(Long id) {
+    public Interno porId(Long id) {
         return em.createQuery("SELECT e FROM Estudiante e " +
                         "LEFT OUTER JOIN FETCH e.persona " +
                         "LEFT OUTER JOIN FETCH e.escuela " +
                         "LEFT OUTER JOIN FETCH e.carrera " +
                         "LEFT OUTER JOIN FETCH e.estatusEstudiante " +
                         "LEFT OUTER JOIN FETCH e.estadoProcedencia " +
-                        "LEFT OUTER JOIN FETCH e.situacionEscolar WHERE e.id=:id", Estudiante.class)
+                        "LEFT OUTER JOIN FETCH e.situacionEscolar WHERE e.id=:id", Interno.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
 
     @Override
-    public void guardar(Estudiante estudiante) {
-        if(estudiante.getId()!=null && estudiante.getId()>0){
-            em.merge(estudiante);
+    public void guardar(Interno interno) {
+        if(interno.getId()!=null && interno.getId()>0){
+            em.merge(interno);
         }else{
-            em.persist(estudiante);
+            em.persist(interno);
         }
     }
 
     @Override
     public void eliminar(Long id) {
-        Estudiante estudiante = porId(id);
-        em.remove(estudiante);
+        Interno interno = porId(id);
+        em.remove(interno);
     }
 
     @Override
@@ -107,25 +107,25 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     }
 
     @Override
-    public Estudiante getEstudiantePorNombreUsuario(String username) {
+    public Interno getEstudiantePorNombreUsuario(String username) {
         return em.createQuery("SELECT e FROM Estudiante e " +
-                        "LEFT OUTER JOIN FETCH e.persona WHERE e.usuario=:usuario", Estudiante.class)
+                        "LEFT OUTER JOIN FETCH e.persona WHERE e.usuario=:usuario", Interno.class)
                 .setParameter("usuario", username)
                 .getSingleResult();
     }
 
     @Override
-    public List<EstatusEstudiante> listarEstatusEstudiantes() {
-        return em.createQuery("SELECT ee FROM EstatusEstudiante ee", EstatusEstudiante.class).getResultList();
+    public List<EstatusInterno> listarEstatusEstudiantes() {
+        return em.createQuery("SELECT ee FROM EstatusEstudiante ee", EstatusInterno.class).getResultList();
     }
 
     @Override
-    public EstatusEstudiante porIdEstatusEstudiante(Long id) {
-        return em.find(EstatusEstudiante.class, id);
+    public EstatusInterno porIdEstatusEstudiante(Long id) {
+        return em.find(EstatusInterno.class, id);
     }
 
     @Override
-    public List<Estudiante> listarEstudiantesActivos() {
+    public List<Interno> listarEstudiantesActivos() {
         return em.createQuery("SELECT e FROM Estudiante e " +
                 "LEFT OUTER JOIN FETCH e.persona " +
                 "LEFT OUTER JOIN FETCH e.escuela " +
@@ -133,11 +133,11 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
                 "LEFT OUTER JOIN FETCH e.estatusEstudiante " +
                 "LEFT OUTER JOIN FETCH e.estadoProcedencia " +
                 "LEFT OUTER JOIN FETCH e.situacionEscolar WHERE e.estatusEstudiante.id=1 " +
-                "ORDER BY e.id DESC", Estudiante.class).getResultList();
+                "ORDER BY e.id DESC", Interno.class).getResultList();
     }
 
     @Override
-    public List<Estudiante> listarEstudiantesEgresados() {
+    public List<Interno> listarEstudiantesEgresados() {
         return em.createQuery("SELECT e FROM Estudiante e " +
                 "LEFT OUTER JOIN FETCH e.persona " +
                 "LEFT OUTER JOIN FETCH e.escuela " +
@@ -145,11 +145,11 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
                 "LEFT OUTER JOIN FETCH e.estatusEstudiante " +
                 "LEFT OUTER JOIN FETCH e.estadoProcedencia " +
                 "LEFT OUTER JOIN FETCH e.situacionEscolar WHERE e.estatusEstudiante.id=2 " +
-                "ORDER BY e.id DESC", Estudiante.class).getResultList();
+                "ORDER BY e.id DESC", Interno.class).getResultList();
     }
 
     @Override
-    public List<Estudiante> listarEstudiantesBajaTemporal() {
+    public List<Interno> listarEstudiantesBajaTemporal() {
         return em.createQuery("SELECT e FROM Estudiante e " +
                 "LEFT OUTER JOIN FETCH e.persona " +
                 "LEFT OUTER JOIN FETCH e.escuela " +
@@ -157,11 +157,11 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
                 "LEFT OUTER JOIN FETCH e.estatusEstudiante " +
                 "LEFT OUTER JOIN FETCH e.estadoProcedencia " +
                 "LEFT OUTER JOIN FETCH e.situacionEscolar WHERE e.estatusEstudiante.id=3 " +
-                "ORDER BY e.id DESC", Estudiante.class).getResultList();
+                "ORDER BY e.id DESC", Interno.class).getResultList();
     }
 
     @Override
-    public List<Estudiante> listarEstudiantesBajaDefinitiva() {
+    public List<Interno> listarEstudiantesBajaDefinitiva() {
         return em.createQuery("SELECT e FROM Estudiante e " +
                 "LEFT OUTER JOIN FETCH e.persona " +
                 "LEFT OUTER JOIN FETCH e.escuela " +
@@ -169,31 +169,31 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
                 "LEFT OUTER JOIN FETCH e.estatusEstudiante " +
                 "LEFT OUTER JOIN FETCH e.estadoProcedencia " +
                 "LEFT OUTER JOIN FETCH e.situacionEscolar WHERE e.estatusEstudiante.id=4 " +
-                "ORDER BY e.id DESC", Estudiante.class).getResultList();
+                "ORDER BY e.id DESC", Interno.class).getResultList();
     }
 
     @Override
-    public List<Estudiante> getEstudiantesPorCurp(String curp) {
+    public List<Interno> getEstudiantesPorCurp(String curp) {
         return em.createQuery("SELECT e FROM Estudiante e " +
                         "LEFT OUTER JOIN FETCH e.persona " +
                         "LEFT OUTER JOIN FETCH e.escuela " +
                         "LEFT OUTER JOIN FETCH e.carrera " +
                         "LEFT OUTER JOIN FETCH e.estatusEstudiante " +
                         "LEFT OUTER JOIN FETCH e.estadoProcedencia " +
-                        "LEFT OUTER JOIN FETCH e.persona WHERE e.persona.curp LIKE :curp", Estudiante.class)
+                        "LEFT OUTER JOIN FETCH e.persona WHERE e.persona.curp LIKE :curp", Interno.class)
                 .setParameter("curp", curp+"%")
                 .getResultList();
     }
 
     @Override
-    public Estudiante getEstudiantePorIdPersona(Long personaId) {
+    public Interno getEstudiantePorIdPersona(Long personaId) {
         return em.createQuery("SELECT e FROM Estudiante e " +
                         "LEFT OUTER JOIN FETCH e.persona " +
                         "LEFT OUTER JOIN FETCH e.escuela " +
                         "LEFT OUTER JOIN FETCH e.carrera " +
                         "LEFT OUTER JOIN FETCH e.estatusEstudiante " +
                         "LEFT OUTER JOIN FETCH e.estadoProcedencia " +
-                        "LEFT OUTER JOIN FETCH e.situacionEscolar WHERE e.persona.id=:id", Estudiante.class)
+                        "LEFT OUTER JOIN FETCH e.situacionEscolar WHERE e.persona.id=:id", Interno.class)
                 .setParameter("id", personaId)
                 .getSingleResult();
     }

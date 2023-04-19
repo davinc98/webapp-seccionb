@@ -4,11 +4,10 @@ package org.seccionb.webapp.controllers;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.seccionb.webapp.entities.Estudiante;
-import org.seccionb.webapp.entities.EstudianteCargo;
+import org.seccionb.webapp.entities.Interno;
+import org.seccionb.webapp.entities.InternoCargo;
 import org.seccionb.webapp.entities.Persona;
 import org.seccionb.webapp.entities.Vehiculo;
 import org.seccionb.webapp.services.EstudianteCargoService;
@@ -32,13 +31,13 @@ public class BusquedaController implements Serializable {
     private FacesContext facesContext;
 
 
-    private List<Estudiante> estudiantesBuscar;
+    private List<Interno> estudiantesBuscar;
 
     private List<Vehiculo> vehiculosBuscar;
 
     private List<Persona> personasBuscar;
 
-    private List<EstudianteCargo> estudiantesCargosBuscar;
+    private List<InternoCargo> estudiantesCargosBuscar;
 
     private String textoBuscar;
     private String opcionBusqueda="curp";
@@ -127,11 +126,11 @@ public class BusquedaController implements Serializable {
         System.out.println("RESULTADOS: "+estudiantesCargosBuscar);
     }
 
-    public List<Estudiante> getEstudiantesBuscar() {
+    public List<Interno> getEstudiantesBuscar() {
         return estudiantesBuscar;
     }
 
-    public void setEstudiantesBuscar(List<Estudiante> estudiantesBuscar) {
+    public void setEstudiantesBuscar(List<Interno> estudiantesBuscar) {
         this.estudiantesBuscar = estudiantesBuscar;
     }
 
@@ -176,11 +175,11 @@ public class BusquedaController implements Serializable {
         this.personasBuscar = personasBuscar;
     }
 
-    public List<EstudianteCargo> getEstudiantesCargosBuscar() {
+    public List<InternoCargo> getEstudiantesCargosBuscar() {
         return estudiantesCargosBuscar;
     }
 
-    public void setEstudiantesCargosBuscar(List<EstudianteCargo> estudiantesCargosBuscar) {
+    public void setEstudiantesCargosBuscar(List<InternoCargo> estudiantesCargosBuscar) {
         this.estudiantesCargosBuscar = estudiantesCargosBuscar;
     }
 }

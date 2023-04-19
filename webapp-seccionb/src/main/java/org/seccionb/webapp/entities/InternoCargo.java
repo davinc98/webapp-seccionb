@@ -6,16 +6,16 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "estudiantes_cargos")
-public class EstudianteCargo {
+@Table(name = "rel_internos_cargos")
+public class InternoCargo {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "estudiante_cargo_id")
+    @Column(name = "interno_cargo_id")
     private Long id;
 
-    @Column(name = "estudiante_id")
+    @Column(name = "interno_id")
     private Long estudianteId;
 
     @Column(name = "cargo_id")
@@ -24,10 +24,10 @@ public class EstudianteCargo {
     @Column(name = "fecha_asignacion")
     private Date fechaAsignacion;
 
-    public EstudianteCargo() {
+    public InternoCargo() {
     }
 
-    public EstudianteCargo(Long id, Long estudianteId, Long cargoId, Date fechaAsignacion) {
+    public InternoCargo(Long id, Long estudianteId, Long cargoId, Date fechaAsignacion) {
         this.id = id;
         this.estudianteId = estudianteId;
         this.cargoId = cargoId;

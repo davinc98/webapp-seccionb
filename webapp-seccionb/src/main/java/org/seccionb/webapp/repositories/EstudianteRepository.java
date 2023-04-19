@@ -4,7 +4,7 @@ import org.seccionb.webapp.entities.*;
 
 import java.util.List;
 
-public interface EstudianteRepository extends CrudRepository<Estudiante>{
+public interface EstudianteRepository extends CrudRepository<Interno>{
 
     List<Escuela> listarEscuelas();
 
@@ -26,21 +26,21 @@ public interface EstudianteRepository extends CrudRepository<Estudiante>{
 
     Persona getPersonaPorIdEstudiante(Long id);
 
-    Estudiante getEstudiantePorNombreUsuario(String username);
+    Interno getEstudiantePorNombreUsuario(String username);
 
-    List<EstatusEstudiante> listarEstatusEstudiantes();
+    List<EstatusInterno> listarEstatusEstudiantes();
 
-    EstatusEstudiante porIdEstatusEstudiante(Long id);
+    EstatusInterno porIdEstatusEstudiante(Long id);
 
-    List<Estudiante> listarEstudiantesActivos();
+    List<Interno> listarEstudiantesActivos();
 
-    List<Estudiante> listarEstudiantesEgresados();
+    List<Interno> listarEstudiantesEgresados();
 
-    List<Estudiante> listarEstudiantesBajaTemporal();
+    List<Interno> listarEstudiantesBajaTemporal();
 
-    List<Estudiante> listarEstudiantesBajaDefinitiva();
+    List<Interno> listarEstudiantesBajaDefinitiva();
 
-    List<Estudiante> getEstudiantesPorCurp(String curp);
+    List<Interno> getEstudiantesPorCurp(String curp);
 
-    Estudiante getEstudiantePorIdPersona(Long personaId);
+    Interno getEstudiantePorIdPersona(Long personaId);
 }

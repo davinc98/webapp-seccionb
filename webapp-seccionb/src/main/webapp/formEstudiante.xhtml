@@ -54,7 +54,7 @@
 
                             <p:outputLabel value="Estado" for="estado" class="p-col-fixed"
                                            style="width:200px;"/>
-                            <p:selectOneMenu id="estado" value="#{estudiante.estadoProcedencia}">
+                            <p:selectOneMenu id="estado" value="#{interno.estadoProcedencia}">
                                 <f:selectItem itemLabel="Seleccionar Estado" itemValue="#{null}"/>
                                 <f:selectItems value="#{estadosDeProcedencia}" var="estado"
                                                itemLabel="#{estado.descripcion}"/>
@@ -74,7 +74,7 @@
 
                             <p:outputLabel value="Escuela" for="escuela" class="p-col-fixed"
                                            style="width:200px;"/>
-                            <p:selectOneMenu id="escuela" value="#{estudiante.escuela}">
+                            <p:selectOneMenu id="escuela" value="#{interno.escuela}">
                                 <f:selectItem itemLabel="Seleccionar Escuela" itemValue="#{null}"/>
                                 <f:selectItems value="#{escuelas}" var="escuela"
                                                itemLabel="#{escuela.nombre}"/>
@@ -84,7 +84,7 @@
 
                             <p:outputLabel value="Carrera" for="carrera" class="p-col-fixed"
                                            style="width:200px;"/>
-                            <p:selectOneMenu id="carrera" value="#{estudiante.carrera}">
+                            <p:selectOneMenu id="carrera" value="#{interno.carrera}">
                                 <f:selectItem itemLabel="Seleccionar Carrera" itemValue="#{null}"/>
                                 <f:selectItems value="#{carreras}" var="carrera"
                                                itemLabel="#{carrera.nombre}"/>
@@ -95,7 +95,7 @@
                             <p:outputLabel value="Situación Escolar" for="situacionEscolar" class="p-col-fixed"
                                            style="width:200px;"/>
                             <p:selectOneMenu id="situacionEscolar"
-                                             value="#{estudiante.situacionEscolar}">
+                                             value="#{interno.situacionEscolar}">
                                 <!--                                <f:selectItem itemLabel="Situación Escolar" itemValue="#{null}"/>-->
                                 <f:selectItems value="#{situacionesEscolares}" var="sit"
                                                itemLabel="#{sit.descripcion}"/>
@@ -146,7 +146,7 @@
                                      layout="grid">
 
                             <h:outputLabel value="Fecha de Ingreso" for="fechaIngreso" class="col-form-label"/>
-                            <p:inputText id="fechaIngreso" value="#{estudiante.fechaIngreso}"
+                            <p:inputText id="fechaIngreso" value="#{interno.fechaIngreso}"
                                          label="Fecha de Ingreso"
                                          convertMessage="Indique la fecha con yyyy-MM-dd"
                                          class="form-control">
@@ -178,12 +178,12 @@
 
                             <p:outputLabel value="Nombre de Usuario" for="usuarioD" class="p-col-fixed"
                                            style="width:200px;"/>
-                            <p:inputText id="usuarioD" value="#{estudiante.usuario}" label="Nombre de Usuario"
+                            <p:inputText id="usuarioD" value="#{interno.usuario}" label="Nombre de Usuario"
                                          required="true" autocomplete="nope"/>
                             <p:message for="usuarioD" style="color:red;"/>
 
                             <p:outputLabel value="Estatus" for="estatus" class="p-col-fixed" style="width:200px;"/>
-                            <p:selectOneMenu id="estatus" value="#{estudiante.estatusEstudiante}">
+                            <p:selectOneMenu id="estatus" value="#{interno.estatusEstudiante}">
                                 <!--                                <f:selectItem itemLabel="Selecciona estatus" itemValue="#{null}"/>-->
                                 <f:selectItems value="#{estatusEstudiantes}" var="estest"
                                                itemLabel="#{estest.nombre}"/>
@@ -193,7 +193,7 @@
 
                         </h:panelGrid>
                         <br/>
-                        <p:panel header="Contraseña" rendered="#{estudiante.id==null}">
+                        <p:panel header="Contraseña" rendered="#{interno.id==null}">
                             <h:panelGrid columns="3" width="100%"
                                          layout="grid">
                                 <p:outputLabel value="Contraseña" for="pwd1" class="p-col-fixed"
@@ -231,8 +231,8 @@
                     <p:outputLabel value=""/>
                 </p:panelGrid>
             </p:panel>
-            <h:inputHidden value="#{estudiante.id}"/>
-            <h:inputHidden value="#{estudiante.contrasenia}"/>
+            <h:inputHidden value="#{interno.id}"/>
+            <h:inputHidden value="#{interno.contrasenia}"/>
             <h:inputHidden value="#{persona.id}"/>
             <h:inputHidden value="#{cargo.id}"/>
             <h:inputHidden value="#{persona.fotoBase64}"/>

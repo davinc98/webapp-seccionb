@@ -21,7 +21,7 @@
                         <p:outputLabel value=""/>
 
                         <p:panel header="Listado de Internos" id="panelEstudiantes">
-                            <p:dataTable id="tabla-estudiantes" value="#{cargosController.estudiantesCargos}"
+                            <p:dataTable id="tabla-internos" value="#{cargosController.estudiantesCargos}"
                                          var="estudCarg" rendered="#{not empty cargosController.estudiantesCargos}"
                                          style="max-width:100%; text-align: left;" editable="true"
                                          paginator="true" paginatorPosition="both" rows="10"

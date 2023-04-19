@@ -10,7 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.primefaces.event.FlowEvent;
 import org.seccionb.webapp.entities.Contacto;
-import org.seccionb.webapp.entities.Estudiante;
+import org.seccionb.webapp.entities.Interno;
 import org.seccionb.webapp.entities.SolicitudResetPassword;
 import org.seccionb.webapp.services.*;
 
@@ -177,18 +177,18 @@ public class RestablecerContraseniaController implements Serializable {
     public String restablecerPassword() {
         //Recuperar usuario por idPersona
         System.out.println("Persona ID: " + personaId);
-        Estudiante estudiante = estudianteService.getEstudiantePorIdPersona(personaId);
+        Interno interno = estudianteService.getEstudiantePorIdPersona(personaId);
 
-        if (estudiante != null) {
-            System.out.println("Usuario: " + estudiante);
+        if (interno != null) {
+            System.out.println("Usuario: " + interno);
             //Actualizar password
 
             //Validacion de password
             if (this.pwd1 != null && this.pwd1 != "") {
                 if (this.pwd1.equals(this.pwd2)) {
-                    estudiante.setContrasenia(getSHA256(pwd1));
-                    System.out.println("Cifra password: " + estudiante.getContrasenia());
-                    estudianteService.guardar(estudiante);
+                    interno.setContrasenia(getSHA256(pwd1));
+                    System.out.println("Cifra password: " + interno.getContrasenia());
+                    estudianteService.guardar(interno);
                     facesContext.addMessage(null,
                             new FacesMessage("Contraseña Restablecida", "La contraseña ha sido restablecida con exito."));
                     return "login.xhtml?faces-redirect=true";
@@ -204,20 +204,20 @@ public class RestablecerContraseniaController implements Serializable {
     public String cambiarContrasenia(String username) throws ServletException {
         System.out.println("Entrando a cambiar contrasena..." + username);
 
-        Estudiante estudiante = estudianteService.getEstudiantePorNombreUsuario(username);
-        if (estudiante != null) {
-            System.out.println("ESTUDIANTE: " + estudiante);
+        Interno interno = estudianteService.getEstudiantePorNombreUsuario(username);
+        if (interno != null) {
+            System.out.println("ESTUDIANTE: " + interno);
 
             if (pwdActual != null && pwdActual != "") {
                 //Validar contrasenia actual
                 String cifra = getSHA256(this.pwdActual);
-                if (cifra.equals(estudiante.getContrasenia())) {
+                if (cifra.equals(interno.getContrasenia())) {
                     //Validacion de password
                     if (this.pwd1 != null && this.pwd1 != "") {
                         if (this.pwd1.equals(this.pwd2)) {
-                            estudiante.setContrasenia(getSHA256(pwd1));
-                            System.out.println("Cifra password: " + estudiante.getContrasenia());
-                            estudianteService.guardar(estudiante);
+                            interno.setContrasenia(getSHA256(pwd1));
+                            System.out.println("Cifra password: " + interno.getContrasenia());
+                            estudianteService.guardar(interno);
 
                             HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
                             request.logout();

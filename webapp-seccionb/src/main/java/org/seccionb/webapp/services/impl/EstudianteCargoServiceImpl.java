@@ -2,7 +2,7 @@ package org.seccionb.webapp.services.impl;
 
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import org.seccionb.webapp.entities.EstudianteCargo;
+import org.seccionb.webapp.entities.InternoCargo;
 import org.seccionb.webapp.repositories.EstudianteCargoRepository;
 import org.seccionb.webapp.services.EstudianteCargoService;
 
@@ -16,17 +16,17 @@ public class EstudianteCargoServiceImpl implements EstudianteCargoService {
     EstudianteCargoRepository repository;
 
     @Override
-    public List<EstudianteCargo> listar() {
+    public List<InternoCargo> listar() {
         return repository.listar();
     }
 
     @Override
-    public Optional<EstudianteCargo> porId(Long id) {
+    public Optional<InternoCargo> porId(Long id) {
         return Optional.ofNullable(repository.porId(id));
     }
 
     @Override
-    public void guardar(EstudianteCargo estudianteCargo) {
+    public void guardar(InternoCargo estudianteCargo) {
         repository.guardar(estudianteCargo);
     }
 
@@ -36,12 +36,12 @@ public class EstudianteCargoServiceImpl implements EstudianteCargoService {
     }
 
     @Override
-    public List<EstudianteCargo> getCargosPorIdEstudiante(Long id) {
+    public List<InternoCargo> getCargosPorIdEstudiante(Long id) {
         return repository.getCargosPorIdEstudiante(id);
     }
 
     @Override
-    public List<EstudianteCargo> getEstudiantesCargoPorCurp(String curp) {
+    public List<InternoCargo> getEstudiantesCargoPorCurp(String curp) {
         return repository.getEstudiantesCargoPorCurp(curp);
     }
 }

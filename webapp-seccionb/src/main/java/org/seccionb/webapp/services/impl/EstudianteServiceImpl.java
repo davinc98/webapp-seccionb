@@ -16,19 +16,19 @@ public class EstudianteServiceImpl implements EstudianteService {
     private EstudianteRepository repository;
 
     @Override
-    public List<Estudiante> listar() {
+    public List<Interno> listar() {
         return repository.listar();
     }
 
     @Override
-    public Optional<Estudiante> porId(Long id) {
+    public Optional<Interno> porId(Long id) {
         return Optional.ofNullable(repository.porId(id));
     }
 
 
     @Override
-    public void guardar(Estudiante estudiante) {
-        repository.guardar(estudiante);
+    public void guardar(Interno interno) {
+        repository.guardar(interno);
     }
 
     @Override
@@ -87,47 +87,47 @@ public class EstudianteServiceImpl implements EstudianteService {
     }
 
     @Override
-    public Estudiante getEstudiantePorNombreUsuario(String username) {
+    public Interno getEstudiantePorNombreUsuario(String username) {
         return repository.getEstudiantePorNombreUsuario(username);
     }
 
     @Override
-    public List<EstatusEstudiante> listarEstatusEstudiantes() {
+    public List<EstatusInterno> listarEstatusEstudiantes() {
         return repository.listarEstatusEstudiantes();
     }
 
     @Override
-    public Optional<EstatusEstudiante> porIdEstatusEstudiante(Long id) {
+    public Optional<EstatusInterno> porIdEstatusEstudiante(Long id) {
         return Optional.ofNullable(repository.porIdEstatusEstudiante(id));
     }
 
     @Override
-    public List<Estudiante> listarEstudiantesActivos() {
+    public List<Interno> listarEstudiantesActivos() {
         return repository.listarEstudiantesActivos();
     }
 
     @Override
-    public List<Estudiante> listarEstudiantesEgresados() {
+    public List<Interno> listarEstudiantesEgresados() {
         return repository.listarEstudiantesEgresados();
     }
 
     @Override
-    public List<Estudiante> listarEstudiantesBajaTemporal() {
+    public List<Interno> listarEstudiantesBajaTemporal() {
         return repository.listarEstudiantesBajaTemporal();
     }
 
     @Override
-    public List<Estudiante> listarEstudiantesBajaDefinitiva() {
+    public List<Interno> listarEstudiantesBajaDefinitiva() {
         return repository.listarEstudiantesBajaDefinitiva();
     }
 
     @Override
-    public List<Estudiante> getEstudiantesPorCurp(String curp) {
+    public List<Interno> getEstudiantesPorCurp(String curp) {
         return repository.getEstudiantesPorCurp(curp);
     }
 
     @Override
-    public Estudiante getEstudiantePorIdPersona(Long personaId) {
+    public Interno getEstudiantePorIdPersona(Long personaId) {
         return repository.getEstudiantePorIdPersona(personaId);
     }
 }

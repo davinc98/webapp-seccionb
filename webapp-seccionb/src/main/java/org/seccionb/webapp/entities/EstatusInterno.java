@@ -6,12 +6,12 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cat_estatus_estudiante")
-public class EstatusEstudiante {
+@Table(name = "cat_estatus_interno")
+public class EstatusInterno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_estatus_estudiante_id")
+    @Column(name = "estatus_interno_id")
     private Long id;
 
     @Column(name = "nombre")
@@ -20,10 +20,10 @@ public class EstatusEstudiante {
     @Column(name = "descripcion")
     private String descripcion;
 
-    public EstatusEstudiante() {
+    public EstatusInterno() {
     }
 
-    public EstatusEstudiante(Long id, String nombre, String descripcion) {
+    public EstatusInterno(Long id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -68,7 +68,7 @@ public class EstatusEstudiante {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EstatusEstudiante that = (EstatusEstudiante) o;
+        EstatusInterno that = (EstatusInterno) o;
         return id.equals(that.id);
     }
 

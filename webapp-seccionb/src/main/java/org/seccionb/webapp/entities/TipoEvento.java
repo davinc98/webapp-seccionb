@@ -10,7 +10,7 @@ public class TipoEvento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_tipo_evento_id")
+    @Column(name = "tipo_evento_id")
     private Long id;
 
     @Column(name = "descripcion")

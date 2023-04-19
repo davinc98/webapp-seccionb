@@ -4,7 +4,7 @@ package org.seccionb.webapp.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "unidades")
+@Table(name = "cat_unidades")
 public class UnidadAcademica {
 
     @Id

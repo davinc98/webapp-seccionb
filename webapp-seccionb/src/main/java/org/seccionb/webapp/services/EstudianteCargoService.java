@@ -9,12 +9,12 @@ import java.util.Optional;
 
 @Local
 public interface EstudianteCargoService {
-    List<EstudianteCargo> listar();
-    Optional<EstudianteCargo> porId(Long id);
-    void guardar(EstudianteCargo estudiante);
+    List<InternoCargo> listar();
+    Optional<InternoCargo> porId(Long id);
+    void guardar(InternoCargo estudiante);
     void eliminar(Long id);
 
-    List<EstudianteCargo> getCargosPorIdEstudiante(Long id);
+    List<InternoCargo> getCargosPorIdEstudiante(Long id);
 
-    List<EstudianteCargo> getEstudiantesCargoPorCurp(String curp);
+    List<InternoCargo> getEstudiantesCargoPorCurp(String curp);
 }

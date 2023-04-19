@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "escuelas")
+@Table(name = "cat_escuelas")
 public class Escuela {
 
     @Id
@@ -59,6 +59,13 @@ public class Escuela {
         if (o == null || getClass() != o.getClass()) return false;
         Escuela escuela = (Escuela) o;
         return Objects.equals(id, escuela.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 43 * hash + Objects.hashCode(this.id);
+        return hash;
     }
 
 }

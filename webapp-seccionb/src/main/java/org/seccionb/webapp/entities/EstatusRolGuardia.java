@@ -11,7 +11,7 @@ public class EstatusRolGuardia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_estatus_rol_guardia_id")
+    @Column(name = "estatus_rol_guardia_id")
     private Long id;
 
     @Column(name = "descripcion")

@@ -30,7 +30,7 @@ public class EstudianteController implements Serializable {
     private FacesContext facesContext;
 
     private Long estudianteId;
-    private Estudiante estudiante;
+    private Interno interno;
 
     private Long personaId;
     private Persona persona;
@@ -40,13 +40,13 @@ public class EstudianteController implements Serializable {
     private Cargo cargo;
 
 
-    private List<Estudiante> estudiantes;
+    private List<Interno> internos;
 
-    private List<Estudiante> estudiantesActivos;
-    private List<Estudiante> estudiantesEsgresados;
-    private List<Estudiante> estudiantesBajaTemporal;
-    private List<Estudiante> estudiantesBajaDefinitiva;
-    private List<Estudiante> estudiantesBuscar;
+    private List<Interno> estudiantesActivos;
+    private List<Interno> estudiantesEsgresados;
+    private List<Interno> estudiantesBajaTemporal;
+    private List<Interno> estudiantesBajaDefinitiva;
+    private List<Interno> estudiantesBuscar;
 
     private Integer totalUnam;
     private Integer totalIpn;
@@ -111,7 +111,7 @@ public class EstudianteController implements Serializable {
         }
 
         persona = new Persona();
-        estudiante = new Estudiante();
+        interno = new Interno();
         cargo = new Cargo();
         estudiantesBuscar = new ArrayList<>();
     }
@@ -149,29 +149,29 @@ public class EstudianteController implements Serializable {
 
     @Produces
     @Model
-    public List<EstatusEstudiante> estatusEstudiantes() {
+    public List<EstatusInterno> estatusEstudiantes() {
         return estudianteService.listarEstatusEstudiantes();
     }
 
     @Produces
     @Model
-    public Estudiante estudiante() {
-        this.estudiante = new Estudiante();
-        this.estudiante.setFechaIngreso(LocalDate.now());
+    public Interno estudiante() {
+        this.interno = new Interno();
+        this.interno.setFechaIngreso(LocalDate.now());
         if (estudianteId != null && estudianteId > 0) {
             estudianteService.porId(estudianteId).ifPresent(p -> {
-                this.estudiante = p;
+                this.interno = p;
             });
         }
-        return this.estudiante;
+        return this.interno;
     }
 
     @Produces
     @Model
     public Persona persona() {
         this.persona = new Persona();
-        if (estudiante.getId() != null && estudiante.getId() > 0) {
-            personaService.porId(estudiante.getPersona().getId()).ifPresent(p -> {
+        if (interno.getId() != null && interno.getId() > 0) {
+            personaService.porId(interno.getPersona().getId()).ifPresent(p -> {
                 this.persona = p;
             });
         } else {
@@ -198,7 +198,7 @@ public class EstudianteController implements Serializable {
         Boolean continuar = true;
 
         System.out.println("");
-        System.out.println("ESTUDIANTE===================" + estudiante);
+        System.out.println("ESTUDIANTE===================" + interno);
         System.out.println("");
         System.out.println("PERSONA======================" + persona);
         System.out.println("");
@@ -218,11 +218,11 @@ public class EstudianteController implements Serializable {
         }
 
         //Validacion de nombre de usuario
-        for (Estudiante est : estudianteService.listar()) {
-            if (est.getUsuario().equals(this.estudiante.getUsuario()) &&
-                    est.getId() != this.estudiante.getId()) {
+        for (Interno est : estudianteService.listar()) {
+            if (est.getUsuario().equals(this.interno.getUsuario()) &&
+                    est.getId() != this.interno.getId()) {
                 facesContext.addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Nombre de usuario no disponible", "El nombre de usuario '" + estudiante.getUsuario() + "' ya ha sido registrado.\n Intente con otro."));
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Nombre de usuario no disponible", "El nombre de usuario '" + interno.getUsuario() + "' ya ha sido registrado.\n Intente con otro."));
                 continuar = false;
                 break;
             }
@@ -231,8 +231,8 @@ public class EstudianteController implements Serializable {
         //Validacion de password
         if (this.pwd1 != null && this.pwd1 != "") {
             if (this.pwd1.equals(this.pwd2)) {
-                estudiante.setContrasenia(getSHA256(pwd1));
-                System.out.println("Cifra password: " + estudiante.getContrasenia());
+                interno.setContrasenia(getSHA256(pwd1));
+                System.out.println("Cifra password: " + interno.getContrasenia());
             } else {
                 continuar = false;
                 facesContext.addMessage(null,
@@ -243,17 +243,17 @@ public class EstudianteController implements Serializable {
         //Validacion de password(actualizacion)
         System.out.println("Nueva Contra: " + pwd1);
         if (this.pwd1 != null && this.pwd1 != "") {
-            estudiante.setContrasenia(getSHA256(pwd1));
+            interno.setContrasenia(getSHA256(pwd1));
             System.out.println("Cifra password: " + pwd1);
         }
 
         if (continuar) {
-            if (estudiante.getId() != null && estudiante.getId() > 0) {
+            if (interno.getId() != null && interno.getId() > 0) {
                 facesContext.addMessage(null,
-                        new FacesMessage("Usuario actualizado. ", estudiante.getUsuario() + ""));
+                        new FacesMessage("Usuario actualizado. ", interno.getUsuario() + ""));
             } else {
                 facesContext.addMessage(null,
-                        new FacesMessage("Usuario creado con éxito. ", estudiante.getUsuario() + ""));
+                        new FacesMessage("Usuario creado con éxito. ", interno.getUsuario() + ""));
             }
 
             if (this.fotoBase64 != null) {
@@ -264,25 +264,25 @@ public class EstudianteController implements Serializable {
 
 
             personaService.guardar(persona);
-            estudiante.setPersona(persona);
-            estudiante.setActivo(1);
-            estudianteService.guardar(estudiante);
+            interno.setPersona(persona);
+            interno.setActivo(1);
+            estudianteService.guardar(interno);
 
-            List<EstudianteCargo> misCargos = estudianteCargoService.getCargosPorIdEstudiante(estudiante.getId());
+            List<InternoCargo> misCargos = estudianteCargoService.getCargosPorIdEstudiante(interno.getId());
             //Asignar cargo
             if (cargo.getId() != null && cargo.getId() > 0 && !misCargos.isEmpty()) {
                 cargoService.porId(cargo.getId()).ifPresent(c -> {
                     this.cargo = c;
                 });
             } else {
-                EstudianteCargo estudianteCargo = new EstudianteCargo();
-                estudianteCargo.setEstudianteId(estudiante.getId());
+                InternoCargo estudianteCargo = new InternoCargo();
+                estudianteCargo.setEstudianteId(interno.getId());
                 estudianteCargo.setCargoId(5L);
                 estudianteCargoService.guardar(estudianteCargo);
             }
 
 
-            estudiante = new Estudiante();
+            interno = new Interno();
             persona = new Persona();
             cargo = new Cargo();
             return "gestionEstudiantes.xhtml?faces-redirect=true";
@@ -292,15 +292,15 @@ public class EstudianteController implements Serializable {
     }
 
     public String verInformacionPerfil(String username) {
-        this.estudiante = estudianteService.getEstudiantePorNombreUsuario(username);
-        this.estudianteId=estudiante.getId();
-        for (EstudianteCargo ec : estudianteCargoService.getCargosPorIdEstudiante(estudiante.getId())) {
+        this.interno = estudianteService.getEstudiantePorNombreUsuario(username);
+        this.estudianteId= interno.getId();
+        for (InternoCargo ec : estudianteCargoService.getCargosPorIdEstudiante(interno.getId())) {
             this.cargoId = ec.getCargoId();
         }
-        this.persona = estudiante.getPersona();
-        this.personaId=estudiante.getPersona().getId();
+        this.persona = interno.getPersona();
+        this.personaId= interno.getPersona().getId();
 
-        System.out.println("INFO ESTUDIANTE: "+estudiante);
+        System.out.println("INFO ESTUDIANTE: "+ interno);
         System.out.println("INFO PERSONA: "+persona);
 
         if (personaId != null && personaId > 0) {
@@ -315,7 +315,7 @@ public class EstudianteController implements Serializable {
         System.out.println("Entrando a EDITAR");
 
         this.estudianteId = idRecived;
-        this.estudiante = new Estudiante();
+        this.interno = new Interno();
 
         this.personaId = idPersonaRecived;
         this.persona = new Persona();
@@ -330,8 +330,8 @@ public class EstudianteController implements Serializable {
 
         if (idRecived != null && idRecived > 0) {
             estudianteService.porId(idRecived).ifPresent(e -> {
-                this.estudiante = e;
-                for (EstudianteCargo ec : estudianteCargoService.getCargosPorIdEstudiante(e.getId())) {
+                this.interno = e;
+                for (InternoCargo ec : estudianteCargoService.getCargosPorIdEstudiante(e.getId())) {
                     this.cargoId = ec.getCargoId();
                 }
                 this.persona = e.getPersona();
@@ -339,24 +339,24 @@ public class EstudianteController implements Serializable {
         }
 
         System.out.println("PERSONA:::::::::::::::::" + persona);
-        System.out.println("ESTUDIANTE::::::::::::::::" + estudiante);
+        System.out.println("ESTUDIANTE::::::::::::::::" + interno);
         System.out.println("CARGO::::::::::::::::" + cargoId);
         return "formEstudiante.xhtml";
     }
 
     public String crear() {
-        this.estudiante = new Estudiante();
+        this.interno = new Interno();
         this.persona = new Persona();
         this.cargo = new Cargo();
         this.cargoId = 5L;
 
-        System.out.println("ESTUDIANTE+++++++++++++" + estudiante);
+        System.out.println("ESTUDIANTE+++++++++++++" + interno);
         System.out.println("CARGO++++++++++++++++++" + cargoId);
         System.out.println("PERSONA++++++++++++++++" + persona);
         return "formEstudiante.xhtml";
     }
 
-    public void eliminar(Estudiante est) {
+    public void eliminar(Interno est) {
         estudianteService.eliminar(est.getId());
         facesContext.addMessage(null,
                 new FacesMessage("Usuario eliminado.", est.getUsuario() + ""));
@@ -452,51 +452,51 @@ public class EstudianteController implements Serializable {
         this.cargoId = cargoId;
     }
 
-    public List<Estudiante> getEstudiantes() {
-        return estudiantes;
+    public List<Interno> getEstudiantes() {
+        return internos;
     }
 
-    public void setEstudiantes(List<Estudiante> estudiantes) {
-        this.estudiantes = estudiantes;
+    public void setEstudiantes(List<Interno> internos) {
+        this.internos = internos;
     }
 
-    public List<Estudiante> getEstudiantesBuscar() {
+    public List<Interno> getEstudiantesBuscar() {
         return estudiantesBuscar;
     }
 
-    public void setEstudiantesBuscar(List<Estudiante> estudiantesBuscar) {
+    public void setEstudiantesBuscar(List<Interno> estudiantesBuscar) {
         this.estudiantesBuscar = estudiantesBuscar;
     }
 
-    public List<Estudiante> getEstudiantesActivos() {
+    public List<Interno> getEstudiantesActivos() {
         return estudiantesActivos;
     }
 
-    public void setEstudiantesActivos(List<Estudiante> estudiantesActivos) {
+    public void setEstudiantesActivos(List<Interno> estudiantesActivos) {
         this.estudiantesActivos = estudiantesActivos;
     }
 
-    public List<Estudiante> getEstudiantesEsgresados() {
+    public List<Interno> getEstudiantesEsgresados() {
         return estudiantesEsgresados;
     }
 
-    public void setEstudiantesEsgresados(List<Estudiante> estudiantesEsgresados) {
+    public void setEstudiantesEsgresados(List<Interno> estudiantesEsgresados) {
         this.estudiantesEsgresados = estudiantesEsgresados;
     }
 
-    public List<Estudiante> getEstudiantesBajaTemporal() {
+    public List<Interno> getEstudiantesBajaTemporal() {
         return estudiantesBajaTemporal;
     }
 
-    public void setEstudiantesBajaTemporal(List<Estudiante> estudiantesBajaTemporal) {
+    public void setEstudiantesBajaTemporal(List<Interno> estudiantesBajaTemporal) {
         this.estudiantesBajaTemporal = estudiantesBajaTemporal;
     }
 
-    public List<Estudiante> getEstudiantesBajaDefinitiva() {
+    public List<Interno> getEstudiantesBajaDefinitiva() {
         return estudiantesBajaDefinitiva;
     }
 
-    public void setEstudiantesBajaDefinitiva(List<Estudiante> estudiantesBajaDefinitiva) {
+    public void setEstudiantesBajaDefinitiva(List<Interno> estudiantesBajaDefinitiva) {
         this.estudiantesBajaDefinitiva = estudiantesBajaDefinitiva;
     }
 

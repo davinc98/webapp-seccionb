@@ -17,14 +17,14 @@ public class EstudianteCargoRepositoryImpl implements EstudianteCargoRepository 
 
 
     @Override
-    public List<EstudianteCargo> listar() {
-        return em.createQuery("SELECT ec FROM EstudianteCargo ec", EstudianteCargo.class).getResultList();
+    public List<InternoCargo> listar() {
+        return em.createQuery("SELECT ec FROM EstudianteCargo ec", InternoCargo.class).getResultList();
     }
 
     @Override
-    public EstudianteCargo porId(Long id) {
+    public InternoCargo porId(Long id) {
         return em.createQuery("SELECT ec FROM EstudianteCargo ec"+
-                        " WHERE ec.id=:id", EstudianteCargo.class)
+                        " WHERE ec.id=:id", InternoCargo.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
@@ -32,7 +32,7 @@ public class EstudianteCargoRepositoryImpl implements EstudianteCargoRepository 
 
 
     @Override
-    public void guardar(EstudianteCargo estudianteCargo) {
+    public void guardar(InternoCargo estudianteCargo) {
         if(estudianteCargo.getId()!=null && estudianteCargo.getId()>0){
             em.merge(estudianteCargo);
         }else{
@@ -42,20 +42,20 @@ public class EstudianteCargoRepositoryImpl implements EstudianteCargoRepository 
 
     @Override
     public void eliminar(Long id) {
-        EstudianteCargo estudianteCargo = porId(id);
+        InternoCargo estudianteCargo = porId(id);
         em.remove(estudianteCargo);
     }
 
     @Override
-    public List<EstudianteCargo> getCargosPorIdEstudiante(Long id) {
+    public List<InternoCargo> getCargosPorIdEstudiante(Long id) {
         return em.createQuery("SELECT ec FROM EstudianteCargo ec"+
-                        " WHERE ec.estudianteId=:id", EstudianteCargo.class)
+                        " WHERE ec.estudianteId=:id", InternoCargo.class)
                 .setParameter("id", id)
                 .getResultList();
     }
 
     @Override
-    public List<EstudianteCargo> getEstudiantesCargoPorCurp(String curp) {
+    public List<InternoCargo> getEstudiantesCargoPorCurp(String curp) {
         return null;
     }
 

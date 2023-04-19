@@ -12,7 +12,7 @@ public class TipoTarjeton {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_tipo_tarjeton_id")
+    @Column(name = "tipo_tarjeton_id")
     private Long id;
 
     @Column(name = "nombre")

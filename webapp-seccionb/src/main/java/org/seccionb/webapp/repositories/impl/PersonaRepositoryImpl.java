@@ -3,7 +3,6 @@ package org.seccionb.webapp.repositories.impl;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import org.seccionb.webapp.entities.Estudiante;
 import org.seccionb.webapp.entities.FotoTemporal;
 import org.seccionb.webapp.entities.Persona;
 import org.seccionb.webapp.repositories.PersonaRepository;

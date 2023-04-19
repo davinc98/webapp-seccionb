@@ -11,7 +11,7 @@ public class EstatusVehiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_estatus_vehiculo_id")
+    @Column(name = "estatus_vehiculo_id")
     private Long id;
 
     @Column(name = "descripcion")

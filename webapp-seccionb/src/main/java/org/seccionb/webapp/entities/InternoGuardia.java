@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "estudiantes_guardias")
-public class EstudianteGuardia {
+@Table(name = "rel_internos_guardias")
+public class InternoGuardia {
 
 
     @Id
@@ -27,19 +27,19 @@ public class EstudianteGuardia {
     @Column(name = "rol_guardia_id")
     private Long rolDeGuardiasId;
 
-    @Column(name = "estudiante_id")
-    private Long estudianteId;
+    @Column(name = "interno_id")
+    private Long internoId;
 
-    public EstudianteGuardia() {
+    public InternoGuardia() {
     }
 
-    public EstudianteGuardia(Long id, String horario, Date fechaGuardia, String tipo, Long rolDeGuardiasId, Long estudianteId) {
+    public InternoGuardia(Long id, String horario, Date fechaGuardia, String tipo, Long rolDeGuardiasId, Long estudianteId) {
         this.id = id;
         this.horario = horario;
         this.fechaGuardia = fechaGuardia;
         this.tipo = tipo;
         this.rolDeGuardiasId = rolDeGuardiasId;
-        this.estudianteId = estudianteId;
+        this.internoId = estudianteId;
     }
 
     public Long getId() {
@@ -82,12 +82,12 @@ public class EstudianteGuardia {
         this.rolDeGuardiasId = rolDeGuardiasId;
     }
 
-    public Long getEstudianteId() {
-        return estudianteId;
+    public Long getInternoId() {
+        return internoId;
     }
 
-    public void setEstudianteId(Long estudianteId) {
-        this.estudianteId = estudianteId;
+    public void setInternoId(Long internoId) {
+        this.internoId = internoId;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class EstudianteGuardia {
                 ", fechaGuardia=" + fechaGuardia +
                 ", tipo='" + tipo + '\'' +
                 ", rolDeGuardiasId=" + rolDeGuardiasId +
-                ", estudianteId=" + estudianteId +
+                ", internoId=" + internoId +
                 '}';
     }
 }

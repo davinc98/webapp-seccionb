@@ -4,17 +4,15 @@ package org.seccionb.webapp.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "estudiantes")
-public class Estudiante {
+@Table(name = "internos")
+public class Interno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "estudiante_id")
+    @Column(name = "interno_id")
     private Long id;
 
     @OneToOne
@@ -42,23 +40,12 @@ public class Estudiante {
 
     @OneToOne
     @JoinColumn(name = "estatus_id")
-    private EstatusEstudiante estatusEstudiante;
+    private EstatusInterno estatusEstudiante;
 
-    @Column(name = "usuario")
-    private String usuario;
-
-    @Column(name = "contrasenia")
-    private String contrasenia;
-
-
-    @Column(name = "activo")
-    private Integer activo;
-
-
-    public Estudiante() {
+    public Interno() {
     }
 
-    public Estudiante(Long id, Persona persona, Escuela escuela, Carrera carrera, EstadoProcedencia estadoProcedencia, LocalDate fechaIngreso, SituacionEscolar situacionEscolar, EstatusEstudiante estatusEstudiante, String usuario, String contrasenia) {
+    public Interno(Long id, Persona persona, Escuela escuela, Carrera carrera, EstadoProcedencia estadoProcedencia, LocalDate fechaIngreso, SituacionEscolar situacionEscolar, EstatusInterno estatusEstudiante, String usuario, String contrasenia) {
         this.id = id;
         this.persona = persona;
         this.escuela = escuela;
@@ -67,8 +54,6 @@ public class Estudiante {
         this.fechaIngreso = fechaIngreso;
         this.situacionEscolar = situacionEscolar;
         this.estatusEstudiante = estatusEstudiante;
-        this.usuario = usuario;
-        this.contrasenia = contrasenia;
     }
 
     public Long getId() {
@@ -93,24 +78,6 @@ public class Estudiante {
 
     public void setFechaIngreso(LocalDate fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
-    }
-
-
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
     }
 
     public Escuela getEscuela() {
@@ -145,27 +112,20 @@ public class Estudiante {
         this.situacionEscolar = situacionEscolar;
     }
 
-    public EstatusEstudiante getEstatusEstudiante() {
+    public EstatusInterno getEstatusEstudiante() {
         return estatusEstudiante;
     }
 
-    public void setEstatusEstudiante(EstatusEstudiante estatusEstudiante) {
+    public void setEstatusEstudiante(EstatusInterno estatusEstudiante) {
         this.estatusEstudiante = estatusEstudiante;
     }
 
-    public Integer getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Integer activo) {
-        this.activo = activo;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Estudiante that = (Estudiante) o;
+        Interno that = (Interno) o;
         return Objects.equals(id, that.id);
     }
 
@@ -180,9 +140,6 @@ public class Estudiante {
                 "id=" + id +
                 ", fechaIngreso=" + fechaIngreso +
                 ", estatus='" + estatusEstudiante + '\'' +
-                ", usuario='" + usuario + '\'' +
-                ", contrasenia='" + contrasenia + '\'' +
-                ", activo='" + activo + '\'' +
                 '}';
     }
 

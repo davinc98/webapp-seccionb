@@ -11,7 +11,7 @@ public class EstatusCajon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_estatus_cajon_id")
+    @Column(name = "estatus_cajon_id")
     private Long id;
 
     @Column(name = "descripcion")

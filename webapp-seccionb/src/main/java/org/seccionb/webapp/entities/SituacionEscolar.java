@@ -11,7 +11,7 @@ public class SituacionEscolar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_situacion_escolar_id")
+    @Column(name = "situacion_escolar_id")
     private Long id;
 
     @Column(name = "descripcion")

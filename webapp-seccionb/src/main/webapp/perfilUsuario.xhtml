@@ -46,7 +46,7 @@
                                     <h:outputLabel value="#{persona.curp}" styleClass="ui-bold-text"/>
 
                                     <p:outputLabel value="Procedencia: "/>
-                                    <h:outputLabel value="#{estudiante.estadoProcedencia.descripcion}"
+                                    <h:outputLabel value="#{interno.estadoProcedencia.descripcion}"
                                                    styleClass="ui-bold-text"/>
                                 </h:panelGrid>
                                 <p:panel rendered="#{empty estudianteController.contactos}" style="text-align: center;">
@@ -88,30 +88,30 @@
                                      style="width: 100%;">
                                 <h:panelGrid columns="2" cellpadding="7">
                                     <h:outputLabel value="Escuela: "/>
-                                    <h:outputLabel value="#{estudiante.escuela.nombre}" styleClass="ui-bold-text"/>
+                                    <h:outputLabel value="#{interno.escuela.nombre}" styleClass="ui-bold-text"/>
 
                                     <p:outputLabel value="Carrera: "/>
-                                    <h:outputLabel value="#{estudiante.carrera.nombre}"
+                                    <h:outputLabel value="#{interno.carrera.nombre}"
                                                    styleClass="ui-bold-text"/>
 
                                     <p:outputLabel value="Situación Escolar: "/>
-                                    <h:outputLabel value="#{estudiante.situacionEscolar.descripcion}"
+                                    <h:outputLabel value="#{interno.situacionEscolar.descripcion}"
                                                    styleClass="ui-bold-text"/>
                                 </h:panelGrid>
                             </p:panel>
 
                             <p:card style="text-align: center; width: 100%;">
                                 <h:graphicImage value="resources/img/unam.png" style="width: 100%;"
-                                                rendered="#{estudiante.escuela.id==1}"/>
+                                                rendered="#{interno.escuela.id==1}"/>
 
                                 <h:graphicImage value="resources/img/LOGOTIPO_IPN.png" style="width: 100%;"
-                                                rendered="#{estudiante.escuela.id==2}"/>
+                                                rendered="#{interno.escuela.id==2}"/>
 
                                 <h:graphicImage value="resources/img/logo_UAM.png" style="width: 100%;"
-                                                rendered="#{estudiante.escuela.id==3}"/>
+                                                rendered="#{interno.escuela.id==3}"/>
 
                                 <h:graphicImage value="resources/img/otro.PNG" style="width: 100%;"
-                                                rendered="#{estudiante.escuela.id>3}"/>
+                                                rendered="#{interno.escuela.id>3}"/>
 
                             </p:card>
                         </p:panelGrid>
@@ -129,10 +129,10 @@
                                      style="width: 100%;">
                                 <h:panelGrid columns="2" cellpadding="7">
                                     <h:outputLabel value="Nombre de Usuario: "/>
-                                    <h:outputLabel value="#{estudiante.usuario}" styleClass="ui-bold-text"/>
+                                    <h:outputLabel value="#{interno.usuario}" styleClass="ui-bold-text"/>
 
                                     <p:outputLabel value="Fecha de Ingreso: "/>
-                                    <h:outputLabel value="#{estudiante.fechaIngreso}"
+                                    <h:outputLabel value="#{interno.fechaIngreso}"
                                                    styleClass="ui-bold-text"/>
                                 </h:panelGrid>
                                 <p:divider/>

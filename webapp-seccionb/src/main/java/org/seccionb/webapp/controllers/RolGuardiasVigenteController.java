@@ -113,7 +113,7 @@ public class RolGuardiasVigenteController implements Serializable {
 
     public List<Guardia> misGuardias(String username){
         List<Guardia> guardias = new ArrayList<>();
-        Estudiante temp = estudianteService.getEstudiantePorNombreUsuario(username);
+        Interno temp = estudianteService.getEstudiantePorNombreUsuario(username);
         init();
         this.guardiasDelRol.forEach(gua->{
             if(gua.getPersona().getId() == temp.getPersona().getId()){
