@@ -760,7 +760,22 @@ CREATE TABLE `seccionb`.`rel_internos_guardias` (
   `rol_guardia_id` INT NULL,
   `interno_id` INT NULL,
   PRIMARY KEY (`guardia_id`));
+  
+  
+  
+  CREATE TABLE `seccionb`.`rel_internos_dormitorios` (
+  `interno_dormitorio_id` INT NOT NULL AUTO_INCREMENT,
+  `domitorio_id` INT NULL,
+  `interno_id` INT NULL,
+  PRIMARY KEY (`interno_dormitorio_id`));
 
+
+
+ CREATE TABLE `seccionb`.`rel_internos_grados` (
+  `interno_grado_id` INT NOT NULL AUTO_INCREMENT,
+  `grado_id` INT NULL,
+  `interno_id` INT NULL,
+  PRIMARY KEY (`interno_grado_id`));
 
 
 
