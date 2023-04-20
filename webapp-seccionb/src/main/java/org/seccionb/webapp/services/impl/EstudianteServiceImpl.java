@@ -86,10 +86,10 @@ public class EstudianteServiceImpl implements EstudianteService {
         return repository.getPersonaPorIdEstudiante(id);
     }
 
-    @Override
-    public Interno getEstudiantePorNombreUsuario(String username) {
-        return repository.getEstudiantePorNombreUsuario(username);
-    }
+//    @Override
+//    public Interno getEstudiantePorNombreUsuario(String username) {
+//        return repository.getEstudiantePorNombreUsuario(username);
+//    }
 
     @Override
     public List<EstatusInterno> listarEstatusEstudiantes() {

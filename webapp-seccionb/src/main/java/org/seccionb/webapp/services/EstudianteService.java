@@ -34,7 +34,7 @@ public interface EstudianteService {
 
     Persona getPersonaPorIdEstudiante(Long id);
 
-    Interno getEstudiantePorNombreUsuario(String username);
+//    Interno getEstudiantePorNombreUsuario(String username);
 
     List<EstatusInterno> listarEstatusEstudiantes();
 

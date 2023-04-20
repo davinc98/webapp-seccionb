@@ -292,7 +292,8 @@ public class InternoController implements Serializable {
     }
 
     public String verInformacionPerfil(String username) {
-        this.interno = estudianteService.getEstudiantePorNombreUsuario(username);
+//        this.interno = estudianteService.getEstudiantePorNombreUsuario(username);
+        this.interno = new Interno();
         this.internoId= interno.getId();
         for (InternoCargo ec : estudianteCargoService.getCargosPorIdEstudiante(interno.getId())) {
             this.cargoId = ec.getCargoId();

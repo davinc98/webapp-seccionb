@@ -47,7 +47,7 @@ public class PersonaRepositoryImpl implements PersonaRepository {
 //        List<Estudiante> estudiantes = estudianteRepository.listar();
 //        List<Persona> personas = this.listar();
 //        return em.createQuery("SELECT p FROM Persona p WHERE NOT EXISTS (SELECT e.persona FROM Estudiante e LEFT OUTER JOIN FETCH e.persona)", Persona.class).getResultList();
-        List<Persona> estudiantes = em.createQuery("SELECT e.persona FROM Estudiante e LEFT OUTER JOIN e.persona ORDER BY e.id DESC", Persona.class).getResultList();
+        List<Persona> estudiantes = em.createQuery("SELECT e.persona FROM Interno e LEFT OUTER JOIN e.persona ORDER BY e.id DESC", Persona.class).getResultList();
         List<Persona> usuariosEstacionamiento =  em.createQuery("SELECT p FROM Persona p ORDER BY p.id DESC", Persona.class).getResultList();
 
         usuariosEstacionamiento.removeAll(estudiantes);
@@ -61,13 +61,13 @@ public class PersonaRepositoryImpl implements PersonaRepository {
 
     @Override
     public List<Persona> listarPersonasEstudiantes() {
-        return em.createQuery("SELECT e.persona FROM Estudiante e " +
+        return em.createQuery("SELECT e.persona FROM Interno e " +
                 " ORDER BY e.id DESC", Persona.class).getResultList();
     }
 
     @Override
     public List<Persona> listarPersonasEstudiantesActivos() {
-        return em.createQuery("SELECT e.persona FROM Estudiante e " +
+        return em.createQuery("SELECT e.persona FROM Interno e " +
                 " WHERE e.estatusEstudiante.id=1 " +
                 " ORDER BY e.id DESC", Persona.class).getResultList();
     }

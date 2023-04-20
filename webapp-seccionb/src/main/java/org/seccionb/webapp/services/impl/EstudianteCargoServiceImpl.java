@@ -3,7 +3,7 @@ package org.seccionb.webapp.services.impl;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import org.seccionb.webapp.entities.InternoCargo;
-import org.seccionb.webapp.repositories.EstudianteCargoRepository;
+import org.seccionb.webapp.repositories.InternoCargoRepository;
 import org.seccionb.webapp.services.EstudianteCargoService;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class EstudianteCargoServiceImpl implements EstudianteCargoService {
 
     @Inject
-    EstudianteCargoRepository repository;
+    InternoCargoRepository repository;
 
     @Override
     public List<InternoCargo> listar() {

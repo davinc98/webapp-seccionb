@@ -204,7 +204,8 @@ public class RestablecerContraseniaController implements Serializable {
     public String cambiarContrasenia(String username) throws ServletException {
         System.out.println("Entrando a cambiar contrasena..." + username);
 
-        Interno interno = estudianteService.getEstudiantePorNombreUsuario(username);
+//        Interno interno = estudianteService.getEstudiantePorNombreUsuario(username);
+        Interno interno = new Interno();
         if (interno != null) {
             System.out.println("ESTUDIANTE: " + interno);
 

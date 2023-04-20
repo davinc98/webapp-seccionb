@@ -1,11 +1,10 @@
 package org.seccionb.webapp.repositories;
 
-import org.seccionb.webapp.entities.Cargo;
 import org.seccionb.webapp.entities.InternoCargo;
 
 import java.util.List;
 
-public interface EstudianteCargoRepository extends CrudRepository<InternoCargo>{
+public interface InternoCargoRepository extends CrudRepository<InternoCargo>{
 
     List<InternoCargo> listar();
     InternoCargo porId(Long id);
