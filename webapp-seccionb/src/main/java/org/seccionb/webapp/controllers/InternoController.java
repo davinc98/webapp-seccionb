@@ -23,13 +23,13 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Model
-@Named("estudianteController")
-public class EstudianteController implements Serializable {
+@Named("internoController")
+public class InternoController implements Serializable {
 
     @Inject
     private FacesContext facesContext;
 
-    private Long estudianteId;
+    private Long internoId;
     private Interno interno;
 
     private Long personaId;
@@ -77,7 +77,7 @@ public class EstudianteController implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.out.println("Invocando constructor ESTUDIANTE CONTROLLER");
+        System.out.println("Invocando constructor INTERNO CONTROLLER");
         this.estudiantesActivos = estudianteService.listarEstudiantesActivos();
         this.estudiantesEsgresados = estudianteService.listarEstudiantesEgresados();
         this.estudiantesBajaTemporal = estudianteService.listarEstudiantesBajaTemporal();
@@ -158,8 +158,8 @@ public class EstudianteController implements Serializable {
     public Interno estudiante() {
         this.interno = new Interno();
         this.interno.setFechaIngreso(LocalDate.now());
-        if (estudianteId != null && estudianteId > 0) {
-            estudianteService.porId(estudianteId).ifPresent(p -> {
+        if (internoId != null && internoId > 0) {
+            estudianteService.porId(internoId).ifPresent(p -> {
                 this.interno = p;
             });
         }
@@ -218,42 +218,42 @@ public class EstudianteController implements Serializable {
         }
 
         //Validacion de nombre de usuario
-        for (Interno est : estudianteService.listar()) {
-            if (est.getUsuario().equals(this.interno.getUsuario()) &&
-                    est.getId() != this.interno.getId()) {
-                facesContext.addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Nombre de usuario no disponible", "El nombre de usuario '" + interno.getUsuario() + "' ya ha sido registrado.\n Intente con otro."));
-                continuar = false;
-                break;
-            }
-        }
+//        for (Interno est : estudianteService.listar()) {
+//            if (est.getUsuario().equals(this.interno.getUsuario()) &&
+//                    est.getId() != this.interno.getId()) {
+//                facesContext.addMessage(null,
+//                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Nombre de usuario no disponible", "El nombre de usuario '" + interno.getUsuario() + "' ya ha sido registrado.\n Intente con otro."));
+//                continuar = false;
+//                break;
+//            }
+//        }
 
         //Validacion de password
-        if (this.pwd1 != null && this.pwd1 != "") {
-            if (this.pwd1.equals(this.pwd2)) {
-                interno.setContrasenia(getSHA256(pwd1));
-                System.out.println("Cifra password: " + interno.getContrasenia());
-            } else {
-                continuar = false;
-                facesContext.addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseñas no coinciden", "Las contraseñas no coinciden. \nIntente nuevamente."));
-            }
-        }
+//        if (this.pwd1 != null && this.pwd1 != "") {
+//            if (this.pwd1.equals(this.pwd2)) {
+//                interno.setContrasenia(getSHA256(pwd1));
+//                System.out.println("Cifra password: " + interno.getContrasenia());
+//            } else {
+//                continuar = false;
+//                facesContext.addMessage(null,
+//                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseñas no coinciden", "Las contraseñas no coinciden. \nIntente nuevamente."));
+//            }
+//        }
 
         //Validacion de password(actualizacion)
-        System.out.println("Nueva Contra: " + pwd1);
-        if (this.pwd1 != null && this.pwd1 != "") {
-            interno.setContrasenia(getSHA256(pwd1));
-            System.out.println("Cifra password: " + pwd1);
-        }
+//        System.out.println("Nueva Contra: " + pwd1);
+//        if (this.pwd1 != null && this.pwd1 != "") {
+//            interno.setContrasenia(getSHA256(pwd1));
+//            System.out.println("Cifra password: " + pwd1);
+//        }
 
         if (continuar) {
             if (interno.getId() != null && interno.getId() > 0) {
                 facesContext.addMessage(null,
-                        new FacesMessage("Usuario actualizado. ", interno.getUsuario() + ""));
+                        new FacesMessage("Usuario actualizado. ", interno.getId() + ""));
             } else {
                 facesContext.addMessage(null,
-                        new FacesMessage("Usuario creado con éxito. ", interno.getUsuario() + ""));
+                        new FacesMessage("Usuario creado con éxito. ", interno.getId() + ""));
             }
 
             if (this.fotoBase64 != null) {
@@ -265,7 +265,7 @@ public class EstudianteController implements Serializable {
 
             personaService.guardar(persona);
             interno.setPersona(persona);
-            interno.setActivo(1);
+//            interno.setActivo(1);
             estudianteService.guardar(interno);
 
             List<InternoCargo> misCargos = estudianteCargoService.getCargosPorIdEstudiante(interno.getId());
@@ -285,7 +285,7 @@ public class EstudianteController implements Serializable {
             interno = new Interno();
             persona = new Persona();
             cargo = new Cargo();
-            return "gestionEstudiantes.xhtml?faces-redirect=true";
+            return "gestionInternos.xhtml?faces-redirect=true";
         } else {
             return "#";
         }
@@ -293,7 +293,7 @@ public class EstudianteController implements Serializable {
 
     public String verInformacionPerfil(String username) {
         this.interno = estudianteService.getEstudiantePorNombreUsuario(username);
-        this.estudianteId= interno.getId();
+        this.internoId= interno.getId();
         for (InternoCargo ec : estudianteCargoService.getCargosPorIdEstudiante(interno.getId())) {
             this.cargoId = ec.getCargoId();
         }
@@ -314,7 +314,7 @@ public class EstudianteController implements Serializable {
     public String editar(Long idRecived, Long idPersonaRecived) {
         System.out.println("Entrando a EDITAR");
 
-        this.estudianteId = idRecived;
+        this.internoId = idRecived;
         this.interno = new Interno();
 
         this.personaId = idPersonaRecived;
@@ -359,7 +359,7 @@ public class EstudianteController implements Serializable {
     public void eliminar(Interno est) {
         estudianteService.eliminar(est.getId());
         facesContext.addMessage(null,
-                new FacesMessage("Usuario eliminado.", est.getUsuario() + ""));
+                new FacesMessage("Usuario eliminado.", est.getId() + ""));
     }
 
     public void handleFileUpload(FileUploadEvent event) {
@@ -428,12 +428,12 @@ public class EstudianteController implements Serializable {
         return null;
     }
 
-    public Long getEstudianteId() {
-        return estudianteId;
+    public Long getInternoId() {
+        return internoId;
     }
 
-    public void setEstudianteId(Long estudianteId) {
-        this.estudianteId = estudianteId;
+    public void setInternoId(Long internoId) {
+        this.internoId = internoId;
     }
 
     public Long getPersonaId() {

@@ -186,8 +186,8 @@ public class RestablecerContraseniaController implements Serializable {
             //Validacion de password
             if (this.pwd1 != null && this.pwd1 != "") {
                 if (this.pwd1.equals(this.pwd2)) {
-                    interno.setContrasenia(getSHA256(pwd1));
-                    System.out.println("Cifra password: " + interno.getContrasenia());
+//                    interno.setContrasenia(getSHA256(pwd1));
+//                    System.out.println("Cifra password: " + interno.getContrasenia());
                     estudianteService.guardar(interno);
                     facesContext.addMessage(null,
                             new FacesMessage("Contraseña Restablecida", "La contraseña ha sido restablecida con exito."));
@@ -211,32 +211,32 @@ public class RestablecerContraseniaController implements Serializable {
             if (pwdActual != null && pwdActual != "") {
                 //Validar contrasenia actual
                 String cifra = getSHA256(this.pwdActual);
-                if (cifra.equals(interno.getContrasenia())) {
-                    //Validacion de password
-                    if (this.pwd1 != null && this.pwd1 != "") {
-                        if (this.pwd1.equals(this.pwd2)) {
-                            interno.setContrasenia(getSHA256(pwd1));
-                            System.out.println("Cifra password: " + interno.getContrasenia());
-                            estudianteService.guardar(interno);
-
-                            HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-                            request.logout();
-                            request.getSession().invalidate();
-
-                            facesContext.addMessage(null,
-                                    new FacesMessage("Cambio de contraseña", "La contraseña ha sido restablecida con exito."));
-                            return "login.xhtml";
-                        } else {
-                            facesContext.addMessage(null,
-                                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseñas no coinciden", "Las contraseñas no coinciden. \nIntente nuevamente."));
-                        }
-                    }
-                } else {
-                    //la contrasenia no es valida
-                    facesContext.addMessage(null,
-                            new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseña incorrecta", "Las contraseña actual no es válida. \nIntente nuevamente."));
-                    return "#";
-                }
+//                if (cifra.equals(interno.getContrasenia())) {
+//                    //Validacion de password
+//                    if (this.pwd1 != null && this.pwd1 != "") {
+//                        if (this.pwd1.equals(this.pwd2)) {
+//                            interno.setContrasenia(getSHA256(pwd1));
+//                            System.out.println("Cifra password: " + interno.getContrasenia());
+//                            estudianteService.guardar(interno);
+//
+//                            HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+//                            request.logout();
+//                            request.getSession().invalidate();
+//
+//                            facesContext.addMessage(null,
+//                                    new FacesMessage("Cambio de contraseña", "La contraseña ha sido restablecida con exito."));
+//                            return "login.xhtml";
+//                        } else {
+//                            facesContext.addMessage(null,
+//                                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseñas no coinciden", "Las contraseñas no coinciden. \nIntente nuevamente."));
+//                        }
+//                    }
+//                } else {
+//                    //la contrasenia no es valida
+//                    facesContext.addMessage(null,
+//                            new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseña incorrecta", "Las contraseña actual no es válida. \nIntente nuevamente."));
+//                    return "#";
+//                }
             }
         }
         return "#";

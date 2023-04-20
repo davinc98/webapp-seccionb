@@ -38,7 +38,7 @@
             <p:panelGrid style="margin-top: 5em;border: black solid 0px !important;" columns="1"
                          columnClasses="ui-grid-col-12"
                          layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-                <p:panel header="Iniciar Sesión" rendered="#{p:ifNoneGranted('ESTUDIANTE,DIRECTIVO,CONTROL_DETALL,CONTROL_ESTACIONAMIENTO,CONTROL_GUARDIAS')}">
+                <p:panel header="Iniciar Sesión" rendered="#{p:ifNoneGranted('INTERNO')}">
                     <form action="j_security_check" method="post" id="formLogin">
                         <div class="field grid">
                             <div class="col">
@@ -66,7 +66,7 @@
                         <p:link outcome="restablecerContrasena.xhtml" value="¿Olvidaste tu contraseña?"/>
                     </center>
                 </p:panel>
-                <p:panel header="Sesión Iniciada" rendered="#{p:ifAnyGranted('ESTUDIANTE,DIRECTIVO,CONTROL_DETALL,CONTROL_ESTACIONAMIENTO,CONTROL_GUARDIAS')}">
+                <p:panel header="Sesión Iniciada" rendered="#{p:ifAnyGranted('INTERNO')}">
                     <p:outputLabel value="Ya haz iniciado sesión."/>
                     <p:divider/>
                     <p:linkButton outcome="inicio" value="Ir al Inicio" styleClass="p-my-2"/>
