@@ -22,7 +22,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>/inicio.jsf</welcome-file>
+        <welcome-file>/index.jsf</welcome-file>
     </welcome-file-list>
 
     <login-config>

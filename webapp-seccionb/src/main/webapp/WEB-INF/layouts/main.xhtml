@@ -25,21 +25,18 @@
 
         <h:form>
             <p:menubar styleClass="ui-menubar-general">
-                <p:menuitem>
-                    <h:link outcome="#">
+                <p:menuitem action="index.xhtml">
+<!--                    <h:link outcome="#">-->
                         <img src="#{facesContext.externalContext.requestContextPath}/resources/img/infanteria_dorado.svg"
-                             style="width:1em;"/>
-                    </h:link>
+                             style="width:50px;"/>
+<!--                    </h:link>-->
                 </p:menuitem>
                 <p:menuitem outcome="inicio">
-                    <b>
-                        <h:outputText value='Internado Sección "B"' styleClass="ui-white-text"/>
-                    </b>
+                        <h:outputText value='INTERNADO SECCIÓN "B"' styleClass="ui-golden-text"/>
                 </p:menuitem>
                 <p:divider layout="vertical"/>
                 <p:menuitem>
-                    <h:outputText value='"Dr. Gustavo Baz Prada"' styleClass="ui-white-text"/>
-                    <!--<h:outputText value="SISTEMA DE CONTROL DE ACCESO VEHICULAR" styleClass="ui-golden-text"/>-->
+                    <h:outputText value='"DR. GUSTAVO BAZ PRADA"' styleClass="ui-white-text"/>
                 </p:menuitem>
 
                 <f:facet name="options">
@@ -48,14 +45,12 @@
                                          styleClass="rounded-button ui-button-info ui-button-outlined"/>
                     </p:menuitem>
                 </f:facet>
-
                 <f:facet name="options">
                     <p:menuitem rendered="#{p:ifAnyGranted('INTERNO')}">
                         <p:commandButton action="#{internoController.verInformacionPerfil(p:userPrincipal())}" value="#{p:userPrincipal()}"
                                          styleClass="rounded-button ui-button-info ui-button-flat"/>
                     </p:menuitem>
                 </f:facet>
-                
                  <f:facet name="options">
                     <p:menuitem rendered="#{p:ifAnyGranted('INTERNO')}">
                         <p:commandButton action="#{logoutController.logout}" value="Salir"
@@ -72,23 +67,7 @@
 
             </p:menubar>
         </h:form>
-        
-        <h:form>
-            <p:menubar styleClass="ui-menubar-comun" rendered="#{empty p:userPrincipal()}">
-                <p:menuitem outcome="inicio">
-                    <h:outputText value="Inicio" styleClass="ui-gray-text"/>
-                </p:menuitem>
 
-               <p:menuitem outcome="inicio">
-                    <h:outputText value="Nosotros" styleClass="ui-gray-text"/>
-                </p:menuitem>
-           
-                <p:menuitem outcome="inicio">
-                    <h:outputText value="Ingreso" styleClass="ui-gray-text"/>
-                </p:menuitem>
-
-            </p:menubar>
-        </h:form>
 
         <h:form>
             <p:menubar styleClass="ui-menubar-users" rendered="#{not empty p:userPrincipal()}">
